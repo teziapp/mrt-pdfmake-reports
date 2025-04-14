@@ -424,7 +424,7 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
           }),
-          marginLeft: 0,
+          marginLeft: 3,
           width: isMobile ? "100%" : `calc(100% - ${isSidebarOpen ? drawerWidth : 0}px)`,
         }}
       >
@@ -435,7 +435,7 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
             </IconButton>
           )}
         </Box>
-        <Box sx={{ flexGrow: 1, overflow: "auto" }}>
+        <Box sx={{ flexGrow: 1, overflow: "auto"}}>
           <MaterialReactTable
             columns={columns}
             data={data}
