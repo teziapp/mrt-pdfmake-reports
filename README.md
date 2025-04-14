@@ -1,54 +1,43 @@
-# React + TypeScript + Vite
+# MRT-Upgrade
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An enhanced version of Material React Table (MRT) with advanced features for dynamic table creation, data transformation, and export capabilities.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 1. Dynamic Table Creation
+- Easy-to-use components for creating dynamic tables
+- Fully responsive design with mobile support
+- Modern Material-UI based interface
+- Customizable table layout and styling
 
-## Expanding the ESLint configuration
+### 2. Advanced Filtering Capabilities
+- Column-specific filters
+- Text-based search with instant results
+- Multi-column filtering support
+- Filter persistence and management
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 3. Data Transformation Features
+- Column visibility toggle
+- Dynamic column reordering
+- Column resizing
+- Data grouping functionality
+- Row selection and actions
+- Density adjustment
+- Full-screen mode
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### 4. Export Functionality
+- PDF export using PDFMake for improved performance
+  - Better rendering compared to jsPDF
+  - Custom layout options
+  - Table formatting preservation
+- Excel export for data analysis
+  - Maintains column formatting
+  - Preserves data types
+  - Includes headers and styling
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Acknowledgments
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Built on top of Material React Table
+- Inspired by the need for better table export functionality
+- Uses PDFMake for improved PDF generation
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
