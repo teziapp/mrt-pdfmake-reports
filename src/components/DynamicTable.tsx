@@ -1,4 +1,4 @@
-import { ChevronLeft, Menu as MenuIcon, FileDownload } from "@mui/icons-material";
+import { ChevronLeft, Menu as MenuIcon } from "@mui/icons-material";
 import {
   Box,
   Button,
