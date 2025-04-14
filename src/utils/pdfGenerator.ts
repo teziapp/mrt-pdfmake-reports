@@ -63,7 +63,7 @@ export const generatePDF = (data: any[], columns: Column[], title: string = 'Tab
         margin: [0, 5, 0, 5]
       }
     },
-    pageOrientation: 'landscape',
+    pageOrientation: 'portrait',
     pageMargins: [40, 40, 40, 40],
   };
 
