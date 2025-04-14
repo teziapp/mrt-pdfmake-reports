@@ -21,7 +21,7 @@ import {
   useTheme,
 } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material/Select";
-import { styled } from "@mui/material/styles";
+// import { styled } from "@mui/material/styles";
 import {
   MaterialReactTable,
   type MRT_ColumnDef,
@@ -42,11 +42,11 @@ interface Filter {
 
 const drawerWidth = 300;
 
-const GradientTypography = styled(Typography)({
-  background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
-  WebkitBackgroundClip: "text",
-  WebkitTextFillColor: "transparent",
-});
+// const GradientTypography = styled(Typography)({
+//   background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+//   WebkitBackgroundClip: "text",
+//   WebkitTextFillColor: "transparent",
+// });
 
 const formatNumber = (value: number): string => {
   if (value >= 1000000) {
@@ -212,7 +212,7 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
         p: 2,
         height: "100%",
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "column", 
       }}
     >
       <Box
@@ -223,7 +223,7 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
           mb: 2,
         }}
       >
-        <GradientTypography variant="h5">Table Controls</GradientTypography>
+        <Typography variant="h5">Table Controls</Typography>
         <IconButton onClick={toggleSidebar}>
           <ChevronLeft />
         </IconButton>
