@@ -40,7 +40,7 @@ interface Filter {
   value: string | number | [number, number];
 }
 
-const drawerWidth = 300;
+const drawerWidth = 350;
 
 // const GradientTypography = styled(Typography)({
 //   background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
@@ -209,7 +209,9 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
     <Box
       sx={{
         width: isSidebarOpen ? drawerWidth : 0,
-        p: 2,
+        // p: 2,
+        paddingX: 2,
+        paddingY: 3,
         height: "100%",
         display: "flex",
         flexDirection: "column", 
@@ -221,6 +223,7 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
           justifyContent: "space-between",
           alignItems: "center",
           mb: 2,
+          mr: 5,
         }}
       >
         <Typography variant="h5">Table Controls</Typography>
@@ -232,6 +235,7 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
         sx={{
           borderRadius: 2,
           p: 2,
+          mx: 2,
           flexGrow: 1,
           overflowY: "auto",
         }}
