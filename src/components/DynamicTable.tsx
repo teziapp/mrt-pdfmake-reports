@@ -1,4 +1,4 @@
-import { ChevronLeft, Menu as MenuIcon } from "@mui/icons-material";
+import { ChevronLeft, Menu as MenuIcon, FileDownload } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -26,8 +26,10 @@ import {
   MaterialReactTable,
   type MRT_ColumnDef,
   type MRT_ColumnFiltersState,
+  type MRT_TableInstance,
 } from "material-react-table";
 import { useCallback, useMemo, useState } from "react";
+import { generatePDF } from "../utils/pdfGenerator";
 
 type DataItem = Record<string, string | number>;
 
@@ -41,12 +43,6 @@ interface Filter {
 }
 
 const drawerWidth = 350;
-
-// const GradientTypography = styled(Typography)({
-//   background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
-//   WebkitBackgroundClip: "text",
-//   WebkitTextFillColor: "transparent",
-// });
 
 const formatNumber = (value: number): string => {
   if (value >= 1000000) {
@@ -204,6 +200,22 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
     }));
     setColumnFilters(newColumnFilters);
   };
+
+  const handleExportPDF = useCallback((table: MRT_TableInstance<DataItem>) => {
+    // Get visible columns and convert to PDF column format
+    const visibleColumns = columns
+      .filter((col) => columnVisibility[col.accessorKey as string] !== false)
+      .map(col => ({
+        header: col.header as string,
+        accessorKey: col.accessorKey as string
+      }));
+
+    // Get filtered data
+    const filteredData = table.getFilteredRowModel().rows.map(row => row.original);
+
+    // Generate PDF
+    generatePDF(filteredData, visibleColumns, "Table Export");
+  }, [columns, columnVisibility]);
 
   const sidebarContent = (
     <Box
@@ -430,7 +442,7 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
       >
         <Box sx={{ display: "flex", alignItems: "center", p: 0 }}>
           {!isSidebarOpen && (
-            <IconButton onClick={toggleSidebar} sx={{ mr: 1 }}>
+            <IconButton onClick={toggleSidebar}>
               <MenuIcon />
             </IconButton>
           )}
@@ -449,6 +461,17 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
             enableRowSelection
             enableRowActions
             enableGrouping
+            // enableExport
+            renderTopToolbarCustomActions={({ table }) => (
+              <Button
+                onClick={() => handleExportPDF(table)}
+                variant="contained"
+                size="small"
+                style={{ margin: '0.5rem' }}
+              >
+                Export PDF
+              </Button>
+            )}
             state={{
               columnVisibility,
               grouping,
