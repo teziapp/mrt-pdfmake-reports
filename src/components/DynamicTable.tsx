@@ -28,6 +28,7 @@ import {
   type MRT_TableInstance,
   type MRT_TableOptions,
   type MRT_VisibilityState,
+  type MRT_RowSelectionState,
 } from "material-react-table";
 import { useCallback, useMemo, useState } from "react";
 import { generatePDF } from "../utils/pdfGenerator";
@@ -74,6 +75,7 @@ export interface DynamicTableProps {
   onSearchChange?: (searchTerm: string) => void;
   onColumnVisibilityChange?: (visibility: MRT_VisibilityState) => void;
   onGroupingChange?: (grouping: string[]) => void;
+  onRowSelectionChange?: (selection: Record<string, boolean>) => void;
   formatNumber?: (value: number) => string;
   tableOptions?: Partial<MRT_TableOptions<DataItem>>;
 }
@@ -98,6 +100,7 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({
   onSearchChange,
   onColumnVisibilityChange,
   onGroupingChange,
+  onRowSelectionChange,
   formatNumber = defaultFormatNumber,
   tableOptions,
 }) => {
@@ -112,6 +115,7 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({
   const [filterValue, setFilterValue] = useState<string | number | [number, number]>("");
   const [activeFilters, setActiveFilters] = useState<Filter[]>([]);
   const [editingFilter, setEditingFilter] = useState<string | null>(null);
+  const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
 
   const isColumnNumeric = useCallback(
     (columnId: string): boolean => {
@@ -525,6 +529,21 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({
           <MaterialReactTable
             columns={columns}
             data={data}
+            enableRowSelection
+            state={{
+              columnVisibility,
+              grouping,
+              globalFilter: searchTerm,
+              columnFilters,
+              rowSelection,
+            }}
+            onRowSelectionChange={(updatedSelection) => {
+              const newSelection = typeof updatedSelection === 'function' 
+                ? updatedSelection(rowSelection)
+                : updatedSelection;
+              setRowSelection(newSelection);
+              onRowSelectionChange?.(newSelection);
+            }}
             renderTopToolbarCustomActions={({ table }) =>
               exportConfig.enabled && (
                 <>
@@ -542,12 +561,6 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({
                 </>
               )
             }
-            state={{
-              columnVisibility,
-              grouping,
-              globalFilter: searchTerm,
-              columnFilters,
-            }}
             onColumnVisibilityChange={setColumnVisibility}
             onGroupingChange={setGrouping}
             onGlobalFilterChange={handleSearchChange}
