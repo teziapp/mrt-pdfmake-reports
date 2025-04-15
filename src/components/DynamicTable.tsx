@@ -26,24 +26,59 @@ import {
   type MRT_ColumnDef,
   type MRT_ColumnFiltersState,
   type MRT_TableInstance,
+  type MRT_TableOptions,
+  type MRT_VisibilityState,
 } from "material-react-table";
 import { useCallback, useMemo, useState } from "react";
 import { generatePDF } from "../utils/pdfGenerator";
 
-type DataItem = Record<string, string | number>;
-
-interface DynamicTableProps {
-  data: DataItem[];
-}
+export type DataItem = Record<string, string | number>;
 
 interface Filter {
   id: string;
   value: string | number | [number, number];
 }
 
-const drawerWidth = 350;
+interface SidebarConfig {
+  enabled?: boolean;
+  width?: number;
+  defaultOpen?: boolean;
+  title?: string;
+  features?: {
+    search?: boolean;
+    filters?: boolean;
+    columnVisibility?: boolean;
+    grouping?: boolean;
+  };
+}
 
-const formatNumber = (value: number): string => {
+interface ExportConfig {
+  enabled?: boolean;
+  pdfExport?: boolean;
+  csvExport?: boolean;
+  excelExport?: boolean;
+  customExportActions?: (table: MRT_TableInstance<DataItem>) => React.ReactNode;
+}
+
+export interface DynamicTableProps {
+  data: DataItem[];
+  columns?: MRT_ColumnDef<DataItem>[];
+  sidebar?: SidebarConfig;
+  export?: ExportConfig;
+  customStyles?: {
+    table?: React.CSSProperties;
+    sidebar?: React.CSSProperties;
+    container?: React.CSSProperties;
+  };
+  onFilterChange?: (filters: Filter[]) => void;
+  onSearchChange?: (searchTerm: string) => void;
+  onColumnVisibilityChange?: (visibility: MRT_VisibilityState) => void;
+  onGroupingChange?: (grouping: string[]) => void;
+  formatNumber?: (value: number) => string;
+  tableOptions?: Partial<MRT_TableOptions<DataItem>>;
+}
+
+const defaultFormatNumber = (value: number): string => {
   if (value >= 1000000) {
     return `${(value / 1000000).toFixed(1)}M`;
   }
@@ -53,22 +88,30 @@ const formatNumber = (value: number): string => {
   return value.toFixed(1);
 };
 
-export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
+const drawerWidth = 350;
+
+export const DynamicTable: React.FC<DynamicTableProps> = ({
+  data,
+  columns: propColumns,
+  sidebar = { enabled: true, width: 350, defaultOpen: true },
+  export: exportConfig = { enabled: true, pdfExport: true },
+  customStyles = {},
+  onFilterChange,
+  onSearchChange,
+  onColumnVisibilityChange,
+  onGroupingChange,
+  formatNumber = defaultFormatNumber,
+  tableOptions,
+}) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [columnVisibility, setColumnVisibility] = useState<
-    Record<string, boolean>
-  >({});
+  const [columnVisibility, setColumnVisibility] = useState<Record<string, boolean>>({});
   const [grouping, setGrouping] = useState<string[]>([]);
-  const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>(
-    []
-  );
+  const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(!isMobile);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(sidebar.defaultOpen && !isMobile);
   const [selectedFilterColumn, setSelectedFilterColumn] = useState<string>("");
-  const [filterValue, setFilterValue] = useState<
-    string | number | [number, number]
-  >("");
+  const [filterValue, setFilterValue] = useState<string | number | [number, number]>("");
   const [activeFilters, setActiveFilters] = useState<Filter[]>([]);
   const [editingFilter, setEditingFilter] = useState<string | null>(null);
 
@@ -92,7 +135,9 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
   );
 
   const columns = useMemo<MRT_ColumnDef<DataItem>[]>(() => {
+    if (propColumns) return propColumns;
     if (data.length === 0) return [];
+    
     const keys = Object.keys(data[0]);
     return keys.map((key) => ({
       accessorKey: key,
@@ -108,28 +153,34 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
           .includes((filterValue as string).toLowerCase());
       },
     }));
-  }, [data, isColumnNumeric]);
+  }, [data, propColumns, isColumnNumeric]);
 
-  const handleColumnVisibilityChange = (columnId: string) => {
-    setColumnVisibility((prev) => ({
-      ...prev,
-      [columnId]: prev[columnId] === undefined ? false : !prev[columnId],
-    }));
-  };
+  const handleColumnVisibilityChange = useCallback((columnId: string) => {
+    setColumnVisibility((prev) => {
+      const newVisibility = {
+        ...prev,
+        [columnId]: prev[columnId] === undefined ? false : !prev[columnId],
+      };
+      onColumnVisibilityChange?.(newVisibility);
+      return newVisibility;
+    });
+  }, [onColumnVisibilityChange]);
 
-  const handleGroupingChange = (columnId: string) => {
-    setGrouping((prev) =>
-      prev.includes(columnId)
+  const handleGroupingChange = useCallback((columnId: string) => {
+    setGrouping((prev) => {
+      const newGrouping = prev.includes(columnId)
         ? prev.filter((id) => id !== columnId)
-        : [...prev, columnId]
-    );
-  };
+        : [...prev, columnId];
+      onGroupingChange?.(newGrouping);
+      return newGrouping;
+    });
+  }, [onGroupingChange]);
 
-  const toggleSidebar = () => {
+  const toggleSidebar = useCallback(() => {
     setIsSidebarOpen((prev) => !prev);
-  };
+  }, []);
 
-  const handleFilterColumnChange = (event: SelectChangeEvent<string>) => {
+  const handleFilterColumnChange = useCallback((event: SelectChangeEvent<string>) => {
     const columnId = event.target.value;
     setSelectedFilterColumn(columnId);
     if (isColumnNumeric(columnId)) {
@@ -138,70 +189,73 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
     } else {
       setFilterValue("");
     }
-  };
+  }, [isColumnNumeric, getColumnRange]);
 
-  const handleFilterValueChange = (
+  const handleFilterValueChange = useCallback((
     event: React.ChangeEvent<HTMLInputElement> | Event,
     newValue: number | number[]
   ) => {
     if (Array.isArray(newValue)) {
       setFilterValue(newValue as [number, number]);
     } else if (typeof event === "object" && "target" in event) {
-      setFilterValue(
-        (event as React.ChangeEvent<HTMLInputElement>).target.value
-      );
+      setFilterValue((event as React.ChangeEvent<HTMLInputElement>).target.value);
     }
-  };
+  }, []);
 
-  const applyFilter = () => {
+  const updateColumnFilters = useCallback((filters: Filter[]) => {
+    const newColumnFilters = filters.map((filter) => ({
+      id: filter.id,
+      value: filter.value,
+    }));
+    setColumnFilters(newColumnFilters);
+    onFilterChange?.(filters);
+  }, [onFilterChange]);
+
+  const applyFilter = useCallback(() => {
     if (selectedFilterColumn && filterValue !== "") {
       const newFilter = {
         id: selectedFilterColumn,
         value: filterValue,
       };
-      setActiveFilters((prev) => [
-        ...prev.filter((f) => f.id !== selectedFilterColumn),
-        newFilter,
-      ]);
-      updateColumnFilters([
-        ...activeFilters.filter((f) => f.id !== selectedFilterColumn),
-        newFilter,
-      ]);
+      setActiveFilters((prev) => {
+        const newFilters = [
+          ...prev.filter((f) => f.id !== selectedFilterColumn),
+          newFilter,
+        ];
+        updateColumnFilters(newFilters);
+        return newFilters;
+      });
       setSelectedFilterColumn("");
       setFilterValue("");
       setEditingFilter(null);
     }
-  };
+  }, [selectedFilterColumn, filterValue, updateColumnFilters]);
 
-  const editFilter = (filterId: string) => {
+  const editFilter = useCallback((filterId: string) => {
     const filter = activeFilters.find((f) => f.id === filterId);
     if (filter) {
       setSelectedFilterColumn(filter.id);
       setFilterValue(filter.value);
       setEditingFilter(filterId);
     }
-  };
+  }, [activeFilters]);
 
-  const removeFilter = (filterId: string) => {
-    setActiveFilters((prev) => prev.filter((f) => f.id !== filterId));
-    updateColumnFilters(activeFilters.filter((f) => f.id !== filterId));
+  const removeFilter = useCallback((filterId: string) => {
+    setActiveFilters((prev) => {
+      const newFilters = prev.filter((f) => f.id !== filterId);
+      updateColumnFilters(newFilters);
+      return newFilters;
+    });
     if (editingFilter === filterId) {
       setEditingFilter(null);
       setSelectedFilterColumn("");
       setFilterValue("");
     }
-  };
-
-  const updateColumnFilters = (filters: Filter[]) => {
-    const newColumnFilters = filters.map((filter) => ({
-      id: filter.id,
-      value: filter.value,
-    }));
-    setColumnFilters(newColumnFilters);
-  };
+  }, [editingFilter, updateColumnFilters]);
 
   const handleExportPDF = useCallback((table: MRT_TableInstance<DataItem>) => {
-    // Get visible columns and convert to PDF column format
+    if (!exportConfig.pdfExport) return;
+    
     const visibleColumns = columns
       .filter((col) => columnVisibility[col.accessorKey as string] !== false)
       .map(col => ({
@@ -209,23 +263,25 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
         accessorKey: col.accessorKey as string
       }));
 
-    // Get filtered data
     const filteredData = table.getFilteredRowModel().rows.map(row => row.original);
-
-    // Generate PDF
     generatePDF(filteredData, visibleColumns, "Table Export");
-  }, [columns, columnVisibility]);
+  }, [columns, columnVisibility, exportConfig.pdfExport]);
 
-  const sidebarContent = (
+  const handleSearchChange = useCallback((value: string) => {
+    setSearchTerm(value);
+    onSearchChange?.(value);
+  }, [onSearchChange]);
+
+  const sidebarContent = sidebar.enabled && (
     <Box
       sx={{
-        width: isSidebarOpen ? drawerWidth : 0,
-        // p: 2,
+        width: isSidebarOpen ? sidebar.width : 0,
         paddingX: 2,
         paddingY: 3,
         height: "100%",
         display: "flex",
-        flexDirection: "column", 
+        flexDirection: "column",
+        ...customStyles.sidebar,
       }}
     >
       <Box
@@ -237,7 +293,7 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
           mr: 5,
         }}
       >
-        <Typography variant="h5">Table Controls</Typography>
+        <Typography variant="h5">{sidebar.title || "Table Controls"}</Typography>
         <IconButton onClick={toggleSidebar}>
           <ChevronLeft />
         </IconButton>
@@ -251,150 +307,165 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
           overflowY: "auto",
         }}
       >
-        <TextField
-          size="small"
-          fullWidth
-          label="Search"
-          variant="outlined"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          sx={{ mb: 2 }}
-        />
-        <Divider sx={{ my: 2 }} />
-        <Typography variant="h6" sx={{ mb: 1 }}>
-          Filters
-        </Typography>
-        <Box sx={{ mb: 2, mx: 4 }}>
-          {activeFilters.map((filter) => (
-            <Chip
-              key={filter.id}
-              label={`${filter.id}: ${
-                Array.isArray(filter.value)
-                  ? `${formatNumber(filter.value[0])} - ${formatNumber(
-                      filter.value[1]
-                    )}`
-                  : filter.value
-              }`}
-              onDelete={() => removeFilter(filter.id)}
-              onClick={() => editFilter(filter.id)}
-              sx={{ mr: 1, mb: 1 }}
-            />
-          ))}
-        </Box>
-        <FormControl fullWidth size="small" sx={{ mb: 1 }}>
-          <InputLabel>Select Column</InputLabel>
-          <Select
-            value={selectedFilterColumn}
-            label="Select Column"
-            onChange={handleFilterColumnChange}
-          >
-            {columns.map((column) => (
-              <MenuItem
-                key={column.accessorKey as string}
-                value={column.accessorKey as string}
-              >
-                {column.header as string}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        {selectedFilterColumn && (
-          <Box sx={{ mb: 2 }}>
-            {isColumnNumeric(selectedFilterColumn) ? (
-              <Box>
-                <Slider
-                  value={filterValue as [number, number]}
-                  onChange={handleFilterValueChange}
-                  valueLabelDisplay="auto"
-                  min={getColumnRange(selectedFilterColumn)[0]}
-                  max={getColumnRange(selectedFilterColumn)[1]}
-                  step={
-                    (getColumnRange(selectedFilterColumn)[1] -
-                      getColumnRange(selectedFilterColumn)[0]) /
-                    100
-                  }
-                  valueLabelFormat={formatNumber}
-                />
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    mt: 1,
-                  }}
-                >
-                  <Typography variant="caption">
-                    Min :{" "}
-                    {formatNumber(getColumnRange(selectedFilterColumn)[0])}
-                  </Typography>
-                  <Typography variant="caption">
-                    Max :{" "}
-                    {formatNumber(getColumnRange(selectedFilterColumn)[1])}
-                  </Typography>
-                </Box>
-              </Box>
-            ) : (
-              <TextField
-                size="small"
-                fullWidth
-                label="Filter Value"
-                variant="outlined"
-                value={filterValue as string}
-                onChange={
-                  handleFilterValueChange as (
-                    event: React.ChangeEvent<HTMLInputElement>
-                  ) => void
-                }
-              />
-            )}
-          </Box>
+        {sidebar.features?.search !== false && (
+          <TextField
+            size="small"
+            fullWidth
+            label="Search"
+            variant="outlined"
+            value={searchTerm}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            sx={{ mb: 2 }}
+          />
         )}
-        <Button variant="contained" onClick={applyFilter} fullWidth>
-          {editingFilter ? "Update Filter" : "Apply Filter"}
-        </Button>
-        <Divider sx={{ my: 2 }} />  
-        <Typography variant="h6" sx={{ mb: 1 }}>
-          Visibility
-        </Typography>
-        <List disablePadding>
-          {columns.map((column) => (
-            <ListItem
-              key={`visibility-${column.accessorKey as string}`}
-              disablePadding
-            >
-              <ListItemText primary={column.header as string} />
-              <Switch
-                edge="end"
-                onChange={() =>
-                  handleColumnVisibilityChange(column.accessorKey as string)
-                }
-                checked={
-                  columnVisibility[column.accessorKey as string] !== false
-                }
-              />
-            </ListItem>
-          ))}
-        </List>
-        <Divider sx={{ my: 2 }} />
-        <Typography variant="h6" sx={{ mb: 1 }}>
-          Grouping
-        </Typography>
-        <List disablePadding>
-          {columns.map((column) => (
-            <ListItem
-              key={`grouping-${column.accessorKey as string}`}
-              disablePadding
-            >
-              <ListItemText primary={column.header as string} />
-              <Switch
-                edge="end"
-                onChange={() =>
-                  handleGroupingChange(column.accessorKey as string)
-                }
-                checked={grouping.includes(column.accessorKey as string)}
-              />
-            </ListItem>
-          ))}
-        </List>
+        
+        {sidebar.features?.filters !== false && (
+          <>
+            <Divider sx={{ my: 2 }} />
+            <Typography variant="h6" sx={{ mb: 1 }}>
+              Filters
+            </Typography>
+            <Box sx={{ mb: 2, mx: 4 }}>
+              {activeFilters.map((filter) => (
+                <Chip
+                  key={filter.id}
+                  label={`${filter.id}: ${
+                    Array.isArray(filter.value)
+                      ? `${formatNumber(filter.value[0])} - ${formatNumber(
+                          filter.value[1]
+                        )}`
+                      : filter.value
+                  }`}
+                  onDelete={() => removeFilter(filter.id)}
+                  onClick={() => editFilter(filter.id)}
+                  sx={{ mr: 1, mb: 1 }}
+                />
+              ))}
+            </Box>
+            <FormControl fullWidth size="small" sx={{ mb: 1 }}>
+              <InputLabel>Select Column</InputLabel>
+              <Select
+                value={selectedFilterColumn}
+                label="Select Column"
+                onChange={handleFilterColumnChange}
+              >
+                {columns.map((column) => (
+                  <MenuItem
+                    key={column.accessorKey as string}
+                    value={column.accessorKey as string}
+                  >
+                    {column.header as string}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            {selectedFilterColumn && (
+              <Box sx={{ mb: 2 }}>
+                {isColumnNumeric(selectedFilterColumn) ? (
+                  <Box>
+                    <Slider
+                      value={filterValue as [number, number]}
+                      onChange={handleFilterValueChange}
+                      valueLabelDisplay="auto"
+                      min={getColumnRange(selectedFilterColumn)[0]}
+                      max={getColumnRange(selectedFilterColumn)[1]}
+                      step={
+                        (getColumnRange(selectedFilterColumn)[1] -
+                          getColumnRange(selectedFilterColumn)[0]) /
+                        100
+                      }
+                      valueLabelFormat={formatNumber}
+                    />
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        mt: 1,
+                      }}
+                    >
+                      <Typography variant="caption">
+                        Min: {formatNumber(getColumnRange(selectedFilterColumn)[0])}
+                      </Typography>
+                      <Typography variant="caption">
+                        Max: {formatNumber(getColumnRange(selectedFilterColumn)[1])}
+                      </Typography>
+                    </Box>
+                  </Box>
+                ) : (
+                  <TextField
+                    size="small"
+                    fullWidth
+                    label="Filter Value"
+                    variant="outlined"
+                    value={filterValue as string}
+                    onChange={
+                      handleFilterValueChange as (
+                        event: React.ChangeEvent<HTMLInputElement>
+                      ) => void
+                    }
+                  />
+                )}
+              </Box>
+            )}
+            <Button variant="contained" onClick={applyFilter} fullWidth>
+              {editingFilter ? "Update Filter" : "Apply Filter"}
+            </Button>
+          </>
+        )}
+
+        {sidebar.features?.columnVisibility !== false && (
+          <>
+            <Divider sx={{ my: 2 }} />
+            <Typography variant="h6" sx={{ mb: 1 }}>
+              Visibility
+            </Typography>
+            <List disablePadding>
+              {columns.map((column) => (
+                <ListItem
+                  key={`visibility-${column.accessorKey as string}`}
+                  disablePadding
+                >
+                  <ListItemText primary={column.header as string} />
+                  <Switch
+                    edge="end"
+                    onChange={() =>
+                      handleColumnVisibilityChange(column.accessorKey as string)
+                    }
+                    checked={
+                      columnVisibility[column.accessorKey as string] !== false
+                    }
+                  />
+                </ListItem>
+              ))}
+            </List>
+          </>
+        )}
+
+        {sidebar.features?.grouping !== false && (
+          <>
+            <Divider sx={{ my: 2 }} />
+            <Typography variant="h6" sx={{ mb: 1 }}>
+              Grouping
+            </Typography>
+            <List disablePadding>
+              {columns.map((column) => (
+                <ListItem
+                  key={`grouping-${column.accessorKey as string}`}
+                  disablePadding
+                >
+                  <ListItemText primary={column.header as string} />
+                  <Switch
+                    edge="end"
+                    onChange={() =>
+                      handleGroupingChange(column.accessorKey as string)
+                    }
+                    checked={grouping.includes(column.accessorKey as string)}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          </>
+        )}
       </Box>
     </Box>
   );
@@ -406,24 +477,27 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
         width: "100vw",
         height: "100vh",
         backgroundColor: "white",
+        ...customStyles.container,
       }}
     >
-      <Drawer
-        variant={isMobile ? "temporary" : "persistent"}
-        anchor="left"
-        open={isSidebarOpen}
-        onClose={isMobile ? toggleSidebar : undefined}
-        sx={{
-          width: isSidebarOpen ? drawerWidth : 0,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: isSidebarOpen ? drawerWidth : 0,
-            boxSizing: "border-box",
-          },
-        }}
-      >
-        {sidebarContent}
-      </Drawer>
+      {sidebar.enabled && (
+        <Drawer
+          variant={isMobile ? "temporary" : "persistent"}
+          anchor="left"
+          open={isSidebarOpen}
+          onClose={isMobile ? toggleSidebar : undefined}
+          sx={{
+            width: isSidebarOpen ? sidebar.width : 0,
+            flexShrink: 0,
+            "& .MuiDrawer-paper": {
+              width: isSidebarOpen ? sidebar.width : 0,
+              boxSizing: "border-box",
+            },
+          }}
+        >
+          {sidebarContent}
+        </Drawer>
+      )}
       <Box
         component="main"
         sx={{
@@ -436,17 +510,20 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
             duration: theme.transitions.duration.leavingScreen,
           }),
           marginLeft: 3,
-          width: isMobile ? "100%" : `calc(100% - ${isSidebarOpen ? drawerWidth : 0}px)`,
+          width: isMobile
+            ? "100%"
+            : `calc(100% - ${isSidebarOpen && sidebar.enabled ? sidebar.width : 0}px)`,
+          ...customStyles.table,
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", p: 0 }}>
-          {!isSidebarOpen && (
+          {!isSidebarOpen && sidebar.enabled && (
             <IconButton onClick={toggleSidebar}>
               <MenuIcon />
             </IconButton>
           )}
         </Box>
-        <Box sx={{ flexGrow: 1, overflow: "auto"}}>
+        <Box sx={{ flexGrow: 1, overflow: "auto" }}>
           <MaterialReactTable
             columns={columns}
             data={data}
@@ -460,17 +537,23 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
             enableRowSelection
             enableRowActions
             enableGrouping
-            // enableExport
-            renderTopToolbarCustomActions={({ table }) => (
-              <Button
-                onClick={() => handleExportPDF(table)}
-                variant="contained"
-                size="small"
-                style={{ margin: '0.5rem' }}
-              >
-                Export PDF
-              </Button>
-            )}
+            renderTopToolbarCustomActions={({ table }) =>
+              exportConfig.enabled && (
+                <>
+                  {exportConfig.pdfExport && (
+                    <Button
+                      onClick={() => handleExportPDF(table)}
+                      variant="contained"
+                      size="small"
+                      style={{ margin: "0.5rem" }}
+                    >
+                      Export PDF
+                    </Button>
+                  )}
+                  {exportConfig.customExportActions?.(table)}
+                </>
+              )
+            }
             state={{
               columnVisibility,
               grouping,
@@ -479,12 +562,13 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({ data }) => {
             }}
             onColumnVisibilityChange={setColumnVisibility}
             onGroupingChange={setGrouping}
-            onGlobalFilterChange={setSearchTerm}
+            onGlobalFilterChange={handleSearchChange}
             onColumnFiltersChange={setColumnFilters}
             positionToolbarAlertBanner="bottom"
             muiTableContainerProps={{
               sx: { maxHeight: "100%", width: "100%", m: 0, border: "black" },
             }}
+            {...tableOptions}
           />
         </Box>
       </Box>

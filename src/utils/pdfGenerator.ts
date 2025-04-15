@@ -3,7 +3,6 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { TDocumentDefinitions, Content } from 'pdfmake/interfaces';
 
 // Initialize pdfmake with fonts
-// (pdfMake as any).vfs = (pdfFonts as any).pdfMake?.vfs;
 pdfMake.vfs = pdfFonts.vfs;
 
 interface Column {
