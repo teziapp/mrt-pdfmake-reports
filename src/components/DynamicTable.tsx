@@ -265,9 +265,20 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({
         accessorKey: col.accessorKey as string
       }));
 
-    const filteredData = table.getFilteredRowModel().rows.map(row => row.original);
-    generatePDF(filteredData, visibleColumns, "Table Export");
-  }, [columns, columnVisibility, exportConfig.pdfExport]);
+    // Get all filtered rows
+    const filteredRows = table.getFilteredRowModel().rows;
+    
+    // Check if there are any selected rows
+    const hasSelectedRows = Object.keys(rowSelection).length > 0;
+    
+    // If there are selected rows, only export those, otherwise export all filtered rows
+    const rowsToExport = hasSelectedRows
+      ? filteredRows.filter(row => rowSelection[row.id])
+      : filteredRows;
+
+    const dataToExport = rowsToExport.map(row => row.original);
+    generatePDF(dataToExport, visibleColumns, "Table Export");
+  }, [columns, columnVisibility, exportConfig.pdfExport, rowSelection]);
 
   const handleSearchChange = useCallback((value: string) => {
     setSearchTerm(value);
