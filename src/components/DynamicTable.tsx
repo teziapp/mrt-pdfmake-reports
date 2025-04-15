@@ -88,8 +88,6 @@ const defaultFormatNumber = (value: number): string => {
   return value.toFixed(1);
 };
 
-const drawerWidth = 350;
-
 export const DynamicTable: React.FC<DynamicTableProps> = ({
   data,
   columns: propColumns,
@@ -527,16 +525,6 @@ export const DynamicTable: React.FC<DynamicTableProps> = ({
           <MaterialReactTable
             columns={columns}
             data={data}
-            enableColumnFilters
-            enableDensityToggle
-            enableFullScreenToggle
-            enableColumnActions
-            enableHiding
-            enableColumnResizing
-            enableColumnOrdering
-            enableRowSelection
-            enableRowActions
-            enableGrouping
             renderTopToolbarCustomActions={({ table }) =>
               exportConfig.enabled && (
                 <>
