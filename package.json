@@ -1,35 +1,48 @@
 {
   "name": "mrt-upgrade",
-  "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "An upgraded version of material-react-table with additional features",
   "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "cd examples && npm run dev",
+    "build": "tsc -b",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "clean": "rimraf dist",
+    "prepare": "npm run clean && npm run build"
   },
-  "dependencies": {
-    "@mui/icons-material": "^7.0.2",
-    "@mui/material": "^7.0.2",
-    "@types/pdfmake": "^0.2.11",
-    "material-react-table": "^3.2.1",
-    "pdfmake": "^0.2.18",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-router-dom": "^7.5.0"
+  "peerDependencies": {
+    "@mui/icons-material": "^7.0.0",
+    "@mui/material": "^7.0.0",
+    "material-react-table": "^3.2.0",
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@types/pdfmake": "^0.2.11",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
-    "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
+    "pdfmake": "^0.2.18",
+    "rimraf": "^5.0.10",
     "typescript": "~5.7.2",
-    "typescript-eslint": "^8.24.1",
-    "vite": "^6.2.0"
-  }
+    "typescript-eslint": "^8.24.1"
+  },
+  "keywords": [
+    "react",
+    "material-ui",
+    "table",
+    "datatable"
+  ],
+  "author": "",
+  "license": "MIT"
 }

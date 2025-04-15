@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Container, Typography } from "@mui/material";
-import { DynamicTable } from "../components/DynamicTable";
+import { DynamicTable } from "../../../src/components/DynamicTable";
 
 export default function TablePage() {
   const [data, setData] = useState<Record<string, string | number>[]>([

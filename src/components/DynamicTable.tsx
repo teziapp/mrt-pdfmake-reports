@@ -26,59 +26,11 @@ import {
   type MRT_ColumnDef,
   type MRT_ColumnFiltersState,
   type MRT_TableInstance,
-  type MRT_TableOptions,
-  type MRT_VisibilityState,
   type MRT_RowSelectionState,
 } from "material-react-table";
 import { useCallback, useMemo, useState } from "react";
+import { DataItem, DynamicTableProps, Filter } from "../types";
 import { generatePDF } from "../utils/pdfGenerator";
-
-export type DataItem = Record<string, string | number>;
-
-interface Filter {
-  id: string;
-  value: string | number | [number, number];
-}
-
-interface SidebarConfig {
-  enabled?: boolean;
-  width?: number;
-  defaultOpen?: boolean;
-  title?: string;
-  features?: {
-    search?: boolean;
-    filters?: boolean;
-    columnVisibility?: boolean;
-    grouping?: boolean;
-  };
-}
-
-interface ExportConfig {
-  enabled?: boolean;
-  pdfExport?: boolean;
-  csvExport?: boolean;
-  excelExport?: boolean;
-  customExportActions?: (table: MRT_TableInstance<DataItem>) => React.ReactNode;
-}
-
-export interface DynamicTableProps {
-  data: DataItem[];
-  columns?: MRT_ColumnDef<DataItem>[];
-  sidebar?: SidebarConfig;
-  export?: ExportConfig;
-  customStyles?: {
-    table?: React.CSSProperties;
-    sidebar?: React.CSSProperties;
-    container?: React.CSSProperties;
-  };
-  onFilterChange?: (filters: Filter[]) => void;
-  onSearchChange?: (searchTerm: string) => void;
-  onColumnVisibilityChange?: (visibility: MRT_VisibilityState) => void;
-  onGroupingChange?: (grouping: string[]) => void;
-  onRowSelectionChange?: (selection: Record<string, boolean>) => void;
-  formatNumber?: (value: number) => string;
-  tableOptions?: Partial<MRT_TableOptions<DataItem>>;
-}
 
 const defaultFormatNumber = (value: number): string => {
   if (value >= 1000000) {

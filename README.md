@@ -1,43 +1,67 @@
-# MRT-Upgrade
+# MRT Upgrade
 
-An enhanced version of Material React Table (MRT) with advanced features for dynamic table creation, data transformation, and export capabilities.
+An enhanced version of Material React Table with additional features like dynamic sidebar, enhanced filtering, and export capabilities.
+
+## Installation
+
+```bash
+npm install mrt-upgrade
+```
 
 ## Features
 
-### 1. Dynamic Table Creation
-- Easy-to-use components for creating dynamic tables
-- Fully responsive design with mobile support
-- Modern Material-UI based interface
-- Customizable table layout and styling
-
-### 2. Advanced Filtering Capabilities
-- Column-specific filters
-- Text-based search with instant results
-- Multi-column filtering support
-- Filter persistence and management
-
-### 3. Data Transformation Features
-- Column visibility toggle
-- Dynamic column reordering
-- Column resizing
-- Data grouping functionality
-- Row selection and actions
-- Density adjustment
-- Full-screen mode
-
-### 4. Export Functionality
-- PDF export using PDFMake for improved performance
-  - Better rendering compared to jsPDF
-  - Custom layout options
-  - Table formatting preservation
-- Excel export for data analysis
-  - Maintains column formatting
-  - Preserves data types
-  - Includes headers and styling
-
-## Acknowledgments
-
+- Dynamic sidebar for table controls
+- Enhanced filtering capabilities
+- Export to PDF, CSV, and Excel
+- Customizable styling
 - Built on top of Material React Table
-- Inspired by the need for better table export functionality
-- Uses PDFMake for improved PDF generation
+
+## Usage
+
+```tsx
+import { DynamicTable } from 'mrt-upgrade';
+
+// Your data
+const data = [
+  { id: 1, name: "John Doe", age: 28, city: "New York" },
+  { id: 2, name: "Jane Smith", age: 32, city: "San Francisco" },
+  // ...more data
+];
+
+function App() {
+  return (
+    <DynamicTable 
+      data={data}
+      sidebar={{ 
+        enabled: true,
+        width: 350,
+        defaultOpen: true
+      }}
+      export={{
+        enabled: true,
+        pdfExport: true
+      }}
+    />
+  );
+}
+```
+
+## Props
+
+The `DynamicTable` component accepts the following props:
+
+- `data`: Array of objects containing your table data
+- `columns`: Optional column definitions
+- `sidebar`: Configuration for the sidebar
+- `export`: Configuration for export capabilities
+- `customStyles`: Custom styles for the table, sidebar, and container
+- Various callback functions for filtering, searching, etc.
+
+## Examples
+
+Check out the `/examples` directory for more detailed usage examples.
+
+## License
+
+MIT
 
