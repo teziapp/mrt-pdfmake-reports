@@ -1,4 +1,3 @@
-// playground requires you to assign document definition to a variable called dd
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { HeaderRegularPdfMake } from './headers/headerRegularPdfMake';
@@ -19,12 +18,12 @@ export const generatePDF = async (headerSettings: HeaderSettings) => {
   // Initialize document definition
   let docDefinition: any = {
     content,
-    pageMargins: [40, showHeader ? 150 : 40, 40, 40] as [number, number, number, number], // [left, top, right, bottom]
+    showHeader,
+    pageMargins: [40, showHeader ? 150 : 20, 40, 40] as [number, number, number, number], // [left, top, right, bottom]
   };
 
   // Add header if needed
   if (showHeader) {
-    let headerTemplate;
     
     // Select the appropriate header template based on the template option
     switch(template) {
