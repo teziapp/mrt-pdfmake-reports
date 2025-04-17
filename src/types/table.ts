@@ -1,6 +1,6 @@
-import { MRT_TableOptions, MRT_ColumnDef } from 'material-react-table';
+import { MRT_TableOptions, MRT_ColumnDef, MRT_TableState, MRT_RowData } from 'material-react-table';
 
-export interface SmartTableProps<TData extends Record<string, any>> extends Omit<MRT_TableOptions<TData>, 'data'> {
+export interface SmartTableProps<TData extends MRT_RowData> extends Omit<MRT_TableOptions<TData>, 'data'> {
   /**
    * The data to display in the table
    */
@@ -46,6 +46,8 @@ export interface SmartTableProps<TData extends Record<string, any>> extends Omit
    */
   enableDebugMode?: boolean;
 }
+
+export type TableState<TData extends MRT_RowData> = MRT_TableState<TData>;
 
 export interface PDFExportOptions {
   /**
@@ -110,25 +112,7 @@ export interface BackendSyncOptions {
   enableAutoSync?: boolean;
 }
 
-export interface TableState<TData extends Record<string, any>> {
-  sorting: {
-    id: keyof TData;
-    desc: boolean;
-  }[];
-  columnFilters: {
-    id: keyof TData;
-    value: any;
-  }[];
-  globalFilter: string;
-  columnVisibility: Record<keyof TData, boolean>;
-  grouping: (keyof TData)[];
-  pagination: {
-    pageIndex: number;
-    pageSize: number;
-  };
-}
-
-export type SmartTableColumn<TData extends Record<string, any>> = MRT_ColumnDef<TData> & {
+export type SmartTableColumn<TData extends MRT_RowData> = MRT_ColumnDef<TData> & {
   /**
    * Whether to enable PDF export for this column
    * @default true

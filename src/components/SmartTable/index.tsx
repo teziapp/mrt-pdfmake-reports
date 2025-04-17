@@ -8,9 +8,9 @@ import { ColumnVisibilityMenu } from '@/components/ColumnVisibilityMenu';
 import { GroupingPanel } from '@/components/GroupingPanel';
 import { PaginationControls } from '@/components/PaginationControls';
 
-export function SmartTable<TData extends Record<string, any>>({
-  data,
-  columns,
+function SmartTable<TData extends Record<string, any>>({
+  data = [],
+  columns = [],
   enableStatePersistence = false,
   stateStorageKey = 'smartTable',
   enablePDFExport = false,
@@ -18,6 +18,7 @@ export function SmartTable<TData extends Record<string, any>>({
   enableBackendSync = false,
   backendSyncOptions,
   enableDebugMode = false,
+  muiTableContainerProps,
   ...restProps
 }: SmartTableProps<TData>) {
   const {
@@ -36,6 +37,20 @@ export function SmartTable<TData extends Record<string, any>>({
     enableBackendSync,
     backendSyncOptions,
     enableDebugMode,
+    muiTableContainerProps: muiTableContainerProps || { 
+      sx: { maxHeight: '500px' } 
+    },
+    enableGrouping: true,
+    enableColumnDragging: true,
+    enableColumnOrdering: true,
+    enableColumnResizing: true,
+    enablePinning: true,
+    enableRowSelection: true,
+    enableColumnFilters: true,
+    enableGlobalFilter: true,
+    enablePagination: true,
+    enableSorting: true,
+    ...restProps
   });
 
   const renderTopToolbar = useMemo(
@@ -62,26 +77,11 @@ export function SmartTable<TData extends Record<string, any>>({
   return (
     <Box sx={{ width: '100%' }}>
       {tableState.grouping.length > 0 && <GroupingPanel instance={tableInstance} />}
-      <MaterialReactTable
-        {...restProps}
-        columns={columns}
-        data={data}
-        state={tableState}
-        onStateChange={handleStateChange}
-        renderTopToolbar={renderTopToolbar}
-        renderBottomToolbar={renderBottomToolbar}
-        enableGrouping
-        enableColumnDragging
-        enableColumnOrdering
-        enableColumnResizing
-        enablePinning
-        enableRowSelection
-        enableColumnFilters
-        enableGlobalFilter
-        enablePagination
-        enableSorting
-        muiTableContainerProps={{ sx: { maxHeight: '500px' } }}
-      />
+      
+      {/* Just use the table instance without additional props */}
+      <MaterialReactTable table={tableInstance} />
     </Box>
   );
-} 
+}
+
+export default SmartTable; 
