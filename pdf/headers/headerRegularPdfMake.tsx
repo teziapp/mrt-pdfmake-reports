@@ -70,7 +70,8 @@ export const HeaderRegularPdfMake = async ({
             {
               stack: [
                 // Spacer to push remaining content to bottom of header
-                { text: '', margin: [0, 80, 0, 0] },
+                { text: title, alignment: 'right', fontSize: 10, margin: [0, 20, 5, 2] },
+                { text: '', margin: [0, 60, 0, 0] },
                 { text: `Total: ${totalAmount}`, alignment: 'right', fontSize: 8, margin: [0, 0, 5, 2] },
                 { text: `As on: ${currentDate}`, alignment: 'right', fontSize: 8, margin: [0, 0, 5, 2] },
                 { text: `Total Outstanding Amt.: ${outstandingAmount}`, alignment: 'right', fontSize: 8, margin: [0, 0, 5, 2] }
