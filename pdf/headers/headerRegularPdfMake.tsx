@@ -1,54 +1,36 @@
-// import { fetchValidImageUrl } from '../utils/fetchValidImageURL';
-// import { SaOwnercompany, SaSessionOgCompany } from '../validators/yup_ownercompany';
-// import { getCompanyDetails } from '../utils/getCompanyDetails';
-// import { generalSettingsCache, sessionOgCompanyCache } from '../utils/localCacheAPI';
-// import { PdfHeader } from '../types/PdfMake';
-
-// Types for the header
-interface PdfHeader {
-  table: {
-    widths: string[] | number[];
-    body: any[][];
-    headerRows?: number;
-  };
-  layout: string;
-}
-
-interface CompanyDetails {
-  name: string;
-  address: string;
-  phoneNumber: string;
-  website: string;
-  gstNumber: string;
-  logoImage?: string;
-}
+import { fetchValidImageUrl } from '../utils/fetchValidImageURL';
+import { CompanyDetails, PdfHeader } from '../types/PdfMake';
 
 export const HeaderRegularPdfMake = async ({
-  title
+  title,
+  companyDetails,
+  showLogo = true
 }: {
-  title: string
+  title: string;
+  companyDetails: CompanyDetails;
+  showLogo?: boolean;
 }): Promise<{ header: PdfHeader[], images: { [key: string]: { url: string } } }> => {
-  // Static company details
-  const company: CompanyDetails = {
-    name: "Sample Company Name",
-    address: "123 Business Street, City, State, ZIP",
-    phoneNumber: "+1 234-567-8900",
-    website: "www.samplecompany.com",
-    gstNumber: "GST123456789",
-    logoImage: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fsmartagent.one%2F&psig=AOvVaw2LFxQmCuHfYwsNc7a_ctSL&ust=1744897392917000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCODbwLvX3IwDFQAAAAAdAAAAABAE" // Optional: Remove if not needed
-  };
+  const company: CompanyDetails = companyDetails
 
   let images: { [key: string]: { url: string } } = {};
   
-  // Static logo validation - set to true if you want to show a logo
-  const logoImageValid = false;
+  // Check if logo should be shown and validate the URL
+  let logoImageValid = false;
   
-  if (logoImageValid) {
-    images.logo = { url: company.logoImage || '' };
+  if (showLogo && company.logoImage) {
+    try {
+      const validUrl = await fetchValidImageUrl(company.logoImage);
+      if (validUrl) {
+        images.logo = { url: validUrl };
+        logoImageValid = true;
+      }
+    } catch (error) {
+      console.error('Error validating logo URL:', error);
+    }
   }
 
-  // Static god name
-  const godName = '** !! Shree Ganeshay Namah !! **';
+  // Use provided god name or fall back to default
+  const godName = company.godName || '';
 
   return {
     images,
