@@ -32,6 +32,11 @@ export const HeaderRegularPdfMake = async ({
   // Use provided god name or fall back to default
   const godName = company.godName || '';
 
+  // Static data for right side of header (can be made dynamic later)
+  const currentDate = '17-04-2025';
+  const totalAmount = '291';
+  const outstandingAmount = '8,56,85,735.29';
+
   return {
     images,
     header: [
@@ -54,19 +59,50 @@ export const HeaderRegularPdfMake = async ({
             },
             {
               stack: [
-                { text: godName, alignment: 'center', margin: [50, 5, 0, 0], fontSize: 8, bold: true, color: 'red' },
+                { text: godName, alignment: 'center', margin: [50, 5, 0, 0], fontSize: 10, bold: true, color: 'red' },
                 { text: company.name, alignment: 'left', margin: [0, 20, 0, 5], fontSize: 14, bold: true },
                 { text: company.address, alignment: 'left', fontSize: 8 },
-                { text: company.phoneNumber ? `Phone: ${company.phoneNumber}` : '', alignment: 'left', fontSize: 8 },
+                { text: company.phoneNumber ? `ph:${company.phoneNumber}` : '', alignment: 'left', fontSize: 8 },
                 { text: 'Website: ' + company.website, alignment: 'left', fontSize: 8 },
                 { text: 'GSTIN: ' + company.gstNumber, alignment: 'left', fontSize: 8 }
               ]
             },
             {
-              text: title,
-              fontSize: 8,
-              alignment: 'right',
-              margin: [0, 5, 10, 0],
+              stack: [
+                // Display report title at the top right
+                { 
+                  table: {
+                    widths: ['*'],
+                    body: [[
+                      { text: title, alignment: 'right', fontSize: 10, bold: true, margin: [0, 5, 10, 0] }
+                    ]]
+                  },
+                  layout: 'noBorders'
+                },
+                // Spacer to push remaining content to bottom of header
+                { text: '', margin: [0, 60, 0, 0] },
+                // Right-side details at the bottom right
+                { 
+                  table: {
+                    widths: ['auto', '*'],
+                    body: [
+                      [
+                        { text: 'Total:', alignment: 'left', fontSize: 8, margin: [0, 0, 5, 2] },
+                        { text: totalAmount, alignment: 'right', fontSize: 8, bold: true, margin: [0, 0, 5, 2] }
+                      ],
+                      [
+                        { text: 'As on:', alignment: 'left', fontSize: 8, margin: [0, 0, 5, 2] },
+                        { text: currentDate, alignment: 'right', fontSize: 8, bold: true, margin: [0, 0, 5, 2] }
+                      ],
+                      [
+                        { text: 'Total Outstanding Amt.:', alignment: 'left', fontSize: 8, margin: [0, 0, 5, 2] },
+                        { text: outstandingAmount, alignment: 'right', fontSize: 8, bold: true, margin: [0, 0, 5, 2] }
+                      ]
+                    ]
+                  },
+                  layout: 'noBorders'
+                }
+              ]
             }
           ]]
         },
