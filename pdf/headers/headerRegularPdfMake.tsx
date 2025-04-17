@@ -69,40 +69,12 @@ export const HeaderRegularPdfMake = async ({
             },
             {
               stack: [
-                // Display report title at the top right
-                { 
-                  table: {
-                    widths: ['*'],
-                    body: [[
-                      { text: title, alignment: 'right', fontSize: 10, bold: true, margin: [0, 5, 10, 0] }
-                    ]]
-                  },
-                  layout: 'noBorders'
-                },
                 // Spacer to push remaining content to bottom of header
-                { text: '', margin: [0, 60, 0, 0] },
-                // Right-side details at the bottom right
-                { 
-                  table: {
-                    widths: ['auto', '*'],
-                    body: [
-                      [
-                        { text: 'Total:', alignment: 'left', fontSize: 8, margin: [0, 0, 5, 2] },
-                        { text: totalAmount, alignment: 'right', fontSize: 8, bold: true, margin: [0, 0, 5, 2] }
-                      ],
-                      [
-                        { text: 'As on:', alignment: 'left', fontSize: 8, margin: [0, 0, 5, 2] },
-                        { text: currentDate, alignment: 'right', fontSize: 8, bold: true, margin: [0, 0, 5, 2] }
-                      ],
-                      [
-                        { text: 'Total Outstanding Amt.:', alignment: 'left', fontSize: 8, margin: [0, 0, 5, 2] },
-                        { text: outstandingAmount, alignment: 'right', fontSize: 8, bold: true, margin: [0, 0, 5, 2] }
-                      ]
-                    ]
-                  },
-                  layout: 'noBorders'
-                }
-              ]
+                { text: '', margin: [0, 80, 0, 0] },
+                { text: `Total: ${totalAmount}`, alignment: 'right', fontSize: 8, margin: [0, 0, 5, 2] },
+                { text: `As on: ${currentDate}`, alignment: 'right', fontSize: 8, margin: [0, 0, 5, 2] },
+                { text: `Total Outstanding Amt.: ${outstandingAmount}`, alignment: 'right', fontSize: 8, margin: [0, 0, 5, 2] }
+                ]
             }
           ]]
         },
