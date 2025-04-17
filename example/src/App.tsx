@@ -18,7 +18,7 @@ function App() {
       phoneNumber: "+1 234-567-8900",
       website: "www.samplecompany.com",
       gstNumber: "GST123456789",
-      logoImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLXn84m0ldNEy4b-doui_GKkeziMRUfEl71g&s", // Example logo URL
+      logoImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRQOq_KQn9qYIzTMHclBSe1zQcH3CMxPVBUw&s", // Example logo URL
       godName: godName
     };
     
