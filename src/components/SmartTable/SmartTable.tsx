@@ -1,7 +1,12 @@
 import { MaterialReactTable, type MRT_ColumnDef, type MRT_TableState, type MRT_ColumnFiltersState, type MRT_SortingState } from 'material-react-table';
-import { Box, useTheme } from '@mui/material';
+import { Box, IconButton, Tooltip, useTheme } from '@mui/material';
+import { FileDownload as FileDownloadIcon } from '@mui/icons-material';
 import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import type { FetchDataOptions, FetchDataResult } from '../../data/generateData';
+import { Toolbar } from '../Toolbar';
+import { usePDFExport } from '@/hooks/usePDFExport';
+import { useMockPDFExport } from '@/hooks/useMockPDFExport';
+import { SmartTableColumn, PDFExportOptions } from '@/types/table';
 
 export interface SmartTableProps<TData extends Record<string, any> = {}> {
   columns: MRT_ColumnDef<TData>[];
@@ -13,6 +18,10 @@ export interface SmartTableProps<TData extends Record<string, any> = {}> {
   enableGrouping?: boolean;
   enableColumnDragging?: boolean;
   enableGlobalFilter?: boolean;
+  enablePDFExport?: boolean;
+  pdfExportOptions?: PDFExportOptions;
+  useMockExport?: boolean;
+  onExport?: () => void;
 }
 
 export const SmartTable = <TData extends Record<string, any> = {}>({
@@ -25,6 +34,10 @@ export const SmartTable = <TData extends Record<string, any> = {}>({
   enableGrouping = true,
   enableColumnDragging = true,
   enableGlobalFilter = true,
+  enablePDFExport = true,
+  pdfExportOptions,
+  useMockExport = false,
+  onExport,
 }: SmartTableProps<TData>) => {
   const theme = useTheme();
   const [isLoading, setIsLoading] = useState(false);
@@ -42,6 +55,21 @@ export const SmartTable = <TData extends Record<string, any> = {}>({
   const lastFetchParamsRef = useRef<string>('');
 
   const tableColumns = useMemo(() => columns, [columns]);
+
+  // Initialize the appropriate PDF export hook based on the mock flag
+  const { exportToPDF: realExportToPDF } = usePDFExport<TData>({
+    enabled: enablePDFExport && !useMockExport,
+    options: pdfExportOptions,
+  });
+
+  const { exportToPDF: mockExportToPDF } = useMockPDFExport({
+    enabled: enablePDFExport && useMockExport,
+    options: pdfExportOptions,
+    onExport,
+  });
+
+  // Use the appropriate export function
+  const exportToPDF = useMockExport ? mockExportToPDF : realExportToPDF;
 
   const loadData = useCallback(async () => {
     const fetchParams = JSON.stringify({
@@ -109,6 +137,47 @@ export const SmartTable = <TData extends Record<string, any> = {}>({
     setColumnFilters(newFilters.map(filter => ({ id: filter.id, value: String(filter.value) })));
   }, []);
 
+  // Handle PDF export
+  const handleExportPDF = useCallback(() => {
+    console.log('Exporting PDF...', useMockExport ? '(MOCK)' : '(REAL)');
+    
+    const tableState = {
+      sorting,
+      columnVisibility: {},
+      pagination,
+      columnFilters,
+      globalFilter,
+    };
+
+    // Collect column visibility information
+    const columnVisibility: Record<string, boolean> = {};
+    columns.forEach((column) => {
+      if (column.accessorKey) {
+        columnVisibility[column.accessorKey as string] = column.enableHiding !== false;
+      }
+    });
+    tableState.columnVisibility = columnVisibility;
+
+    // Convert MRT columns to SmartTableColumns for PDF export
+    const smartTableColumns = columns.map((col) => ({
+      ...col,
+      // Default to enabling PDF export for all columns unless explicitly disabled
+      enablePDFExport: (col as SmartTableColumn<TData>).enablePDFExport !== false,
+    })) as SmartTableColumn<TData>[];
+
+    // Use the chosen exporter
+    exportToPDF({
+      data,
+      columns: smartTableColumns,
+      state: tableState as any,
+    });
+
+    // Call the export callback if provided
+    if (onExport && !useMockExport) {
+      onExport();
+    }
+  }, [data, columns, exportToPDF, sorting, pagination, columnFilters, globalFilter, useMockExport, onExport]);
+
   return (
     <Box sx={{ width: '100%' }}>
       <MaterialReactTable
@@ -150,6 +219,23 @@ export const SmartTable = <TData extends Record<string, any> = {}>({
             pageIndex: 0,
           },
         }}
+        // Use Material React Table's built-in toolbar + PDF export button
+        enableToolbarInternalActions={true}
+        positionToolbarAlertBanner="bottom"
+        positionGlobalFilter="left"
+        renderTopToolbarCustomActions={() => (
+          enablePDFExport && (
+            <Tooltip arrow title="Export to PDF">
+              <IconButton 
+                onClick={handleExportPDF}
+                aria-label="Export to PDF"
+                data-testid="export-pdf-button"
+              >
+                <FileDownloadIcon />
+              </IconButton>
+            </Tooltip>
+          )
+        )}
       />
     </Box>
   );
