@@ -1,8 +1,14 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { HeaderRegularPdfMake } from './headers/headerRegularPdfMake';
 import { HeaderSettings } from './types/PdfMake';
 pdfMake.vfs = pdfFonts.vfs;
+
+// Custom document definition that extends the pdfmake type
+interface CustomDocumentDefinition extends TDocumentDefinitions {
+  showHeader?: boolean;
+}
 
 export const generatePDF = async (headerSettings: HeaderSettings) => {
   const { 
@@ -12,11 +18,11 @@ export const generatePDF = async (headerSettings: HeaderSettings) => {
     companyDetails,
     showLogo = true,
     headerOnEveryPage = false,
-    content
+    content = [] // Default to empty array if content is undefined
   } = headerSettings;
 
   // Initialize document definition
-  let docDefinition: any = {
+  let docDefinition: CustomDocumentDefinition = {
     content,
     showHeader,
     pageMargins: [40, showHeader ? 150 : 20, 40, 40] as [number, number, number, number], // [left, top, right, bottom]
