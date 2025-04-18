@@ -2,7 +2,16 @@
   "name": "@mohit11/smart-table",
   "version": "0.1.0",
   "description": "A modular, fully customizable TypeScript-based React component library that wraps and extends Material React Table (MRT)",
-  "keywords": ["react", "material-ui", "table", "material-react-table", "mui", "typescript", "smart-table", "data-grid"],
+  "keywords": [
+    "react",
+    "material-ui",
+    "table",
+    "material-react-table",
+    "mui",
+    "typescript",
+    "smart-table",
+    "data-grid"
+  ],
   "author": "Mohit",
   "license": "MIT",
   "type": "module",
@@ -16,14 +25,16 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "vite build && tsc --emitDeclarationOnly",
     "dev": "vite build --watch",
     "typecheck": "tsc --noEmit",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "format": "biome format --write .",
+    "lint": "biome lint --write .",
+    "check": "biome check --write .",
+    "ci:check": "biome ci ."
   },
   "repository": {
     "type": "git",
@@ -45,6 +56,7 @@
     "react-window": "^1.8.10"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.5.3",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^6.0.0",

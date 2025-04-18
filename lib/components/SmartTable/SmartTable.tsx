@@ -1,7 +1,7 @@
-import { MaterialReactTable, type MRT_RowData } from 'material-react-table';
-import { Box, IconButton, Tooltip } from '@mui/material';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import { SmartTableProps } from '../../types/ISmartTable';
+import { Box, IconButton, Tooltip } from '@mui/material';
+import { type MRT_RowData, MaterialReactTable } from 'material-react-table';
+import type { SmartTableProps } from '../../types/ISmartTable';
 
 export const SmartTable = <TData extends MRT_RowData>({
   // Core props
@@ -9,12 +9,10 @@ export const SmartTable = <TData extends MRT_RowData>({
   data,
   enablePDFExport = true,
 }: SmartTableProps<TData>) => {
-  
-
   return (
     <Box sx={{ width: '100%' }}>
       {/* Main table */}
-        <MaterialReactTable
+      <MaterialReactTable
         columns={columns}
         data={data}
         renderTopToolbarCustomActions={() => {
@@ -26,8 +24,7 @@ export const SmartTable = <TData extends MRT_RowData>({
             </Tooltip>
           ) : null;
         }}
-        />
-      
+      />
     </Box>
   );
-}; 
+};

@@ -1,8 +1,8 @@
+import { resolve } from 'node:path';
+import react from '@vitejs/plugin-react';
 /// <reference types="node" />
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
-import { resolve } from 'path';
 
 export default defineConfig({
   plugins: [
@@ -27,7 +27,7 @@ export default defineConfig({
         '@mui/icons-material',
         '@emotion/react',
         '@emotion/styled',
-        'material-react-table'
+        'material-react-table',
       ],
       output: {
         globals: {
@@ -38,9 +38,9 @@ export default defineConfig({
           '@mui/icons-material': 'MuiIcons',
           '@emotion/react': 'EmotionReact',
           '@emotion/styled': 'EmotionStyled',
-          'material-react-table': 'MaterialReactTable'
+          'material-react-table': 'MaterialReactTable',
         },
       },
     },
   },
-}); 
+});
