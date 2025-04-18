@@ -1,4 +1,5 @@
 import { fetchValidImageUrl } from './fetchValidImageURL';
+import type { TDocumentDefinitions } from 'pdfmake/interfaces';
 
 export interface LogoOptions {
   width?: number;
@@ -31,10 +32,15 @@ interface LogoResult {
   images?: { [key: string]: { url: string } };
 }
 
+interface DocDefinitionWithLogo extends Omit<TDocumentDefinitions, 'content' | 'images'> {
+  content: any[];
+  images?: TDocumentDefinitions['images'];
+}
+
 const defaultLogoOptions: LogoOptions = {
   width: 100,
   height: 100,
-  alignment: 'left',
+  alignment: 'center',
   margin: [10, 20, 0, 0],
   preserveAspectRatio: true
 };
@@ -78,4 +84,24 @@ export const getCompanyLogo = async (
       ...finalOptions
     };
   }
+};
+
+export const getLogoForDocDefinition = async (
+  docDefinition: TDocumentDefinitions,
+  logoUrl?: string,
+  options: LogoOptions = {}
+): Promise<DocDefinitionWithLogo> => {
+  const logoResult = await getCompanyLogo(logoUrl, options);
+  
+  return {
+    ...docDefinition,
+    content: [
+      logoResult.image ? { ...logoResult, image: 'logo' } : { text: '', ...logoResult },
+      ...(Array.isArray(docDefinition.content) ? docDefinition.content : [docDefinition.content])
+    ],
+    images: {
+      ...(docDefinition.images || {}),
+      ...(logoResult.images || {})
+    }
+  };
 }; 

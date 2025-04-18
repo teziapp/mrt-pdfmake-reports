@@ -18,7 +18,8 @@ export const generatePDF = async (headerSettings: HeaderSettings) => {
     companyDetails,
     showLogo = true,
     headerOnEveryPage = false,
-    content = [] // Default to empty array if content is undefined
+    content = [], // Default to empty array if content is undefined
+    headerData = {} // Extract headerData with empty object default
   } = headerSettings;
 
   // Initialize document definition
@@ -38,7 +39,8 @@ export const generatePDF = async (headerSettings: HeaderSettings) => {
         const headerResult = await HeaderRegularPdfMake({ 
           title,
           companyDetails,
-          showLogo
+          showLogo,
+          headerData
         });
         
         docDefinition.header = headerOnEveryPage ? headerResult.header : function(currentPage: number) {

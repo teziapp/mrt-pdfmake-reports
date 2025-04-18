@@ -7,11 +7,7 @@ export const HeaderRegularPdfMake = async ({
   companyDetails,
   showLogo = true,
   logoOptions = {},
-  headerData = {
-    currentDate: new Date().toLocaleDateString('en-IN'),
-    totalAmount: '0.00',
-    outstandingAmount: '0.00'
-  }
+  headerData = {}
 }: {
   title: string;
   companyDetails: CompanyDetails;

@@ -25,4 +25,5 @@ export interface HeaderSettings {
   showLogo?: boolean;
   headerOnEveryPage?: boolean;
   content?: any[];
+  headerData?: any;
 } 

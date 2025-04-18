@@ -28,6 +28,7 @@ function App() {
       showLogo,
       headerOnEveryPage,
       content: sampleContent,
+      headerData: defaultPdfSettings.headerData,
     };
 
     // Generate the PDF

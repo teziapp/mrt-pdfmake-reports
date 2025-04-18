@@ -100,3 +100,9 @@ export const defaultPdfSettings = {
     outstandingAmount: '0.00'
   } as HeaderData
 }; 
+
+export const headerData: HeaderData = {
+  currentDate: new Date().toLocaleDateString('en-IN'),
+  totalAmount: '0.00',
+  outstandingAmount: '0.00'
+} as HeaderData
