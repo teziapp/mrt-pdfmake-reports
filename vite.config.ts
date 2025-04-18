@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
@@ -20,16 +21,26 @@ export default defineConfig({
       fileName: (format) => `index.${format === 'es' ? 'js' : 'cjs'}`,
     },
     rollupOptions: {
-      external: ['react', 'react-dom', '@mui/material', '@emotion/react', '@emotion/styled', 'material-react-table', 'react-window'],
+      external: [
+        'react',
+        'react-dom',
+        'react-window',
+        '@mui/material',
+        '@mui/icons-material',
+        '@emotion/react',
+        '@emotion/styled',
+        'material-react-table'
+      ],
       output: {
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',
+          'react-window': 'ReactWindow',
           '@mui/material': 'MuiMaterial',
+          '@mui/icons-material': 'MuiIcons',
           '@emotion/react': 'EmotionReact',
           '@emotion/styled': 'EmotionStyled',
           'material-react-table': 'MaterialReactTable',
-          'react-window': 'ReactWindow',
         },
       },
     },

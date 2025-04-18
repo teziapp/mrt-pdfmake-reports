@@ -1,7 +1,7 @@
-import { resolve } from 'node:path';
-import react from '@vitejs/plugin-react';
 /// <reference types="node" />
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { resolve } from 'path';
 import dts from 'vite-plugin-dts';
 
 export default defineConfig({
@@ -14,9 +14,9 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'index.ts'),
-      name: 'SmartTableLib',
+      name: 'SmartTable',
       formats: ['es', 'cjs'],
-      fileName: (format: string) => `index.${format === 'es' ? 'js' : 'cjs'}`,
+      fileName: (format) => `index.${format === 'es' ? 'js' : 'cjs'}`,
     },
     rollupOptions: {
       external: [
@@ -28,6 +28,7 @@ export default defineConfig({
         '@emotion/react',
         '@emotion/styled',
         'material-react-table',
+        '@mui/x-date-pickers'
       ],
       output: {
         globals: {
@@ -39,8 +40,11 @@ export default defineConfig({
           '@emotion/react': 'EmotionReact',
           '@emotion/styled': 'EmotionStyled',
           'material-react-table': 'MaterialReactTable',
+          '@mui/x-date-pickers': 'MuiXDatePickers'
         },
       },
     },
+    sourcemap: true,
+    minify: 'esbuild',
   },
-});
+}); 
