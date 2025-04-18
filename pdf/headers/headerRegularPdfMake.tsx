@@ -1,7 +1,11 @@
 import { CompanyDetails, PdfHeader } from '../types/PdfMake';
-import { getCompanyLogo, LogoOptions } from '../utils/getCompanyLogo';
+import { LogoOptions } from '../utils/getCompanyLogo';
 import { HeaderData } from '../../example/src/data/pdfContent';
+import { getLogoSection } from './components/logoSection';
+import { getCompanyDetailsSection } from './components/companyDetailsSection';
+import { getTitleSection } from './components/titleSection';
 
+// Main function to assemble the header
 export const HeaderRegularPdfMake = async ({
   title,
   companyDetails,
@@ -17,41 +21,21 @@ export const HeaderRegularPdfMake = async ({
 }): Promise<{ header: PdfHeader[], images: { [key: string]: { url: string } } }> => {
   const company: CompanyDetails = companyDetails;
 
-  // Process logo using the new utility
-  const logoResult = showLogo && company.logoImage 
-    ? await getCompanyLogo(company.logoImage, logoOptions)
-    : await getCompanyLogo(undefined, logoOptions);
-
-  // Use provided god name or fall back to default
-  const godName = company.godName || '';
+  // Get individual sections
+  const logoSection = await getLogoSection(company, showLogo, logoOptions);
+  const companySection = getCompanyDetailsSection(company);
+  const titleSection = getTitleSection(title, headerData);
 
   return {
-    images: logoResult.images || {},
+    images: logoSection.images || {},
     header: [
       {
         table: {
           widths: ['20%', '40%', '40%'],
           body: [[
-            logoResult.image ? logoResult : { text: '', ...logoResult },
-            {
-              stack: [
-                { text: godName, alignment: 'center', margin: [50, 5, 0, 0], fontSize: 10, bold: true, color: 'red' },
-                { text: company.name, alignment: 'left', margin: [0, 20, 0, 5], fontSize: 14, bold: true },
-                { text: company.address, alignment: 'left', fontSize: 8 },
-                { text: company.phoneNumber ? `ph:${company.phoneNumber}` : '', alignment: 'left', fontSize: 8 },
-                { text: 'Website: ' + company.website, alignment: 'left', fontSize: 8 },
-                { text: 'GSTIN: ' + company.gstNumber, alignment: 'left', fontSize: 8 }
-              ]
-            },
-            {
-              stack: [
-                { text: title, alignment: 'right', fontSize: 10, margin: [0, 20, 5, 2] },
-                { text: '', margin: [0, 60, 0, 0] },
-                { text: `Total: ${headerData.totalAmount}`, alignment: 'right', fontSize: 8, margin: [0, 0, 5, 2] },
-                { text: `As on: ${headerData.currentDate}`, alignment: 'right', fontSize: 8, margin: [0, 0, 5, 2] },
-                { text: `Total Outstanding Amt.: ${headerData.outstandingAmount}`, alignment: 'right', fontSize: 8, margin: [0, 0, 5, 2] }
-              ]
-            }
+            logoSection,
+            companySection,
+            titleSection
           ]]
         },
         layout: 'noBorders'
