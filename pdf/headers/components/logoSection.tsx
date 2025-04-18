@@ -1,11 +1,20 @@
-import { CompanyDetails } from '../../types/PdfMake';
-import { getCompanyLogo, LogoOptions } from '../../utils/getCompanyLogo';
+import { ContentImage } from 'pdfmake/interfaces';
+import { checkImageValidGetDef } from '../../utils/fetchValidImageURL';
 
-// Function to get the logo section of the header
-export const getLogoSection = async (company: CompanyDetails, showLogo: boolean, logoOptions: LogoOptions) => {
-  // Process logo using the utility
-  const logoResult = showLogo && company.logoImage 
-    ? await getCompanyLogo(company.logoImage, logoOptions)
-    : await getCompanyLogo(undefined, logoOptions);
-  return logoResult.image ? logoResult : { text: '', ...logoResult };
-}; 
+export const getLogoImageSection = (
+  inputImageDef: ContentImage,
+  imageUrl: string
+) => {
+  return checkImageValidGetDef(
+    {
+      width: 100,
+      height: 100,
+      alignment: 'center',
+      margin: [10, 20, 0, 0],
+      // FIXME: This is a workaround to fix the issue with the image not being displayed
+      // preserveAspectRatio: true,
+      ...inputImageDef,
+    }, 
+    imageUrl
+  );
+}

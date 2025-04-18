@@ -1,3 +1,6 @@
+import { HeaderRightStrings } from "../../example/src/data/pdfContent";
+import { headerTemplates } from "../headers/getHeaderDefinition";
+
 export interface PdfHeader {
   table: {
     widths: string[] | number[];
@@ -18,12 +21,8 @@ export interface CompanyDetails {
 }
 
 export interface HeaderSettings {
-  template: string;
-  title: string;
-  showHeader: boolean;
+  template: keyof typeof headerTemplates;
   companyDetails: CompanyDetails;
-  showLogo?: boolean;
   headerOnEveryPage?: boolean;
-  content?: any[];
-  headerData?: any;
+  headerRightStrings?: HeaderRightStrings;
 } 

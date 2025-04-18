@@ -29,7 +29,7 @@ const defaultLayout: CompanyDetailsLayout = {
 };
 
 // Function to get the company details section of the header
-export const getCompanyDetailsSection = (company: CompanyDetails, customLayout: Partial<CompanyDetailsLayout> = {}) => {
+export const getCompanyDetailsSectionRegular = (company: CompanyDetails, customLayout: Partial<CompanyDetailsLayout> = {}) => {
   // Merge default layout with custom layout
   const layout = { ...defaultLayout, ...customLayout };
   // Use provided god name or fall back to default

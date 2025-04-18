@@ -1,6 +1,7 @@
+import type { Content } from 'pdfmake/interfaces';
 import type { CompanyDetails } from '../../../pdf/types/PdfMake';
 
-export interface HeaderData {
+export interface HeaderRightStrings {
   currentDate?: string;
   totalAmount?: string;
   outstandingAmount?: string;
@@ -19,7 +20,7 @@ export const defaultCompanyDetails: CompanyDetails = {
 };
 
 // Sample PDF content sections
-export const sampleContent = [
+export const sampleContent: Content = [
   { text: 'Sample Report Content', style: 'header' },
   {
     text: 'This is a dynamically generated PDF with custom header settings.',
@@ -89,20 +90,20 @@ export const sampleContent = [
 
 // Default PDF settings
 export const defaultPdfSettings = {
-  template: 'regular',
+  template: 'regular' as const,
   title: 'Sample PDF Report',
   showHeader: true,
   showLogo: false,
   headerOnEveryPage: true,
-  headerData: {
+  headerRightStrings: {
     currentDate: new Date().toLocaleDateString('en-IN'),
     totalAmount: '0.00',
     outstandingAmount: '0.00'
-  } as HeaderData
+  } as HeaderRightStrings
 }; 
 
-export const headerData: HeaderData = {
+export const headerData: HeaderRightStrings = {
   currentDate: new Date().toLocaleDateString('en-IN'),
   totalAmount: '0.00',
   outstandingAmount: '0.00'
-} as HeaderData
+} as HeaderRightStrings

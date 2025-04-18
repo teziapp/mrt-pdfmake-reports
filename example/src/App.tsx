@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import './App.css';
-import { generatePDF } from '../../pdf/pdfmaketemplate';
+import { openPdf } from '../../pdf/generatePdf';
+import { getPdfMakeDocDefinition } from '../../pdf/getPdfMakeDocDefinition';
 import type { CompanyDetails, HeaderSettings } from '../../pdf/types/PdfMake';
-import { defaultCompanyDetails, sampleContent, defaultPdfSettings } from './data/pdfContent';
+import './App.css';
+import { defaultCompanyDetails, defaultPdfSettings, sampleContent } from './data/pdfContent';
 
 function App() {
   const [companyName, setCompanyName] = useState(defaultCompanyDetails.name);
@@ -11,28 +12,30 @@ function App() {
   const [headerOnEveryPage, setHeaderOnEveryPage] = useState(defaultPdfSettings.headerOnEveryPage);
   const [showLogo, setShowLogo] = useState(defaultPdfSettings.showLogo);
 
-  const handleGeneratePDF = async () => {
     // Company details with godName included
-    const companyDetails: CompanyDetails = {
-      ...defaultCompanyDetails,
-      name: companyName,
-      godName: godName,
-    };
+  const companyDetails: CompanyDetails = {
+    ...defaultCompanyDetails,
+    name: companyName,
+    godName: godName,
+  };
 
-    // PDF generation options using HeaderSettings
-    const headerSettings: HeaderSettings = {
-      template: defaultPdfSettings.template,
-      title: defaultPdfSettings.title,
-      showHeader,
-      companyDetails,
-      showLogo,
-      headerOnEveryPage,
-      content: sampleContent,
-      headerData: defaultPdfSettings.headerData,
-    };
+  // PDF generation options using HeaderSettings
+  const headerSettings: HeaderSettings = {
+    template: defaultPdfSettings.template,
+    companyDetails,
+    headerOnEveryPage,
+    headerRightStrings: defaultPdfSettings.headerRightStrings,
+  };
+
+  const handleGeneratePDF = async () => {
 
     // Generate the PDF
-    await generatePDF(headerSettings);
+    const docDefinition = await getPdfMakeDocDefinition(
+      { content: sampleContent }, 
+      headerSettings
+    );
+
+    return openPdf(docDefinition);
   };
 
   return (
