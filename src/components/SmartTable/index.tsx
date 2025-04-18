@@ -1,12 +1,8 @@
-import React, { useMemo } from 'react';
 import { MaterialReactTable } from 'material-react-table';
 import { Box } from '@mui/material';
 import { SmartTableProps } from '@/types/table';
 import { useSmartTable } from '@/hooks/useSmartTable';
-import { Toolbar } from '@/components/Toolbar';
-import { ColumnVisibilityMenu } from '@/components/ColumnVisibilityMenu';
 import { GroupingPanel } from '@/components/GroupingPanel';
-import { PaginationControls } from '@/components/PaginationControls';
 
 function SmartTable<TData extends Record<string, any>>({
   data = [],
@@ -24,9 +20,6 @@ function SmartTable<TData extends Record<string, any>>({
   const {
     tableState,
     tableInstance,
-    handleStateChange,
-    handleExportPDF,
-    handleSyncState,
   } = useSmartTable({
     data,
     columns,
@@ -52,27 +45,6 @@ function SmartTable<TData extends Record<string, any>>({
     enableSorting: true,
     ...restProps
   });
-
-  const renderTopToolbar = useMemo(
-    () => (
-      <Toolbar
-        instance={tableInstance}
-        onExportPDF={handleExportPDF}
-        enablePDFExport={enablePDFExport}
-      />
-    ),
-    [tableInstance, handleExportPDF, enablePDFExport]
-  );
-
-  const renderBottomToolbar = useMemo(
-    () => (
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 1 }}>
-        <ColumnVisibilityMenu instance={tableInstance} />
-        <PaginationControls instance={tableInstance} />
-      </Box>
-    ),
-    [tableInstance]
-  );
 
   return (
     <Box sx={{ width: '100%' }}>

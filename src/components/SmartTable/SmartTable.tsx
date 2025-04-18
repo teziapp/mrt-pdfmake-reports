@@ -3,9 +3,7 @@ import { Box, IconButton, Tooltip, useTheme } from '@mui/material';
 import { FileDownload as FileDownloadIcon } from '@mui/icons-material';
 import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import type { FetchDataOptions, FetchDataResult } from '../../data/generateData';
-import { Toolbar } from '../Toolbar';
 import { usePDFExport } from '@/hooks/usePDFExport';
-import { useMockPDFExport } from '@/hooks/useMockPDFExport';
 import { SmartTableColumn, PDFExportOptions } from '@/types/table';
 
 export interface SmartTableProps<TData extends Record<string, any> = {}> {
@@ -62,14 +60,9 @@ export const SmartTable = <TData extends Record<string, any> = {}>({
     options: pdfExportOptions,
   });
 
-  const { exportToPDF: mockExportToPDF } = useMockPDFExport({
-    enabled: enablePDFExport && useMockExport,
-    options: pdfExportOptions,
-    onExport,
-  });
 
   // Use the appropriate export function
-  const exportToPDF = useMockExport ? mockExportToPDF : realExportToPDF;
+  const exportToPDF = realExportToPDF;
 
   const loadData = useCallback(async () => {
     const fetchParams = JSON.stringify({

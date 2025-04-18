@@ -5,20 +5,15 @@ import {
   MRT_TableState,
   MRT_ColumnDef,
   MRT_TableOptions,
-  MaterialReactTable,
   useMaterialReactTable,
 } from 'material-react-table';
 import { SmartTableProps, SmartTableColumn, TableState } from '@/types/table';
-import { useLocalStorageSync } from '@/hooks/useLocalStorageSync';
-import { useBackendSync } from '@/hooks/useBackendSync';
 import { usePDFExport } from '@/hooks/usePDFExport';
 
 interface SmartTableHookReturn<TData extends MRT_RowData> {
   tableState: TableState<TData>;
   tableInstance: MRT_TableInstance<TData>;
-  handleStateChange: (newState: TableState<TData>) => void;
   handleExportPDF: () => void;
-  handleSyncState: () => void;
 }
 
 export function useSmartTable<TData extends MRT_RowData>({
@@ -125,53 +120,12 @@ export function useSmartTable<TData extends MRT_RowData>({
   // Use the useMaterialReactTable hook instead of creating a new instance with constructor
   const tableInstance = useMaterialReactTable(tableOptions);
 
-  // Handle state persistence
-  const { loadState, saveState } = useLocalStorageSync({
-    enabled: enableStatePersistence,
-    storageKey: stateStorageKey,
-  });
-
-  // Handle backend sync
-  const { syncState } = useBackendSync({
-    enabled: enableBackendSync,
-    options: backendSyncOptions,
-  });
 
   // Handle PDF export
   const { exportToPDF } = usePDFExport({
     enabled: enablePDFExport,
     options: pdfExportOptions,
   });
-
-  // Load initial state
-  useEffect(() => {
-    if (enableStatePersistence) {
-      const savedState = loadState();
-      if (savedState) {
-        setTableState(savedState as TableState<TData>);
-      }
-    }
-  }, [enableStatePersistence, loadState]);
-
-  // Handle state changes
-  const handleStateChange = useCallback(
-    (newState: TableState<TData>) => {
-      setTableState(newState);
-
-      if (enableDebugMode) {
-        console.log('Table state changed:', newState);
-      }
-
-      if (enableStatePersistence) {
-        saveState(newState);
-      }
-
-      if (enableBackendSync) {
-        syncState(newState as unknown as TableState<Record<string, any>>);
-      }
-    },
-    [enableStatePersistence, enableBackendSync, enableDebugMode, saveState, syncState]
-  );
 
   // Handle PDF export
   const handleExportPDF = useCallback(() => {
@@ -184,19 +138,11 @@ export function useSmartTable<TData extends MRT_RowData>({
     }
   }, [enablePDFExport, exportToPDF, data, safeColumns, tableState]);
 
-  // Handle sync state
-  const handleSyncState = useCallback(() => {
-    if (enableBackendSync) {
-      syncState(tableState as unknown as TableState<Record<string, any>>);
-    }
-  }, [enableBackendSync, syncState, tableState]);
-
+  
   return {
     tableState,
     tableInstance,
-    handleStateChange,
     handleExportPDF,
-    handleSyncState,
   };
 }
 

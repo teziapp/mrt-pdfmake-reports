@@ -3,11 +3,8 @@ import { ThemeProvider, createTheme, CssBaseline, Box, Typography, Button, Stack
 import { type MRT_ColumnDef } from 'material-react-table';
 import { SmartTable } from './components/SmartTable/SmartTable';
 import { type Person, fetchData } from './data/generateData';
-import PDFButtonTest from '../playground/PDFButtonTest';
 
 function App() {
-  const [showPDFTest, setShowPDFTest] = useState(false);
-
   const theme = createTheme({
     palette: {
       mode: 'light',
@@ -61,42 +58,18 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box sx={{ p: 4 }}>
-        <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
-          <Typography variant="h4">
-            Smart Table Demo
-          </Typography>
-          <Button 
-            variant="contained" 
-            color={showPDFTest ? "secondary" : "primary"}
-            onClick={() => setShowPDFTest(!showPDFTest)}
-          >
-            {showPDFTest ? "Show Default Table" : "Show PDF Button Test"}
-          </Button>
-        </Stack>
-
-        <Divider sx={{ mb: 3 }} />
-
-        {showPDFTest ? (
-          <PDFButtonTest />
-        ) : (
-          <>
-            <Typography variant="body1" paragraph>
-              The default table has PDF export enabled. Look for the download icon in the toolbar.
-            </Typography>
-            <SmartTable
-              columns={columns}
-              fetchData={fetchData}
-              initialPageSize={10}
-              rowCount={50}
-              enablePaginatedDataFetch={false}
+          <SmartTable
+            columns={columns}
+            fetchData={fetchData}
+            initialPageSize={10}
+            // rowCount={50}
+            enablePaginatedDataFetch={true}
               enablePDFExport={true}
               pdfExportOptions={{
                 title: 'Employee Data',
                 orientation: 'landscape',
               }}
-            />
-          </>
-        )}
+          />
       </Box>
     </ThemeProvider>
   );

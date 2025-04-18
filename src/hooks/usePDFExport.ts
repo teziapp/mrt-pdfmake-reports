@@ -31,8 +31,10 @@ export function usePDFExport<TData extends Record<string, any>>({
         if (pdfMake.vfs === undefined) {
           pdfMake.vfs = {};
         }
-        if (pdfFonts && pdfFonts.pdfMake && pdfFonts.pdfMake.vfs) {
-          pdfMake.vfs = pdfFonts.pdfMake.vfs;
+        // Type assertion to access pdfMake property
+        const fonts = pdfFonts as any;
+        if (fonts && fonts.pdfMake && fonts.pdfMake.vfs) {
+          pdfMake.vfs = fonts.pdfMake.vfs;
         }
 
         // Apply sorting and filtering
