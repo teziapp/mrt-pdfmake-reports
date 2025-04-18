@@ -1,7 +1,7 @@
 import { MaterialReactTable, type MRT_RowData } from 'material-react-table';
 import { Box, IconButton, Tooltip } from '@mui/material';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import { SmartTableProps } from './types/ISmartTable';
+import { SmartTableProps } from '../../types/ISmartTable';
 
 export const SmartTable = <TData extends MRT_RowData>({
   // Core props
