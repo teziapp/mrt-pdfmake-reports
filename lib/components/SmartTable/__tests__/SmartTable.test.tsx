@@ -1,7 +1,8 @@
 import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { SmartTable, type SmartTableProps } from '../SmartTable';
+import { SmartTable } from '../SmartTable';
+import { type SmartTableProps } from '../types/ISmartTable';
 import { MRT_ColumnDef } from 'material-react-table';
 
 interface TestData {

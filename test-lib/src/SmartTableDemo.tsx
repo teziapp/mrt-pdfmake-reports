@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SmartTable } from '../../lib/components/SmartTable';
 import { fetchData, type Person } from './data';
 import type { MRT_ColumnDef } from '../../node_modules/material-react-table';
-import { usePDFExport } from './hooks/usePDFExport';
-import { Button, Stack } from '@mui/material';
 
 const columns: MRT_ColumnDef<Person>[] = [
   {
@@ -49,34 +47,19 @@ const columns: MRT_ColumnDef<Person>[] = [
 ];
 
 export const SmartTableDemo: React.FC = () => {
-  // State to toggle between client-side and server-side data
-  const [useClientSideData, setUseClientSideData] = useState(false);
-  const [clientData, setClientData] = useState<Person[]>([]);
+  const [data, setData] = useState<Person[]>([]);
 
-  const handleFetchData = async (options: any) => {
-    const result = await fetchData({
-      ...options,
-      enablePaginatedDataFetch: true,
-    });
-    
-    // If in client-side mode, store the fetched data
-    if (useClientSideData && result.data.length > 0) {
-      setClientData(result.data);
-    }
-    
-    return {
-      data: result.data,
-      pageCount: result.pageCount,
+  useEffect(() => {
+    const loadData = async () => {
+      const result = await fetchData({
+        enablePaginatedDataFetch: true,
+        pageSize: 10,
+        pageIndex: 0,
+      });
+      setData(result.data);
     };
-  };
-
-  const { exportToPDF } = usePDFExport({
-    options: {
-      title: 'Employee Report',
-      subtitle: 'Generated from SmartTable Demo',
-      orientation: 'landscape',
-    },
-  });
+    loadData();
+  }, []);
 
   const commonProps = {
     columns,
@@ -92,28 +75,20 @@ export const SmartTableDemo: React.FC = () => {
   return (
     <div style={{ padding: '20px' }}>
       <h1>SmartTable Demo with PDF Export</h1>
-      
-      <Stack direction="row" spacing={2} mb={2}>
-        <Button 
-          variant="contained" 
-          onClick={() => setUseClientSideData(!useClientSideData)}
-        >
-          {useClientSideData ? 'Switch to Server-side Data' : 'Switch to Client-side Data'}
-        </Button>
-      </Stack>
-
-      <SmartTable<Person>
-        {...commonProps}
-        fetchData={useClientSideData ? undefined : handleFetchData}
-        rowCount={useClientSideData ? clientData.length : 1000}
-        onExport={() => {
-          exportToPDF({
-            data: useClientSideData ? clientData : [],
-            columns: [],
-            state: {},
-          });
-        }}
-      />
+      {data && (
+        <SmartTable<Person>
+          {...commonProps}
+          data={[
+            { id: 1, firstName: 'John', lastName: 'Doe', age: 30, city: 'New York', state: 'NY', email: 'john@example.com', phone: '555-0101', department: 'Engineering', salary: 85000 },
+            { id: 2, firstName: 'Jane', lastName: 'Smith', age: 25, city: 'Los Angeles', state: 'CA', email: 'jane@example.com', phone: '555-0102', department: 'Sales', salary: 75000 },
+            { id: 3, firstName: 'Bob', lastName: 'Johnson', age: 45, city: 'Chicago', state: 'IL', email: 'bob@example.com', phone: '555-0103', department: 'Marketing', salary: 95000 },
+            { id: 4, firstName: 'Alice', lastName: 'Brown', age: 28, city: 'Houston', state: 'TX', email: 'alice@example.com', phone: '555-0104', department: 'HR', salary: 70000 },
+            { id: 5, firstName: 'Charlie', lastName: 'Wilson', age: 35, city: 'Phoenix', state: 'AZ', email: 'charlie@example.com', phone: '555-0105', department: 'Finance', salary: 90000 }
+          ]}
+          rowCount={1000}
+          enablePDFExport
+        />
+      )}
     </div>
   );
 }; 
