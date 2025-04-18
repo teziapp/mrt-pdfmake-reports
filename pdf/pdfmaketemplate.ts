@@ -1,9 +1,9 @@
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
-import { HeaderRegularPdfMake } from './headers/headerRegularPdfMake';
+import { HeaderRegularPdfMake } from './headers/headerRegularPdfMake.tsx';
 import { HeaderSettings } from './types/PdfMake';
-pdfMake.vfs = pdfFonts.vfs;
+(pdfMake.vfs as any) = pdfFonts.vfs;
 
 // Custom document definition that extends the pdfmake type
 interface CustomDocumentDefinition extends TDocumentDefinitions {
