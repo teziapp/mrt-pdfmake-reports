@@ -9,11 +9,12 @@ export default defineConfig({
     react(),
     dts({
       insertTypesEntry: true,
+      include: ['lib/**/*.ts', 'lib/**/*.tsx'],
     }),
   ],
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
+      entry: resolve(__dirname, 'lib/index.ts'),
       name: 'SmartTable',
       formats: ['es', 'cjs'],
       fileName: (format) => `index.${format === 'es' ? 'js' : 'cjs'}`,

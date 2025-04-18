@@ -9,7 +9,7 @@ alwaysApply: true
 This is a modular, fully customizable TypeScript-based React component library that wraps and extends Material React Table (MRT). The goal is to deliver a production-ready, user-friendly, and highly extensible table system to be used across internal company projects and published to NPM.
 
 
-This project is a JavaScript library built with React that wraps and extends the [Material React Table (MRT)](https://www.material-react-table.com/) component. The library provides a fully modular, highly customizable, and UI-friendly experience. 
+This project is a JavaScript library built with React that wraps and extends the [Material React Table (MRT)](mdc:https:/www.material-react-table.com) component. The library provides a fully modular, highly customizable, and UI-friendly experience. 
 
 ### Key Features:
 - All core MRT features are exposed transparently.
@@ -195,3 +195,7 @@ index.ts                        # Entry point for npm
 - Backend-agnostic sync adapters
 - Drag-to-reorder rows with persistence
 - Declarative configuration wizard
+
+# References
+
+- library generation vite (https://dev.to/receter/how-to-create-a-react-component-library-using-vites-library-mode-4lma)
