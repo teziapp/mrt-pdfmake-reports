@@ -1,5 +1,11 @@
 import type { CompanyDetails } from '../../../pdf/types/PdfMake';
 
+export interface HeaderData {
+  currentDate?: string;
+  totalAmount?: string;
+  outstandingAmount?: string;
+}
+
 // Default company details
 export const defaultCompanyDetails: CompanyDetails = {
   name: 'Sample Company Name',
@@ -88,4 +94,9 @@ export const defaultPdfSettings = {
   showHeader: true,
   showLogo: false,
   headerOnEveryPage: true,
+  headerData: {
+    currentDate: new Date().toLocaleDateString('en-IN'),
+    totalAmount: '0.00',
+    outstandingAmount: '0.00'
+  } as HeaderData
 }; 

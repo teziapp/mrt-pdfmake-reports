@@ -1,62 +1,42 @@
-import { fetchValidImageUrl } from '../utils/fetchValidImageURL';
 import { CompanyDetails, PdfHeader } from '../types/PdfMake';
+import { getCompanyLogo, LogoOptions } from '../utils/getCompanyLogo';
+import { HeaderData } from '../../example/src/data/pdfContent';
 
 export const HeaderRegularPdfMake = async ({
   title,
   companyDetails,
-  showLogo = true
+  showLogo = true,
+  logoOptions = {},
+  headerData = {
+    currentDate: new Date().toLocaleDateString('en-IN'),
+    totalAmount: '0.00',
+    outstandingAmount: '0.00'
+  }
 }: {
   title: string;
   companyDetails: CompanyDetails;
   showLogo?: boolean;
+  logoOptions?: LogoOptions;
+  headerData?: HeaderData;
 }): Promise<{ header: PdfHeader[], images: { [key: string]: { url: string } } }> => {
-  const company: CompanyDetails = companyDetails
+  const company: CompanyDetails = companyDetails;
 
-  let images: { [key: string]: { url: string } } = {};
-  
-  // Check if logo should be shown and validate the URL
-  let logoImageValid = false;
-  
-  if (showLogo && company.logoImage) {
-    try {
-      const validUrl = await fetchValidImageUrl(company.logoImage);
-      if (validUrl) {
-        images.logo = { url: validUrl };
-        logoImageValid = true;
-      }
-    } catch (error) {
-      console.error('Error validating logo URL:', error);
-    }
-  }
+  // Process logo using the new utility
+  const logoResult = showLogo && company.logoImage 
+    ? await getCompanyLogo(company.logoImage, logoOptions)
+    : await getCompanyLogo(undefined, logoOptions);
 
   // Use provided god name or fall back to default
   const godName = company.godName || '';
 
-  // Static data for right side of header (can be made dynamic later)
-  const currentDate = '17-04-2025';
-  const totalAmount = '291';
-  const outstandingAmount = '8,56,85,735.29';
-
   return {
-    images,
+    images: logoResult.images || {},
     header: [
       {
         table: {
           widths: ['20%', '40%', '40%'],
           body: [[
-            logoImageValid ? { 
-              image: 'logo', 
-              width: 100,
-              height: 100,
-              alignment: 'left',
-              margin: [10, 20, 0, 0]
-            } : { 
-              text: '',
-              width: 100,
-              height: 100,
-              alignment: 'left',
-              margin: [10, 20, 0, 0]
-            },
+            logoResult.image ? logoResult : { text: '', ...logoResult },
             {
               stack: [
                 { text: godName, alignment: 'center', margin: [50, 5, 0, 0], fontSize: 10, bold: true, color: 'red' },
@@ -69,13 +49,12 @@ export const HeaderRegularPdfMake = async ({
             },
             {
               stack: [
-                // Spacer to push remaining content to bottom of header
                 { text: title, alignment: 'right', fontSize: 10, margin: [0, 20, 5, 2] },
                 { text: '', margin: [0, 60, 0, 0] },
-                { text: `Total: ${totalAmount}`, alignment: 'right', fontSize: 8, margin: [0, 0, 5, 2] },
-                { text: `As on: ${currentDate}`, alignment: 'right', fontSize: 8, margin: [0, 0, 5, 2] },
-                { text: `Total Outstanding Amt.: ${outstandingAmount}`, alignment: 'right', fontSize: 8, margin: [0, 0, 5, 2] }
-                ]
+                { text: `Total: ${headerData.totalAmount}`, alignment: 'right', fontSize: 8, margin: [0, 0, 5, 2] },
+                { text: `As on: ${headerData.currentDate}`, alignment: 'right', fontSize: 8, margin: [0, 0, 5, 2] },
+                { text: `Total Outstanding Amt.: ${headerData.outstandingAmount}`, alignment: 'right', fontSize: 8, margin: [0, 0, 5, 2] }
+              ]
             }
           ]]
         },
