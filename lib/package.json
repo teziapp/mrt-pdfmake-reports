@@ -1,6 +1,10 @@
 {
-  "name": "@tezi/smart-table",
+  "name": "@mohit11/smart-table",
   "version": "0.1.0",
+  "description": "A modular, fully customizable TypeScript-based React component library that wraps and extends Material React Table (MRT)",
+  "keywords": ["react", "material-ui", "table", "material-react-table", "mui", "typescript", "smart-table", "data-grid"],
+  "author": "Mohit",
+  "license": "MIT",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -18,8 +22,17 @@
   "scripts": {
     "build": "vite build && tsc --emitDeclarationOnly",
     "dev": "vite build --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mohit11/mrt-reports-mohit-fork"
+  },
+  "bugs": {
+    "url": "https://github.com/mohit11/mrt-reports-mohit-fork/issues"
+  },
+  "homepage": "https://github.com/mohit11/mrt-reports-mohit-fork#readme",
   "peerDependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",

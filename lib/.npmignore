@@ -1,0 +1,7 @@
+node_modules/
+.gitignore
+vite.config.ts
+tsconfig.json
+*.log
+*.tgz
+.DS_Store 
