@@ -7,7 +7,7 @@ export interface FetchDataOptions {
   filters: { id: string; value: string }[];
 }
 
-export interface FetchDataResult {
-  data: Record<string, any>[];
+export interface FetchDataResult<TData = Record<string, any>> {
+  data: TData[];
   pageCount: number;
 } 
