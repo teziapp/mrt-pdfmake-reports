@@ -2,106 +2,32 @@ import { useState } from 'react';
 import './App.css';
 import { generatePDF } from '../../pdf/pdfmaketemplate';
 import type { CompanyDetails, HeaderSettings } from '../../pdf/types/PdfMake';
+import { defaultCompanyDetails, sampleContent, defaultPdfSettings } from './data/pdfContent';
 
 function App() {
-  const [companyName, setCompanyName] = useState('Sample Company Name');
-  const [godName, setGodName] = useState('** !! Shree Ganeshay Namah !! **');
-  const [showHeader, setShowHeader] = useState(true);
-  const [headerOnEveryPage, setHeaderOnEveryPage] = useState(true);
-  const [showLogo, setShowLogo] = useState(false);
+  const [companyName, setCompanyName] = useState(defaultCompanyDetails.name);
+  const [godName, setGodName] = useState(defaultCompanyDetails.godName);
+  const [showHeader, setShowHeader] = useState(defaultPdfSettings.showHeader);
+  const [headerOnEveryPage, setHeaderOnEveryPage] = useState(defaultPdfSettings.headerOnEveryPage);
+  const [showLogo, setShowLogo] = useState(defaultPdfSettings.showLogo);
 
   const handleGeneratePDF = async () => {
     // Company details with godName included
     const companyDetails: CompanyDetails = {
+      ...defaultCompanyDetails,
       name: companyName,
-      address: '123 Business Street, City, State, ZIP',
-      phoneNumber: '+1 234-567-8900',
-      website: 'www.samplecompany.com',
-      gstNumber: 'GST123456789',
-      logoImage:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRQOq_KQn9qYIzTMHclBSe1zQcH3CMxPVBUw&s', // Example logo URL
       godName: godName,
     };
 
     // PDF generation options using HeaderSettings
     const headerSettings: HeaderSettings = {
-      template: 'regular',
-      title: 'Sample PDF Report',
+      template: defaultPdfSettings.template,
+      title: defaultPdfSettings.title,
       showHeader,
       companyDetails,
       showLogo,
       headerOnEveryPage,
-      content: [
-        { text: 'Sample Report Content', style: 'header' },
-        {
-          text: 'This is a dynamically generated PDF with custom header settings.',
-          margin: [0, 20, 0, 20],
-        },
-        {
-          text: 'This is a dynamically generated PDF with custom header settings.',
-          margin: [0, 20, 0, 20],
-        },
-        {
-          text: 'This is a dynamically generated PDF with custom header settings.',
-          margin: [0, 20, 0, 20],
-        },
-        {
-          text: 'This is a dynamically generated PDF with custom header settings.',
-          margin: [0, 20, 0, 20],
-        },
-        {
-          text: 'This is a dynamically generated PDF with custom header settings.',
-          margin: [0, 20, 0, 20],
-        },
-        {
-          text: 'This is a dynamically generated PDF with custom header settings.',
-          margin: [0, 20, 0, 20],
-        },
-        {
-          text: 'This is a dynamically generated PDF with custom header settings.',
-          margin: [0, 20, 0, 20],
-        },
-        {
-          text: 'This is a dynamically generated PDF with custom header settings.',
-          margin: [0, 20, 0, 20],
-        },
-        {
-          text: 'This is a dynamically generated PDF with custom header settings.',
-          margin: [0, 20, 0, 20],
-        },
-        {
-          text: 'This is a dynamically generated PDF with custom header settings.',
-          margin: [0, 20, 0, 20],
-        },
-        {
-          text: 'This is a dynamically generated PDF with custom header settings.',
-          margin: [0, 20, 0, 20],
-        },
-        {
-          text: 'This is a dynamically generated PDF with custom header settings.',
-          margin: [0, 20, 0, 20],
-        },
-        {
-          text: 'This is a dynamically generated PDF with custom header settings.',
-          margin: [0, 20, 0, 20],
-        },
-        {
-          text: 'This is a dynamically generated PDF with custom header settings.',
-          margin: [0, 20, 0, 20],
-        },
-        {
-          text: 'This is a dynamically generated PDF with custom header settings.',
-          margin: [0, 20, 0, 20],
-        },
-        {
-          text: 'This is a dynamically generated PDF with custom header settings.',
-          margin: [0, 20, 0, 20],
-        },
-        {
-          text: 'This is a dynamically generated PDF with custom header settings.',
-          margin: [0, 20, 0, 20],
-        },
-      ],
+      content: sampleContent,
     };
 
     // Generate the PDF
