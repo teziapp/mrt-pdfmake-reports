@@ -1,6 +1,18 @@
 import { SmartTable } from '../../lib/components/SmartTable';
-import { type Person } from './data';
-import type { MRT_ColumnDef } from '../../node_modules/material-react-table';
+import type { MRT_ColumnDef, MRT_Cell } from '../../lib/node_modules/material-react-table';
+
+interface Person {
+  id: number;
+  firstName: string;
+  lastName: string;
+  age: number;
+  city: string;
+  state: string;
+  email: string;
+  phone: string;
+  department: string;
+  salary: number;
+}
 
 const columns: MRT_ColumnDef<Person>[] = [
   {
@@ -35,13 +47,17 @@ const columns: MRT_ColumnDef<Person>[] = [
     header: 'Email',
   },
   {
+    accessorKey: 'phone',
+    header: 'Phone',
+  },
+  {
     accessorKey: 'department',
     header: 'Department',
   },
   {
     accessorKey: 'salary',
     header: 'Salary',
-    Cell: ({ cell }) => `$${(cell.getValue() as number).toLocaleString()}`,
+    Cell: ({ cell }: { cell: MRT_Cell<Person> }) => `$${(cell.getValue() as number).toLocaleString()}`,
   },
 ];
 
