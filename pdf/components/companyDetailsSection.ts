@@ -10,7 +10,6 @@ interface TextStyle {
 }
 
 interface CompanyDetailsLayout {
-  godNameStyle?: TextStyle;
   nameStyle?: TextStyle;
   addressStyle?: TextStyle;
   phoneStyle?: TextStyle;
@@ -20,7 +19,6 @@ interface CompanyDetailsLayout {
 
 // Default styles
 const defaultLayout: CompanyDetailsLayout = {
-  godNameStyle: { alignment: 'center', margin: [50, 5, 0, 5], fontSize: 10, bold: true, color: 'red' },
   nameStyle: { alignment: 'left', margin: [0, 20, 0, 5], fontSize: 14, bold: true },
   addressStyle: { alignment: 'left', fontSize: 8 },
   phoneStyle: { alignment: 'left', margin: [0, 2, 0, 0], fontSize: 8 },
@@ -32,11 +30,9 @@ const defaultLayout: CompanyDetailsLayout = {
 export const getCompanyDetailsSectionRegular = (company: CompanyDetails, customLayout: Partial<CompanyDetailsLayout> = {}) => {
   // Merge default layout with custom layout
   const layout = { ...defaultLayout, ...customLayout };
-  // Use provided god name or fall back to default
-  const godName = company.godName || '';
+  
   return {
     stack: [
-      { text: godName, ...layout.godNameStyle },
       { text: company.name, ...layout.nameStyle },
       { text: company.address, ...layout.addressStyle },
       { text: company.phoneNumber ? `ph:${company.phoneNumber}` : '', ...layout.phoneStyle },
