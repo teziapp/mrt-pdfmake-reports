@@ -1,4 +1,4 @@
-import { TDocumentDefinitions } from 'pdfmake/interfaces';
+import { Content, TDocumentDefinitions } from 'pdfmake/interfaces';
 import { getHeaderDefinition } from './headers/getHeaderDefinition.ts';
 import { HeaderSettings } from './types/PdfMake.ts';
 
@@ -17,9 +17,9 @@ export const getPdfMakeDocDefinition = async (
     const { header, image } = await getHeaderDefinition(headerSettings);
     docDefinition.pageMargins = [40, 160, 40, 40];
     docDefinition.header = headerSettings.headerOnEveryPage 
-      ? header 
+      ? header as Content
       : function(currentPage: number) {
-        return currentPage === 1 ? header : null;
+        return currentPage === 1 ? header as Content : null;
       };
     docDefinition.images = {
       ...(docDefinition.images || {}),
