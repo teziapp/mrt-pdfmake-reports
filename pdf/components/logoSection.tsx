@@ -1,5 +1,5 @@
 import { ContentImage } from 'pdfmake/interfaces';
-import { checkImageValidGetDef } from '../../utils/fetchValidImageURL';
+import { checkImageValidGetDef } from '../utils/fetchValidImageURL';
 
 export const getLogoImageSection = (
   inputImageDef: ContentImage,

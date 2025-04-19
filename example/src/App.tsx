@@ -34,6 +34,7 @@ function App() {
       { content: sampleContent }, 
       headerSettings
     );
+    console.log(docDefinition);
 
     return openPdf(docDefinition);
   };

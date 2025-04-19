@@ -15,7 +15,7 @@ export const getPdfMakeDocDefinition = async (
 
   if(headerSettings) {
     const { header, image } = await getHeaderDefinition(headerSettings);
-    docDefinition.pageMargins = docDefinition.pageMargins ?? [40, 150, 40, 40];
+    docDefinition.pageMargins = [40, 160, 40, 40];
     docDefinition.header = headerSettings.headerOnEveryPage 
       ? header 
       : function(currentPage: number) {

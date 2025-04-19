@@ -1,7 +1,7 @@
 import { HeaderSettings } from '../../types/PdfMake';
-import { getCompanyDetailsSectionRegular } from '../components/companyDetailsSection';
-import { headerRightStringsRegular } from '../components/headerRightStrings';
-import { getLogoImageSection } from '../components/logoSection';
+import { getCompanyDetailsSectionRegular } from '../../components/companyDetailsSection';
+import { headerRightStringsRegular } from '../../components/headerRightStrings';
+import { getLogoImageSection } from '../../components/logoSection';
 
 // Main function to assemble the header
 export const getHeaderRegularDocDef = async ({

@@ -1,4 +1,4 @@
-import { HeaderRightStrings } from '../../../example/src/data/pdfContent';
+import { HeaderRightStrings } from '../../example/src/data/pdfContent';
 
 // Function to get the title and header data section
 export const headerRightStringsRegular = (headerData: HeaderRightStrings) => {

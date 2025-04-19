@@ -1,4 +1,4 @@
-import { CompanyDetails } from '../../types/PdfMake';
+import { CompanyDetails } from '../types/PdfMake';
 
 // Define types for customizable styles and layout
 interface TextStyle {
