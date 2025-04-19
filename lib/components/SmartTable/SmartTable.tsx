@@ -7,7 +7,7 @@ export const SmartTable = <TData extends MRT_RowData>({
   // Core props
   columns,
   data,
-  enablePDFExport = true,
+  ...restProps
 }: SmartTableProps<TData>) => {
   return (
     <Box sx={{ width: '100%' }}>
@@ -16,14 +16,13 @@ export const SmartTable = <TData extends MRT_RowData>({
         columns={columns}
         data={data}
         renderTopToolbarCustomActions={() => {
-          return enablePDFExport ? (
-            <Tooltip title="Export to PDF">
+          return <Tooltip title="Export to PDF">
               <IconButton onClick={() => console.log('Export to PDF')}>
                 <PictureAsPdfIcon />
               </IconButton>
             </Tooltip>
-          ) : null;
         }}
+        {...restProps}
       />
     </Box>
   );

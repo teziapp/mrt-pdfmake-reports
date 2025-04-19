@@ -1,13 +1,26 @@
-import { SmartTable } from '../../lib/components/SmartTable';
-import { columns } from './columnDef';
-import { IPerson } from './types/IPerson';
+import { SmartTable } from '../lib/components/SmartTable';
+import type { MRT_ColumnDef, MRT_Cell } from '../lib/node_modules/material-react-table/dist';
+
+interface Person {
+  id: number;
+  firstName: string;
+  lastName: string;
+  age: number;
+  city: string;
+  state: string;
+  email: string;
+  phone: string;
+  department: string;
+  salary: number;
+}
 
 export const SmartTableDemo: React.FC = () => {
-  
+
+
   return (
     <div style={{ padding: '20px' }}>
       <h1>SmartTable Demo with PDF Export</h1>
-      <SmartTable<IPerson>
+      <SmartTable<Person>
         columns={columns}
         data={[
             { id: 1, firstName: 'John', lastName: 'Doe', age: 30, city: 'New York', state: 'NY', email: 'john@example.com', phone: '555-0101', department: 'Engineering', salary: 85000 },

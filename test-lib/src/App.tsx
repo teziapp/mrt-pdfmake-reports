@@ -1,5 +1,5 @@
 import React from 'react';
-import { SmartTableDemo } from './SmartTableDemo';
+import { SmartTableDemo } from '../SmartTableDemo';
 
 const App: React.FC = () => {
   return (

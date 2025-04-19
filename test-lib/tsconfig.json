@@ -20,6 +20,6 @@
       "@mohit/smart-table": ["../dist"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "SmartTableDemo.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 } 
