@@ -1,1 +1,1 @@
-export { SmartTable } from "./components/smart_table";
+export { SmartReportMRT } from "./components/smart_report_mrt";
