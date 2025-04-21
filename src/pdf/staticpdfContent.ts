@@ -1,7 +1,5 @@
 import type { Content } from 'pdfmake/interfaces';
-// import type { CompanyDetails } from '../../../pdf/types/PdfMake';
-// import { HeaderRightStrings } from "../../example/src/data/pdfContent";
-import { headerTemplates } from "./headers/getHeaderDefinition";
+import { CompanyDetails, HeaderRightStrings, HeaderSettings } from './types/PdfMake';
 
 export interface PdfHeader {
   table: {
@@ -10,33 +8,13 @@ export interface PdfHeader {
     headerRows?: number;
   };
   layout: string;
-}
-
-export interface CompanyDetails {
-  name: string;
-  address: string;
-  phoneNumber: string;
-  website: string;
-  gstNumber: string;
-  logoImage?: string;
-  godName?: string;
-}
-
-export interface HeaderSettings {
-  template: keyof typeof headerTemplates;
   companyDetails: CompanyDetails;
-  headerOnEveryPage?: boolean;
-  headerRightStrings?: HeaderRightStrings;
-} 
-
-export interface HeaderRightStrings {
-  currentDate?: string;
-  totalAmount?: string;
-  outstandingAmount?: string;
+  headerOnEveryPage: boolean;
+  headerRightStrings: HeaderRightStrings;
 }
 
 // Default company details
-export const defaultCompanyDetails: CompanyDetails = {
+const defaultCompanyDetails: CompanyDetails = {
   name: 'Sample Company Name',
   address: '123 Business Street, City, State, ZIP',
   phoneNumber: '+1 234-567-8900',
@@ -45,6 +23,21 @@ export const defaultCompanyDetails: CompanyDetails = {
   logoImage:
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRQOq_KQn9qYIzTMHclBSe1zQcH3CMxPVBUw&s',
   godName: '** !! Shree Ganeshay Namah !! **',
+};
+
+// Default header right strings
+const defaultHeaderRightStrings: HeaderRightStrings = {
+  currentDate: new Date().toLocaleDateString('en-IN'),
+  totalAmount: '0.00',
+  outstandingAmount: '0.00'
+};
+
+// Default PDF settings including header settings
+export const headerSettings: HeaderSettings = {
+  template: 'regular',
+  companyDetails: defaultCompanyDetails,
+  headerOnEveryPage: true,
+  headerRightStrings: defaultHeaderRightStrings
 };
 
 // Sample PDF content sections
@@ -116,22 +109,24 @@ export const sampleContent: Content = [
   },
 ];
 
-// Default PDF settings
-export const defaultPdfSettings = {
-  template: 'regular' as const,
-  title: 'Sample PDF Report',
-  showHeader: true,
-  showLogo: false,
-  headerOnEveryPage: true,
-  headerRightStrings: {
-    currentDate: new Date().toLocaleDateString('en-IN'),
-    totalAmount: '0.00',
-    outstandingAmount: '0.00'
-  } as HeaderRightStrings
-}; 
+// export const sampleContent: Content = [
+//     {
+//     //   layout: '', // optional
+//       table: {
+//         // headerRows: 1,
+//         widths: [ '*', '*', '*'],
 
-export const headerData: HeaderRightStrings = {
-  currentDate: new Date().toLocaleDateString('en-IN'),
-  totalAmount: '0.00',
-  outstandingAmount: '0.00'
-} as HeaderRightStrings
+//         body: [
+//             // Pdf Table Type Header
+//             [
+//                 {text: 'Outstanding', colSpan: 3, bold: true, style: 'tableHeader', alignment: 'center', fontSize: 14, border: [true, true, true, true]}
+//             ],
+
+//             // Ledger Name
+//             [
+//                 {text: 'Ledger Name', colSpan: 3, bold: true, alignment: 'center', fontSize: 14, border: [true, true, true, true]},
+//             ],
+//             ]
+//       }
+//     }
+//   ];

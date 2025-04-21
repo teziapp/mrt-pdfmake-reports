@@ -1,4 +1,3 @@
-import { HeaderRightStrings } from "../../example/src/data/pdfContent";
 import { headerTemplates } from "../headers/getHeaderDefinition";
 
 export interface PdfHeader {
@@ -8,6 +7,12 @@ export interface PdfHeader {
     headerRows?: number;
   };
   layout: string;
+}
+
+export interface HeaderRightStrings {
+  currentDate?: string;
+  totalAmount?: string;
+  outstandingAmount?: string;
 }
 
 export interface CompanyDetails {
