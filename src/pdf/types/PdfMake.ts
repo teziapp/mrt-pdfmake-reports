@@ -10,7 +10,6 @@ export interface HeaderContent {
 export interface PdfHeader {
   table: {
     widths: string[] | number[];
-    body: any[][];
     headerRows?: number;
   };
   layout: string;

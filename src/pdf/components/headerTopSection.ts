@@ -12,7 +12,6 @@ export const headerTopSection = (data: Content[], customStyle?: Style) => {
   };
 
   return {
-    // text: text,
     stack: data,
     style: customStyle || defaultStyle
   };
