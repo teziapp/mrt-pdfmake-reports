@@ -8,10 +8,9 @@ export const headerRightStringsRegular = (headerRightStrings: Content[], customS
     bold: false
   };
   
-  // Apply margin to the container itself
   return {
     stack: headerRightStrings,
     style: customStyle || defaultStyle,
-    margin: [0, 10, 10, 10]  // Moved margin to the top level
+    margin: [0, 10, 10, 10]
   };
 }; 
