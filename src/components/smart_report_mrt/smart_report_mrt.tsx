@@ -30,22 +30,22 @@ export const SmartReportMRT = <T extends MRT_RowData>(props: MaterialReactTableP
       muiTableBodyCellProps = {({ cell }) => ({
         'data-label': cell.column.columnDef.header,
       })}
-      renderTopToolbar = {() => (
-        <div className="top-toolbar">
-          <Button 
-            onClick={() => setForceTableView(!forceTableView)}
-            startIcon={forceTableView ? <ViewModuleIcon /> : <TableViewIcon />}
-          >
-            {forceTableView ? 'Switch to Card View' : null}
-          </Button>
-          <Button 
-            onClick={handleDownloadPdf}
-            startIcon={<PictureAsPdfIcon />}
-          >
-            Download PDF
-          </Button>
-        </div>
-      )}
+      renderTopToolbar = {() => [
+        <Button 
+          key="viewToggle"
+          onClick={() => setForceTableView(!forceTableView)}
+          startIcon={forceTableView ? <ViewModuleIcon /> : <TableViewIcon />}
+        >
+          {forceTableView ? 'Switch to Card View' : null}
+        </Button>,
+        <Button 
+          key="downloadPdf"
+          onClick={handleDownloadPdf}
+          startIcon={<PictureAsPdfIcon />}
+        >
+          Download PDF
+        </Button>
+      ]}
       
       {...props}
     />
