@@ -12,5 +12,5 @@ export const handleDownloadPdf = async () => {
     );
 
     // Download the PDF
-    downloadPdf(docDefinition, 'report.pdf');
+    downloadPdf(docDefinition, 'document.pdf');
   };
