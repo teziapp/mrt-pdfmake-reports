@@ -12,8 +12,8 @@ export default defineConfig({
   build: { 
     lib: { 
       entry: './src/index.ts', 
-      name: 'ui', 
-      fileName: (format) => `ui.${format}.js`,
+      name: 'smartreport', 
+      fileName: (format) => `smartreport.${format}.js`,
       formats: ['es', 'cjs', 'umd'],
     }, 
     rollupOptions: { 

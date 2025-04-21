@@ -1,9 +1,17 @@
 {
-  "name": "smartreport",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@teziapp/smartreport",
+  "private": false,
+  "version": "1.0.2",
   "type": "module",
   "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

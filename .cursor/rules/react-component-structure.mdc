@@ -1,0 +1,31 @@
+---
+description: 
+globs: *.tsx
+alwaysApply: false
+---
+
+# Use Component Compositions
+
+```tsx
+export const Alert = ({ status, children }) => {
+  return (
+    <div className={status}>
+      {children}
+    </div>
+  )
+}
+
+Alert.Title = function AlertTitle({ children }) {
+  return (
+    <span className="alert-title">{children}</span>
+  )
+}
+
+Alert.Description = function AlertDescription({ children }) {
+  return (
+    <span className="alert-description">{children}</span>
+  )
+}
+```
+
+- Link : https://www.codementor.io/@dinerismail/the-power-of-component-composition-in-react-21goassg4m
