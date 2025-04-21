@@ -5,13 +5,13 @@ export const headerRightStringsRegular = (headerRightStrings: Content[], customS
   const defaultStyle: Style = {
     alignment: 'right',
     fontSize: 10,
-    bold: true,
-    margin: [0, 10, 10, 10]
+    bold: false
   };
   
-  // Return a properly structured stack of content
+  // Apply margin to the container itself
   return {
     stack: headerRightStrings,
-    style: customStyle || defaultStyle
+    style: customStyle || defaultStyle,
+    margin: [0, 10, 10, 10]  // Moved margin to the top level
   };
 }; 

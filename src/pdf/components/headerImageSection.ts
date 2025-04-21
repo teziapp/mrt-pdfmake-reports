@@ -4,7 +4,7 @@ import { checkImageValidGetDef } from '../utils/fetchValidImageURL';
 export const headerImageSection = (
   inputImageDef: ContentImage,
   imageUrl: string,
-  style?: ContentImage
+  customStyle?: ContentImage
 ) => {
   const defaultStyle: ContentImage = {
     alignment: 'center',
@@ -14,7 +14,7 @@ export const headerImageSection = (
   return checkImageValidGetDef(
     {
       ...inputImageDef,
-      style: style || defaultStyle,
+      style: customStyle || defaultStyle,
     }, 
     imageUrl
   );

@@ -45,8 +45,10 @@ export const getHeaderRegularDocDef = async ({
           widths: ['20%', '40%', '40%'],
           body: [[
             ...(logoSection?.imageDef ? [logoSection.imageDef] : [{ text: '' }]),
-            headerContentSection,
-            ...(headerRightSection ? [headerRightSection] : [{ text: '' }])
+            headerContentSection ? headerContentSection : { text: '' },
+            headerRightSection 
+              ? headerRightSection
+              : { text: '' }
           ]]
         },
         layout: 'noBorders'
