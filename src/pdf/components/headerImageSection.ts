@@ -10,8 +10,6 @@ export const headerImageSection = (
     alignment: 'center',
     margin: [10, 10, 0, 0],
     image: 'headerLogo',
-    width: 50,
-    height: 50
   };
   return checkImageValidGetDef(
     {

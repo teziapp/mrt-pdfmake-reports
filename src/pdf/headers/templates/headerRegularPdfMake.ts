@@ -17,6 +17,7 @@ export const getHeaderRegularDocDef = async ({
       logoSection = await headerImageSection(
         {
           image: 'headerLogo',  // This key will be used in the images dictionary
+          fit: [100, 100],  
         }, 
         headerContent.image
       );
