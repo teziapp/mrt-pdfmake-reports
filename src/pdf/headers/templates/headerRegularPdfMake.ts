@@ -1,44 +1,51 @@
 import { HeaderSettings } from '../../types/PdfMake';
-import { getCompanyDetailsSectionRegular } from '../../components/companyDetailsSection';
+import { getheaderContent } from '../../components/headerContentSection';
 import { headerRightStringsRegular } from '../../components/headerRightStrings';
-import { getLogoImageSection } from '../../components/logoSection';
-import { getGodNameSection } from '../../components/godNameSection';
+import { headerImageSection } from '../../components/headerImageSection';
+import { headerTopSection } from '../../components/headerTopSection';
 
 // Main function to assemble the header
 export const getHeaderRegularDocDef = async ({
-  companyDetails,
+  headerContent,
   headerRightStrings
 }: HeaderSettings) => {
   // Get individual sections
-  const logoSection = companyDetails.logoImage 
-    ? await getLogoImageSection(
+  let logoSection;
+  
+  try {
+    if (headerContent.image) {
+      logoSection = await headerImageSection(
         {
-          image: 'logo',
-        },
-        companyDetails.logoImage
-      )
-    : undefined;
-    
-  const companySection = getCompanyDetailsSectionRegular(companyDetails);
+          image: 'headerLogo',  // This key will be used in the images dictionary
+        }, 
+        headerContent.image
+      );
+    }
+  } catch (error) {
+    console.error('Error loading logo:', error);
+    logoSection = undefined;
+  }
+  
+  const headerContentSection = getheaderContent(headerContent.content);
   const headerRightSection = headerRightStrings ? headerRightStringsRegular(headerRightStrings) : undefined;
   
-  // Get the godName section
-  const godNameSection = companyDetails.godName 
-    ? getGodNameSection(companyDetails.godName) 
+  // Get the top section if available
+  const topSection = headerContent.topSection
+    ? headerTopSection([{ text: headerContent.topSection }]) 
     : undefined;
 
   return {
     image: logoSection?.image,
     header: [
-      // Add godName section above the table if it exists
-      ...(godNameSection ? [godNameSection] : []),
+      // Add top section above the table if it exists
+      ...(topSection ? [topSection] : []),
       {
         table: {
           widths: ['20%', '40%', '40%'],
           body: [[
-            ...(logoSection?.imageDef ? [logoSection.imageDef] : []),
-            companySection,
-            ...(headerRightSection ? [headerRightSection] : [])
+            ...(logoSection?.imageDef ? [logoSection.imageDef] : [{ text: '' }]),
+            headerContentSection,
+            ...(headerRightSection ? [headerRightSection] : [{ text: '' }])
           ]]
         },
         layout: 'noBorders'

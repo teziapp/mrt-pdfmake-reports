@@ -1,43 +1,41 @@
 import type { Content } from 'pdfmake/interfaces';
-import { CompanyDetails, HeaderRightStrings, HeaderSettings } from './types/PdfMake';
+import { HeaderImage, HeaderSettings } from './types/PdfMake';
 
-export interface PdfHeader {
-  table: {
-    widths: string[] | number[];
-    body: any[][];
-    headerRows?: number;
-  };
-  layout: string;
-  companyDetails: CompanyDetails;
-  headerOnEveryPage: boolean;
-  headerRightStrings: HeaderRightStrings;
-}
+// Company details content array
+const companyDetailsContent: Content[] = [
+  { text: 'Sample Company Name', style: 'headerContent' },
+  { text: '123 Business Street, City, State, ZIP', style: 'defaultStyle' },
+  { text: 'ph:+1 234-567-8900', style: 'defaultStyle' },
+  { text: 'www.samplecompany.com', style: 'defaultStyle' },
+  { text: 'GSTIN: GST123456789', style: 'defaultStyle' }
+];
 
 // Default company details
-const defaultCompanyDetails: CompanyDetails = {
-  name: 'Sample Company Name',
-  address: '123 Business Street, City, State, ZIP',
-  phoneNumber: '+1 234-567-8900',
-  website: 'www.samplecompany.com',
-  gstNumber: 'GST123456789',
-  logoImage:
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRQOq_KQn9qYIzTMHclBSe1zQcH3CMxPVBUw&s',
-  godName: '** !! Shree Ganeshay Namah !! **',
+const defaultHeaderImage: HeaderImage = {
+  logoImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRQOq_KQn9qYIzTMHclBSe1zQcH3CMxPVBUw&s',
+  godName: '** !! Shree Ganeshay Namah !! **'
 };
 
 // Default header right strings
-const defaultHeaderRightStrings: HeaderRightStrings = {
-  currentDate: new Date().toLocaleDateString('en-IN'),
-  totalAmount: '0.00',
-  outstandingAmount: '0.00'
+const headerRightStrings: Content[] = [
+  { text: `Date: ${new Date().toLocaleDateString('en-IN')}`, style: 'headerRight' },
+  { text: 'Total Amount: 0.00', style: 'headerRight' },
+  { text: 'Outstanding: 0.00', style: 'headerRight' }
+];
+
+// Convert company details to proper format with image and top section
+const headerContent = {
+  image: defaultHeaderImage.logoImage,
+  topSection: defaultHeaderImage.topSection,
+  content: companyDetailsContent
 };
 
 // Default PDF settings including header settings
 export const headerSettings: HeaderSettings = {
   template: 'regular',
-  companyDetails: defaultCompanyDetails,
+  headerContent,
   headerOnEveryPage: true,
-  headerRightStrings: defaultHeaderRightStrings
+  headerRightStrings
 };
 
 // Sample PDF content sections

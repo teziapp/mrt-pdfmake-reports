@@ -1,4 +1,11 @@
+import { Content, Style } from "pdfmake/interfaces";
 import { headerTemplates } from "../headers/getHeaderDefinition";
+
+export interface HeaderContent {
+  image?: string;
+  content: Content[];
+  topSection?: string;
+}
 
 export interface PdfHeader {
   table: {
@@ -9,25 +16,13 @@ export interface PdfHeader {
   layout: string;
 }
 
-export interface HeaderRightStrings {
-  currentDate?: string;
-  totalAmount?: string;
-  outstandingAmount?: string;
-}
-
-export interface CompanyDetails {
-  name: string;
-  address: string;
-  phoneNumber: string;
-  website: string;
-  gstNumber: string;
-  logoImage?: string;
-  godName?: string;
+export interface HeaderImage {
+  [key: string]: string;
 }
 
 export interface HeaderSettings {
   template: keyof typeof headerTemplates;
-  companyDetails: CompanyDetails;
+  headerContent: HeaderContent;
   headerOnEveryPage?: boolean;
-  headerRightStrings?: HeaderRightStrings;
+  headerRightStrings?: Content[];
 } 
