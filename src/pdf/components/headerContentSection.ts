@@ -4,8 +4,8 @@ import { Content, Style } from 'pdfmake/interfaces';
 export const getheaderContent = (content: Content[], customStyle?: Style) => {
   const defaultStyle: Style = {
     alignment: 'left', 
-    margin: [0, 20, 0, 5], 
-    fontSize: 14, 
+    margin: [0, 30, 0, 5], 
+    fontSize: 10, 
     bold: false 
   };
   

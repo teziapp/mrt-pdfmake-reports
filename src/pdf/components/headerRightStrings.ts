@@ -4,9 +4,9 @@ import { Content, Style } from 'pdfmake/interfaces';
 export const headerRightStringsRegular = (headerRightStrings: Content[], customStyle?: Style) => {
   const defaultStyle: Style = {
     alignment: 'right',
-    fontSize: 8,
+    fontSize: 10,
     bold: true,
-    margin: [0, 0, 5, 2]
+    margin: [0, 10, 10, 10]
   };
   
   // Return a properly structured stack of content

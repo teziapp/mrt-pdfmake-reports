@@ -1,14 +1,17 @@
-import { ContentImage, Style } from 'pdfmake/interfaces';
+import { ContentImage } from 'pdfmake/interfaces';
 import { checkImageValidGetDef } from '../utils/fetchValidImageURL';
 
 export const headerImageSection = (
   inputImageDef: ContentImage,
   imageUrl: string,
-  style?: Style
+  style?: ContentImage
 ) => {
-  const defaultStyle: Style = {
+  const defaultStyle: ContentImage = {
     alignment: 'center',
-    margin: [10, 20, 0, 0],
+    margin: [10, 10, 0, 0],
+    image: 'headerLogo',
+    width: 50,
+    height: 50
   };
   return checkImageValidGetDef(
     {

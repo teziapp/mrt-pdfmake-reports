@@ -3,30 +3,33 @@ import { HeaderImage, HeaderSettings } from './types/PdfMake';
 
 // Company details content array
 const companyDetailsContent: Content[] = [
-  { text: 'Sample Company Name', style: 'headerContent' },
-  { text: '123 Business Street, City, State, ZIP', style: 'defaultStyle' },
-  { text: 'ph:+1 234-567-8900', style: 'defaultStyle' },
-  { text: 'www.samplecompany.com', style: 'defaultStyle' },
-  { text: 'GSTIN: GST123456789', style: 'defaultStyle' }
+  { text: 'Sample Company Name'},
+  { text: '123 Business Street, City, State, ZIP' },
+  { text: 'ph:+1 234-567-8900' },
+  { text: 'www.samplecompany.com' },
+  { text: 'GSTIN: GST123456789' }
 ];
 
 // Default company details
 const defaultHeaderImage: HeaderImage = {
   logoImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRQOq_KQn9qYIzTMHclBSe1zQcH3CMxPVBUw&s',
-  godName: '** !! Shree Ganeshay Namah !! **'
 };
+
+const defaultHeaderTopSection: Content[] = [
+  { text: '** !! Shree Ganeshay Namah !! **' }
+];
 
 // Default header right strings
 const headerRightStrings: Content[] = [
-  { text: `Date: ${new Date().toLocaleDateString('en-IN')}`, style: 'headerRight' },
-  { text: 'Total Amount: 0.00', style: 'headerRight' },
-  { text: 'Outstanding: 0.00', style: 'headerRight' }
+  { text: `Date: ${new Date().toLocaleDateString('en-IN')}` },
+  { text: 'Total Amount: 0.00' },
+  { text: 'Outstanding: 0.00' }
 ];
 
 // Convert company details to proper format with image and top section
 const headerContent = {
   image: defaultHeaderImage.logoImage,
-  topSection: defaultHeaderImage.topSection,
+  topSection: defaultHeaderTopSection,
   content: companyDetailsContent
 };
 
