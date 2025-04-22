@@ -1,10 +1,9 @@
-import { Content, Style } from 'pdfmake/interfaces';
+import { Content } from 'pdfmake/interfaces';
 
 // Function to get the content section of the header
-export const getheaderContent = (content: Content[], customStyle?: Style) => {
+export const getheaderContent = (content: Content[]) => {
   
   return {
     stack: content,
-    style: customStyle
   };
 }; 

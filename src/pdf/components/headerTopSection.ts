@@ -1,9 +1,8 @@
-import { Content, Style } from "pdfmake/interfaces";
+import { Content } from "pdfmake/interfaces";
 
 // Function to get the godName section
-export const headerTopSection = (data: Content[], customStyle?: Style) => {
+export const headerTopSection = (data: Content[]) => {
   return {
-    stack: data,
-    style: customStyle
+    stack: data
   };
 };

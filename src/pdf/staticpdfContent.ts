@@ -47,6 +47,7 @@ export const sampleContent: Content = [
   {
     text: 'This is a dynamically generated PDF with custom header settings.',
     margin: [0, 20, 0, 20],
+    color: 'red'
   },
   {
     text: 'This is a dynamically generated PDF with custom header settings.',

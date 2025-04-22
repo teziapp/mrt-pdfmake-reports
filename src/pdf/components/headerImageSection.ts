@@ -8,13 +8,11 @@ interface ImageHeaders {
 export const headerImageSection = (
   inputImageDef: ContentImage,
   imageUrl: string,
-  customStyle?: ContentImage,
   headers?: ImageHeaders
 ) => {
   return checkImageValidGetDef(
     {
       ...inputImageDef,
-      style: customStyle
     }, 
     imageUrl,
     headers
