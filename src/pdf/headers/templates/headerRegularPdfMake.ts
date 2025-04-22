@@ -11,22 +11,15 @@ export const getHeaderRegularDocDef = async ({
   headerRightStrings
 }: HeaderSettings) => {
   // Get individual sections
-  let logoSection;
-  
-  try {
-    if (headerContent.image) {
-      logoSection = await headerImageSection(
+  const logoSection = headerContent.image 
+    ? await headerImageSection(
         {
-          image: 'headerLogo',  // This key will be used in the images dictionary
+          image: 'headerLogo', 
           fit: [100, 100],  
         }, 
         headerContent.image
-      );
-    }
-  } catch (error) {
-    console.error('Error loading logo:', error);
-    logoSection = undefined;
-  }
+      )
+    : undefined;
   
   const headerContentSection = getheaderContent(headerContent.content);
   const headerRightSection = headerRightStrings ? headerRightStringsRegular(headerRightStrings) : undefined;
