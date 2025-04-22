@@ -38,22 +38,22 @@ export const getHeaderRegularDocDef = async ({
 
   const styles: StyleDictionary = {
     headerContent: {
-      alignment: 'left' as const,
-      margin: [0, 30, 0, 5],
+      alignment: 'left',
+      margin: [0, 0, 0, 5],
       fontSize: 10,
       bold: false
     },
     headerImage: {
-      alignment: 'center' as const,
+      alignment: 'center',
       margin: [10, 10, 0, 0]
     },
     headerRightStrings: {
-      alignment: 'right' as const,
+      alignment: 'right',
       fontSize: 10,
       bold: false
     },
     headerTopSection: {
-      alignment: 'center' as const,
+      alignment: 'center',
       color: 'green',
       fontSize: 8,
       bold: true,

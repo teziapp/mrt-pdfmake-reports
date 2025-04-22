@@ -3,11 +3,11 @@ import { HeaderImage, HeaderSettings } from './types/PdfMake';
 
 // Company details content array
 const companyDetailsContent: Content[] = [
-  { text: 'Sample Company Name'},
-  { text: '123 Business Street, City, State, ZIP' },
-  { text: 'ph:+1 234-567-8900' },
-  { text: 'www.samplecompany.com' },
-  { text: 'GSTIN: GST123456789' }
+  { text: 'Sample Company Name', style: 'headerContent'},
+  { text: '123 Business Street, City, State, ZIP', style: 'headerContent' },
+  { text: 'ph:+1 234-567-8900', style: 'headerContent' },
+  { text: 'www.samplecompany.com', style: 'headerContent' },
+  { text: 'GSTIN: GST123456789', style: 'headerContent' }
 ];
 
 // Default company details
@@ -21,9 +21,9 @@ const defaultHeaderTopSection: Content[] = [
 
 // Default header right strings
 const headerRightStrings: Content[] = [
-  { text: `Date: ${new Date().toLocaleDateString('en-IN')}` },
-  { text: 'Total Amount: 0.00' },
-  { text: 'Outstanding: 0.00' }
+  { text: `Date: ${new Date().toLocaleDateString('en-IN')}`, style: 'headerRightStrings' },
+  { text: 'Total Amount: 0.00', style: 'headerRightStrings' },
+  { text: 'Outstanding: 0.00', style: 'headerRightStrings' }
 ];
 
 // Convert company details to proper format with image and top section
