@@ -9,27 +9,35 @@ export const getPdfMakeDocDefinition = async (
 
   // Initialize document definition
   let docDefinition: TDocumentDefinitions = {
-    pageMargins: [40, 20, 40, 40],
+    pageMargins: [40, 20, 40, 40], // Adjusted top margin to accommodate header in content
     ...inputDocDefinition
   }
 
   if(headerSettings) {
-    const { header, image, styles } = await getHeaderDefinition(headerSettings);
-    docDefinition.pageMargins = [40, 160, 40, 40];
-    docDefinition.header = headerSettings.headerOnEveryPage 
-      ? header as Content
-      : function(currentPage: number) {
-        return currentPage === 1 ? header as Content : null;
-      };
+    const { content, image, styles } = await getHeaderDefinition(headerSettings);
+    
+    // Add images if present
     docDefinition.images = {
       ...(docDefinition.images || {}),
       ...image
     };
+
     // Merge styles from header definition with existing styles
     docDefinition.styles = {
       ...(docDefinition.styles || {}),
       ...styles
     };
+
+    // Add header content to the beginning of the document content
+    const existingContent = Array.isArray(docDefinition.content) 
+      ? docDefinition.content 
+      : (docDefinition.content ? [docDefinition.content] : []);
+
+    docDefinition.content = [
+      content as Content,
+      { text: '', margin: [0, 10, 0, 0] } as Content,
+      ...existingContent
+    ];
   }
 
   return docDefinition;

@@ -63,7 +63,7 @@ export const getHeaderRegularDocDef = async ({
 
   const docDef = {
     image: logoSection?.image,
-    header: [
+    content: [
       // Add top section above the table if it exists
       ...(topSection ? [topSection] : []),
       {
