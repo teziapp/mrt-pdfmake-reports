@@ -3,6 +3,7 @@ import { getheaderContent } from '../../components/headerContentSection';
 import { headerRightStringsRegular } from '../../components/headerRightStrings';
 import { headerImageSection } from '../../components/headerImageSection';
 import { headerTopSection } from '../../components/headerTopSection';
+import { StyleDictionary } from 'pdfmake/interfaces';
 
 // Main function to assemble the header
 export const getHeaderRegularDocDef = async ({
@@ -32,10 +33,35 @@ export const getHeaderRegularDocDef = async ({
   
   // Get the top section if available
   const topSection = headerContent.topSection
-    ? headerTopSection([{ text: headerContent.topSection }]) 
+    ? headerTopSection(headerContent.topSection) 
     : undefined;
 
-  return {
+  const styles: StyleDictionary = {
+    headerContent: {
+      alignment: 'left' as const,
+      margin: [0, 30, 0, 5],
+      fontSize: 10,
+      bold: false
+    },
+    headerImage: {
+      alignment: 'center' as const,
+      margin: [10, 10, 0, 0]
+    },
+    headerRightStrings: {
+      alignment: 'right' as const,
+      fontSize: 10,
+      bold: false
+    },
+    headerTopSection: {
+      alignment: 'center' as const,
+      color: 'green',
+      fontSize: 8,
+      bold: true,
+      margin: [0, 2, 0, 10]
+    }
+  };
+
+  const docDef = {
     image: logoSection?.image,
     header: [
       // Add top section above the table if it exists
@@ -64,6 +90,9 @@ export const getHeaderRegularDocDef = async ({
         },
         layout: 'headerLineOnly'
       }
-    ]
+    ],
+    styles
   };
+
+  return docDef;
 };

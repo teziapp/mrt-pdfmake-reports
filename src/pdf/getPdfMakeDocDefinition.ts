@@ -14,7 +14,7 @@ export const getPdfMakeDocDefinition = async (
   }
 
   if(headerSettings) {
-    const { header, image } = await getHeaderDefinition(headerSettings);
+    const { header, image, styles } = await getHeaderDefinition(headerSettings);
     docDefinition.pageMargins = [40, 160, 40, 40];
     docDefinition.header = headerSettings.headerOnEveryPage 
       ? header as Content
@@ -24,7 +24,12 @@ export const getPdfMakeDocDefinition = async (
     docDefinition.images = {
       ...(docDefinition.images || {}),
       ...image
-    }
+    };
+    // Merge styles from header definition with existing styles
+    docDefinition.styles = {
+      ...(docDefinition.styles || {}),
+      ...styles
+    };
   }
 
   return docDefinition;

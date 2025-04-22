@@ -16,7 +16,7 @@ const defaultHeaderImage: HeaderImage = {
 };
 
 const defaultHeaderTopSection: Content[] = [
-  { text: '** !! Shree Ganeshay Namah !! **' }
+  { text: '** !! Shree Ganeshay Namah !! **', style: 'headerTopSection'},
 ];
 
 // Default header right strings
