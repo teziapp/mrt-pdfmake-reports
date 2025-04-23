@@ -27,6 +27,18 @@ const sampleData = [
   { id: 3, name: 'Bob Johnson', email: 'bob@example.com', role: 'Editor' },
 ];
 
+const defaultTableState = {
+  searchTerm: '',
+  filters: [],
+  sortBy: [],
+  groupBy: [],
+  columnVisibility: {},
+  pagination: {
+    pageIndex: 0,
+    pageSize: 10,
+  },
+};
+
 const meta = {
   title: "Components/SmartTableSettings",
   component: SmartTableSettings,
@@ -67,6 +79,7 @@ export const AllFeatures: Story = {
       columns: sampleColumns,
       data: sampleData,
     },
+    tableState: defaultTableState,
   },
 };
 
@@ -112,6 +125,7 @@ export const SearchOnly: Story = {
     position: "right-drawer",
     onSearch: AllFeatures.args?.onSearch,
     tableInstance: AllFeatures.args?.tableInstance,
+    tableState: defaultTableState,
   },
 };
 
@@ -120,6 +134,7 @@ export const FilterOnly: Story = {
     position: "right-drawer",
     onFilter: AllFeatures.args?.onFilter,
     tableInstance: AllFeatures.args?.tableInstance,
+    tableState: defaultTableState,
   },
 };
 
@@ -128,6 +143,7 @@ export const SortOnly: Story = {
     position: "right-drawer",
     onSort: AllFeatures.args?.onSort,
     tableInstance: AllFeatures.args?.tableInstance,
+    tableState: defaultTableState,
   },
 };
 
@@ -136,6 +152,7 @@ export const GroupOnly: Story = {
     position: "right-drawer",
     onGroup: AllFeatures.args?.onGroup,
     tableInstance: AllFeatures.args?.tableInstance,
+    tableState: defaultTableState,
   },
 };
 
@@ -144,5 +161,6 @@ export const ColumnVisibilityOnly: Story = {
     position: "right-drawer",
     onColumnVisibilityChange: AllFeatures.args?.onColumnVisibilityChange,
     tableInstance: AllFeatures.args?.tableInstance,
+    tableState: defaultTableState,
   },
 };
