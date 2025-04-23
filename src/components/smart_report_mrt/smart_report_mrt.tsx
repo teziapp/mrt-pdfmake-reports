@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import { MaterialReactTable, MaterialReactTableProps, MRT_RowData } from "material-react-table";
 import { useState } from "react";
 import "./smart_report_mrt.css";
+import { FaFilePdf } from 'react-icons/fa';
 
 /*
   TODO: (Responsive Card View)
@@ -35,8 +36,11 @@ export const SmartReportMRT = <T extends MRT_RowData>(props: MaterialReactTableP
             onClick={() => setForceTableView(!forceTableView)}
             startIcon={forceTableView ? <ViewModuleIcon /> : <TableViewIcon />}
           >
-            {forceTableView ? 'Switch to Card View' : null}
+            {forceTableView ? 'Card View' : 'Table View'}
           </Button>
+          <Button variant="outlined" style={{ height:'100%'}} startIcon={<FaFilePdf />}>
+							View PDF
+						</Button>
         </div>
       )}
       
