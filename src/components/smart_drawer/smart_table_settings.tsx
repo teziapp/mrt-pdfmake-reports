@@ -20,26 +20,28 @@ import SortIcon from '@mui/icons-material/Sort';
 import GroupWorkIcon from '@mui/icons-material/GroupWork';
 import SearchIcon from '@mui/icons-material/Search';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { MaterialReactTableProps, MRT_ColumnDef } from 'material-react-table';
+import { MaterialReactTableProps, MRT_ColumnFiltersState, MRT_SortingState, MRT_GroupingState, MRT_VisibilityState } from 'material-react-table';
 
 import { SearchPanel } from './search_panel';
 import { FilterPanel } from './filter_panel';
 import { SortPanel } from './sort_panel';
 import { GroupPanel } from './group_panel';
 import { ColumnVisibilityPanel } from './column_visibility_panel';
+import { TableState } from '../smart_report/smart_report';
 
 const drawerWidth = 300;
 
 type SettingsPosition = 'left-drawer' | 'right-drawer' | 'bottom' | 'top' | 'floating';
 
-interface SmartTableSettingsProps<TData extends Record<string, any>> {
+export interface SmartTableSettingsProps<TData extends Record<string, any>> {
   position?: SettingsPosition;
   onSearch?: (searchTerm: string) => void;
-  onFilter?: (filters: any[]) => void;
-  onSort?: (sortBy: any[]) => void;
-  onGroup?: (groupBy: string[]) => void;
-  onColumnVisibilityChange?: (columnVisibility: Record<string, boolean>) => void;
+  onFilter?: (filters: MRT_ColumnFiltersState) => void;
+  onSort?: (sortBy: MRT_SortingState) => void;
+  onGroup?: (groupBy: MRT_GroupingState) => void;
+  onColumnVisibilityChange?: (columnVisibility: MRT_VisibilityState) => void;
   tableInstance?: MaterialReactTableProps<TData>;
+  tableState: TableState;
 }
 
 const FloatingContainer = styled(Paper)(({ theme }) => ({
@@ -84,6 +86,7 @@ export const SmartTableSettings = <TData extends Record<string, any>>({
   onGroup,
   onColumnVisibilityChange,
   tableInstance,
+  tableState,
 }: SmartTableSettingsProps<TData>): JSX.Element => {
   const [open, setOpen] = React.useState(false);
   const [activePanel, setActivePanel] = React.useState<string | null>(null);
@@ -121,6 +124,7 @@ export const SmartTableSettings = <TData extends Record<string, any>>({
             <SearchPanel
               onSearch={onSearch}
               open={activePanel === 'search'}
+              initialValue={tableState.searchTerm}
             />
           </>
         )}
@@ -139,6 +143,7 @@ export const SmartTableSettings = <TData extends Record<string, any>>({
               columns={tableInstance.columns}
               onFilter={onFilter}
               open={activePanel === 'filter'}
+              initialFilters={tableState.filters}
             />
           </>
         )}
@@ -157,6 +162,7 @@ export const SmartTableSettings = <TData extends Record<string, any>>({
               columns={tableInstance.columns}
               onSort={onSort}
               open={activePanel === 'sort'}
+              initialSortBy={tableState.sortBy}
             />
           </>
         )}
@@ -175,6 +181,7 @@ export const SmartTableSettings = <TData extends Record<string, any>>({
               columns={tableInstance.columns}
               onGroup={onGroup}
               open={activePanel === 'group'}
+              initialGroupBy={tableState.groupBy}
             />
           </>
         )}

@@ -1,0 +1,181 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Cursor Rules: SmartTable Wrapper Library
+
+
+This is a modular, fully customizable TypeScript-based React component library that wraps and extends Material React Table (MRT). The goal is to deliver a production-ready, user-friendly, and highly extensible table system to be used across internal company projects and published to NPM.
+
+
+This project is a JavaScript library built with React that wraps and extends the [Material React Table (MRT)](mdc:https:/www.material-react-table.com) component. The library provides a fully modular, highly customizable, and UI-friendly experience. 
+
+### Key Features:
+- All core MRT features are exposed transparently.
+- Built-in support for:
+  - Column-level and global filters
+  - Grouping, sorting, and pagination
+  - Saved table states (localStorage or external persistence)
+  - Export to PDF with custom templates
+  - Dynamic column visibility controls
+  - Column drag-and-drop
+- Theming support (Material UI v5) with light/dark toggle.
+- Optional custom toolbars, buttons, and row-level actions.
+- Can be used as a drop-in replacement for MRT with minimal configuration.
+- Configuration objects are deeply mergeable to allow for overrides and custom behavior.
+- Exports multiple hooks and utility functions to assist with advanced customizations.
+
+### Goals:
+- Make it easier for developers to implement complex tables with beautiful UI quickly.
+- Improve UX for filtering, exporting, and saving state out-of-the-box.
+- Maintain full flexibility for consumers to override or extend base behavior.
+
+### Stack:
+- React v19
+- Material UI v7 (https://v7.mui.com/material-ui/getting-started/)
+- Material React Table v3 (https://www.material-react-table.com/docs)
+- PDFMake (for PDF generation)
+- Cursor IDE with AI integration
+
+### AI Tasks:
+- Help write reusable hooks and components.
+- Optimize abstraction without leaking too much complexity.
+- Suggest testable, scalable patterns for advanced table state management.
+- Suggest PDF export features with layout customization.
+- Help write readable TypeScript typings (optional).
+- Offer UI/UX suggestions for table interaction and customization.
+
+
+
+---
+
+
+## ✅ Project Goals
+
+
+- Provide a drop-in enhanced replacement for Material React Table (MRT)
+- Support grouping, sorting, filtering, pagination, column visibility, and drag/drop
+- Export to PDF with grouping, sorting, and layout fully preserved
+- Save and restore table state locally (e.g., localStorage) and via backend sync
+- Enable full theming using MUI v5, including light/dark mode toggle
+- Prioritize developer experience with debug mode, readable code, and strict typing
+- Offer a scalable plugin model for future features (exporters, persistence adapters, etc.)
+
+
+---
+
+
+## 🔌 Core Features
+
+
+- ✅ **Drop-in MRT with Enhancements**
+- 🔍 Column and global filtering
+- 🧩 Grouping & sorting
+- 📥 Column visibility controls
+- 🧾 Export to PDF with customizable layout
+- 💾 Saved state to localStorage and backend
+- 🎨 MUI theming with overrides
+- 🧑‍💻 Fully typed TypeScript support
+- 🧱 Modular components (e.g., SmartTable, Toolbar, PDFExport, etc.)
+- 🧠 Smart hooks (e.g., `useSmartTable`, `useSavedTableState`, `usePDFExport`)
+- 🧪 Testable design with example apps, Storybook, and unit tests
+- 📦 Monolithic bundle with lazy-loaded heavy features
+- 🚀 Performance-optimized with support for virtualization (`react-window`)
+
+
+---
+
+
+## ⚙️ Customization System
+
+
+- 🌈 **Full UI Customization**
+ - Toolbar, headers, cells, filters, actions, export buttons
+ - Positioning and styling overrides
+ - Theming via props or ThemeProvider
+- 🧠 **Config-based Behavior**
+ - Centralized `createTableConfig()` for deep merging user options
+- 🔌 **Extensibility**
+ - Plugin-ready system for injectables: Exporters, Persistence Adapters, etc.
+- 🧩 **Render Prop / Slot Support**
+ - Customize header, row, toolbar, export UI via slot or prop overrides
+
+
+---
+
+
+## 📁 File Structure (Reference)
+
+
+```bash
+Figure out your way
+```
+
+
+# 📦 Optimization Philosophy
+
+
+- 📌 Monolithic build for simplicity (no dynamic imports across builds)
+- 💤 Lazy load heavy modules (e.g., jsPDF, backend sync logic)
+- ⚡ Virtualize rows with react-window for performance on large datasets
+- 🧠 Expose all hooks and state helpers to allow partial adoption
+- 🔧 Minimal re-renders via stable props and memo usage
+
+
+---
+
+
+# 📚 Developer Experience
+
+
+- 🛠️ Debug mode with optional logging and diagnostics
+- 🧪 Uses React Testing Library + Jest for tests
+- 📘 Storybook for isolated visual test cases
+- 🧾 Live CodeSandbox examples
+- 📖 Full typed exports for all components, hooks, and utilities
+
+
+---
+
+
+# 📌 Naming & Convention Guidelines
+
+
+- File and component names use PascalCase (SmartTable, TableToolbar)
+- Hooks use camelCase (usePDFExport, useSmartTable)
+- Props and configs should be documented, strictly typed, and self-explanatory
+- Prioritize clarity over brevity (e.g., `onColumnVisibilityChange` is better than `onColVis`)
+- Keep internal code DRY, composable, and side-effect free
+
+
+---
+
+
+# 🧠 AI Support Tasks
+
+
+- Generate modular, clean React + TypeScript code
+- Suggest reusable hooks and deeply customizable UI elements
+- Help write scalable abstraction layers (PDF, state sync, filtering, etc.)
+- Recommend patterns for readable, testable logic
+- Maintain naming conventions and compositional React practices
+- Avoid overengineering while allowing extension hooks
+
+
+---
+
+
+# 🔮 Future Enhancements
+
+
+- Plugin support for Excel/CSV exporters
+- Cell-level PDF formatting rules
+- Backend-agnostic sync adapters
+- Drag-to-reorder rows with persistence
+- Declarative configuration wizard
+
+# References
+
+- library generation vite (https://dev.to/receter/how-to-create-a-react-component-library-using-vites-library-mode-4lma)
