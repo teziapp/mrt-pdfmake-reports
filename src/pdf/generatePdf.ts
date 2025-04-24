@@ -6,4 +6,4 @@ import { TDocumentDefinitions } from 'pdfmake/interfaces';
 
 export const openPdf = (docDefinition: TDocumentDefinitions) => pdfMake.createPdf(docDefinition).open();
 
-export const downloadPdf = (docDefinition: TDocumentDefinitions, filename: 'document.pdf') => pdfMake.createPdf(docDefinition).download(filename);
+export const downloadPdf = (docDefinition: TDocumentDefinitions, filename: string = 'document.pdf') => pdfMake.createPdf(docDefinition).download(filename);

@@ -1,5 +1,14 @@
 import type { Content, ImageDefinition } from 'pdfmake/interfaces';
 import { HeaderSettings } from './types/PdfMake';
+import { TableData } from './outstanding/ledgerName';
+
+// Custom type for rightStrings and totals items
+export interface LedgerItem {
+  label: string;
+  value: string;
+  color?: string;
+  style?: string;
+}
 
 // Company details content array
 const companyDetailsContent: Content[] = [
@@ -18,9 +27,8 @@ const defaultHeaderImage: ImageDefinition = {
 const defaultHeaderTopSection: Content[] = [
   { text: '** !! Shree Ganeshay Namah !! **', style: 'headerTopSection'},
 ];
-
 // Default header right strings
-const headerRightStrings: Content[] = [
+export const headerRightStrings: Content[] = [
   { text: `Date: ${new Date().toLocaleDateString('en-IN')}`, style: 'headerRightStrings' },
   { text: 'Total Amount: 0.00', style: 'headerRightStrings' },
   { text: 'Outstanding: 0.00', style: 'headerRightStrings' }
@@ -33,12 +41,28 @@ const headerContent = {
   content: companyDetailsContent
 };
 
-// Default PDF settings including header settings
+// Sample ledger data
+export const ledgerData: TableData = {
+  title: {text: "OUTSTANDING", style: 'ledgerTitle', border: [true, true, true, true]},
+  subtitle: {text: "AALFA TEXTILE", style: 'ledgerSubtitle', border: [true, true, true, false],},
+  rightStrings: [
+    { text: "> 60 days : -24,801.00", style: 'ledgerRightStrings' },
+    { text: "> 230 days : 1,62,84,284.06", style: 'ledgerRightStrings' },
+    { text: "> 200 days : 7,27,125.00", style: 'ledgerRightStrings' },
+    { text: "> 130 days : 21,11,500.00", style: 'ledgerRightStrings' }
+  ],
+  totals: [
+    { text: "Inv. Amt. : 3,07,51,251.00", style: 'ledgerRightStrings' },
+    { text: "Out. Amt. : 1,89,93,158.06", style: 'ledgerRightStrings' },
+    { text: "GR : -15,300.00", style: 'ledgerRightStrings' }
+  ]
+};
+
 export const headerSettings: HeaderSettings = {
   template: 'regular',
   headerContent,
   headerOnEveryPage: true,
-  headerRightStrings
+  headerRightStrings: headerRightStrings
 };
 
 // Sample PDF content sections
