@@ -59,6 +59,7 @@ export const getHeaderRegularDocDef = async ({
                     {
                       image: 'headerLogo', // Reference the image key
                       fit: [100, 100],
+                      margin: [0, 0, 0, 0],
                       style: 'headerImage',
                     },
                   ]
