@@ -1,9 +1,32 @@
 import { HeaderSettings } from '../../types/PdfMake';
-import { getheaderContent } from '../../components/headerContentSection';
-import { headerRightStringsRegular } from '../../components/headerRightStrings';
-import { headerImageSection } from '../../components/headerImageSection';
-import { headerTopSection } from '../../components/headerTopSection';
-import { StyleDictionary, ImageDefinition } from 'pdfmake/interfaces';
+import { StyleDictionary, ImageDefinition, Content } from 'pdfmake/interfaces';
+import { checkImageValidGetDef } from '../../utils/fetchValidImageURL';
+
+// Function for top section
+const headerTopSection = (data: Content[]) => {
+  return {
+    stack: data
+  };
+};
+
+// Function for right strings section
+const headerRightStringsRegular = (headerRightStrings: Content[]) => {
+  return {
+    stack: headerRightStrings
+  };
+};
+
+// Function for header image section
+const headerImageSection = (inputImageDef: ImageDefinition) => {
+  return checkImageValidGetDef(inputImageDef);
+};
+
+// Function to get the content section of the header
+const getheaderContent = (content: Content[]) => {
+  return {
+    stack: content,
+  };
+};
 
 // Main function to assemble the header
 export const getHeaderRegularDocDef = async ({
