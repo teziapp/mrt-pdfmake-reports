@@ -4,7 +4,6 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { Button } from "@mui/material";
 import { MaterialReactTable, MaterialReactTableProps, MRT_RowData } from "material-react-table";
 import { useState } from "react";
-import "./smart_report_mrt.css";
 import { handleDownloadPdf } from "./handleDownloadPdf";
 /*
   TODO: (Responsive Card View)
