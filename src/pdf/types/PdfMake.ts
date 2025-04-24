@@ -1,8 +1,8 @@
-import { Content } from "pdfmake/interfaces";
+import { Content, ImageDefinition } from "pdfmake/interfaces";
 import { headerTemplates } from "../headers/getHeaderDefinition";
 
 export interface HeaderContent {
-  image?: string;
+  image?: ImageDefinition;
   content: Content[];
   topSection?: Content[];
 }
@@ -16,7 +16,7 @@ export interface PdfHeader {
 }
 
 export interface HeaderImage {
-  [key: string]: string;
+  logoImage: ImageDefinition;
 }
 
 export interface HeaderSettings {

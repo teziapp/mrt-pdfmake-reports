@@ -1,40 +1,33 @@
-import { ContentImage } from 'pdfmake/interfaces';
+import { ImageDefinition } from 'pdfmake/interfaces';
 
-type CustomContentImage = 
-| (Omit<ContentImage, 'image' | 'text'> & { text: string; image?: never })
-| (Omit<ContentImage, 'image' | 'text'> & { text?: never; image: string });
+export const checkImageValidGetDef = async (inputImageDef: ImageDefinition) => {
+  try {
+    const response = await fetch(inputImageDef.url, {
+      headers: inputImageDef.headers || {},
+      method: 'HEAD', // Use HEAD to validate without downloading the image
+    });
 
-interface ImageHeaders {
-	[key: string]: string;
-}
+    if (!response.ok) {
+      throw new Error('Image URL is invalid');
+    }
 
-export const checkImageValidGetDef = async (
-	inputImageDef: ContentImage,
-	imageUrl: string,
-	headers?: ImageHeaders
-) => {
-	const validUrl = await fetch(imageUrl, {
-		headers: headers || {}
-	})
-	.then(() => imageUrl)
-	.catch(() => '');
+    const validUrl = inputImageDef.url;
+    const imageValue = inputImageDef.headers
+      ? { url: validUrl, headers: inputImageDef.headers }
+      : validUrl;
 
-	if (validUrl) {
-		const imageValue = headers 
-			? { url: validUrl, headers } 
-			: validUrl;
-
-		return {
-			imageDef: inputImageDef as CustomContentImage,
-			image: { [inputImageDef.image]: imageValue },
-		}
-	} else {
-		const { image, ...imageDef } = inputImageDef
-		return { 
-			imageDef: {
-				...imageDef,
-				text: '',
-			} as CustomContentImage
-		};
-	}
-}
+    return {
+      imageDef: inputImageDef,
+      image: { headerLogo: imageValue }, // Use 'headerLogo' as the key for pdfmake
+    };
+  } catch (error) {
+    console.error('Error validating image URL:', error);
+    return {
+      imageDef: {
+        ...inputImageDef,
+        text: '', // Fallback if URL is invalid
+      } as ImageDefinition,
+      image: {},
+    };
+  }
+};

@@ -1,5 +1,5 @@
-import type { Content } from 'pdfmake/interfaces';
-import { HeaderImage, HeaderSettings } from './types/PdfMake';
+import type { Content, ImageDefinition } from 'pdfmake/interfaces';
+import { HeaderSettings } from './types/PdfMake';
 
 // Company details content array
 const companyDetailsContent: Content[] = [
@@ -11,8 +11,8 @@ const companyDetailsContent: Content[] = [
 ];
 
 // Default company details
-const defaultHeaderImage: HeaderImage = {
-  logoImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRQOq_KQn9qYIzTMHclBSe1zQcH3CMxPVBUw&s',
+const defaultHeaderImage: ImageDefinition = {
+  url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRQOq_KQn9qYIzTMHclBSe1zQcH3CMxPVBUw&s'
 };
 
 const defaultHeaderTopSection: Content[] = [
@@ -28,7 +28,7 @@ const headerRightStrings: Content[] = [
 
 // Convert company details to proper format with image and top section
 const headerContent = {
-  image: defaultHeaderImage.logoImage,
+  image: defaultHeaderImage,
   topSection: defaultHeaderTopSection,
   content: companyDetailsContent
 };

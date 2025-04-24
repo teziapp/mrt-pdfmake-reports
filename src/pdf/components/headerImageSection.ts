@@ -1,20 +1,10 @@
-import { ContentImage } from 'pdfmake/interfaces';
+import { ImageDefinition } from 'pdfmake/interfaces';
 import { checkImageValidGetDef } from '../utils/fetchValidImageURL';
 
-interface ImageHeaders {
-  [key: string]: string;
-}
-
 export const headerImageSection = (
-  inputImageDef: ContentImage,
-  imageUrl: string,
-  headers?: ImageHeaders
+  inputImageDef: ImageDefinition,
 ) => {
   return checkImageValidGetDef(
-    {
-      ...inputImageDef,
-    }, 
-    imageUrl,
-    headers
+    inputImageDef 
   );
 }
