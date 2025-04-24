@@ -1,10 +1,10 @@
 import TableViewIcon from '@mui/icons-material/TableView';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { Button } from "@mui/material";
 import { MaterialReactTable, MaterialReactTableProps, MRT_RowData } from "material-react-table";
 import { useState } from "react";
-import "./smart_report_mrt.css";
-
+import { handleDownloadPdf } from "./handleDownloadPdf";
 /*
   TODO: (Responsive Card View)
   - Add a field `showInCardView` to the column definition. Default to false.
@@ -29,16 +29,22 @@ export const SmartReportMRT = <T extends MRT_RowData>(props: MaterialReactTableP
       muiTableBodyCellProps = {({ cell }) => ({
         'data-label': cell.column.columnDef.header,
       })}
-      renderTopToolbar = {() => (
-        <div className="top-toolbar">
-          <Button 
-            onClick={() => setForceTableView(!forceTableView)}
-            startIcon={forceTableView ? <ViewModuleIcon /> : <TableViewIcon />}
-          >
-            {forceTableView ? 'Switch to Card View' : null}
-          </Button>
-        </div>
-      )}
+      renderTopToolbar = {() => [
+        <Button 
+          key="viewToggle"
+          onClick={() => setForceTableView(!forceTableView)}
+          startIcon={forceTableView ? <ViewModuleIcon /> : <TableViewIcon />}
+        >
+          {forceTableView ? 'Switch to Card View' : null}
+        </Button>,
+        <Button 
+          key="downloadPdf"
+          onClick={handleDownloadPdf}
+          startIcon={<PictureAsPdfIcon />}
+        >
+          Download PDF
+        </Button>
+      ]}
       
       {...props}
     />
