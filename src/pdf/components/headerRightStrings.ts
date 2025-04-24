@@ -4,7 +4,6 @@ import { Content } from 'pdfmake/interfaces';
 export const headerRightStringsRegular = (headerRightStrings: Content[]) => {
   
   return {
-    stack: headerRightStrings,
-    margin: [0, 10, 10, 10]
+    stack: headerRightStrings
   };
 }; 

@@ -40,6 +40,7 @@ export const getHeaderRegularDocDef = async ({
       margin: [10, 10, 0, 0],
     },
     headerRightStrings: {
+      margin: [0, 0, 10, 10],
       alignment: 'right',
       fontSize: 10,
       bold: false,
