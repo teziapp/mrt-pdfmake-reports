@@ -1,54 +1,18 @@
 import { HeaderSettings } from '../../types/PdfMake';
-import { StyleDictionary, ImageDefinition, Content } from 'pdfmake/interfaces';
+import { StyleDictionary, ImageDefinition } from 'pdfmake/interfaces';
 import { checkImageValidGetDef } from '../../utils/fetchValidImageURL';
-
-// Function for top section
-const headerTopSection = (data: Content[]) => {
-  return {
-    stack: data
-  };
-};
-
-// Function for right strings section
-const headerRightStringsRegular = (headerRightStrings: Content[]) => {
-  return {
-    stack: headerRightStrings
-  };
-};
-
-// Function for header image section
-const headerImageSection = (inputImageDef: ImageDefinition) => {
-  return checkImageValidGetDef(inputImageDef);
-};
-
-// Function to get the content section of the header
-const getheaderContent = (content: Content[]) => {
-  return {
-    stack: content,
-  };
-};
 
 // Main function to assemble the header
 export const getHeaderRegularDocDef = async ({
   headerContent,
   headerRightStrings,
 }: HeaderSettings) => {
-  // Get individual sections
+  // Get validated image if available
   const logoSection = headerContent.image
-    ? await headerImageSection({
+    ? await checkImageValidGetDef({
         url: headerContent.image.url,
         ...(headerContent.image.headers && { headers: headerContent.image.headers }),
       } as ImageDefinition)
-    : undefined;
-
-  const headerContentSection = getheaderContent(headerContent.content);
-  const headerRightSection = headerRightStrings
-    ? headerRightStringsRegular(headerRightStrings)
-    : undefined;
-
-  // Get the top section if available
-  const topSection = headerContent.topSection
-    ? headerTopSection(headerContent.topSection)
     : undefined;
 
   const styles: StyleDictionary = {
@@ -84,7 +48,7 @@ export const getHeaderRegularDocDef = async ({
     images, // Use the image dictionary with headerLogo key
     content: [
       // Add top section above the table if it exists
-      ...(topSection ? [topSection] : []),
+      ...(headerContent.topSection ? [{ stack: headerContent.topSection }] : []),
       {
         table: {
           widths: ['20%', '40%', '40%'],
@@ -99,8 +63,8 @@ export const getHeaderRegularDocDef = async ({
                     },
                   ]
                 : [{ text: '' }]),
-              headerContentSection ? headerContentSection : { text: '' },
-              headerRightSection ? headerRightSection : { text: '' },
+              headerContent.content ? { stack: headerContent.content } : { text: '' },
+              headerRightStrings ? { stack: headerRightStrings } : { text: '' },
             ],
           ],
         },
