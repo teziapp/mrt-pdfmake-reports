@@ -35,131 +35,137 @@ const headerContent = {
 };
 
 // Sample table data with styling
-export const tableData: TableData = {
-  title: {
-    text: "OUTSTANDING", 
-    style: 'ledgerTitle',
-    border: [true, true, true, true],
-    alignment: 'center'
+export const tableData: TableData[] = [
+  {
+    title: {
+      text: "OUTSTANDING", 
+      style: 'ledgerTitle',
+      border: [true, true, true, true],
+      alignment: 'center'
+    },
+    
+    subtitle: {
+      text: "AALFA TEXTILE",
+      style: 'ledgerSubtitle',
+      border: [true, true, true, false],
+      alignment: 'center',
+      bold: true
+    },
+    supplierInfo: {
+      text: "Supplier: AARADHANA TRADING CO",
+      style: 'ledgerHeader',
+      border: [true, true, true, true]
+    },
+    rightStrings: [
+      { text: "> 60 days : -12,456.00", style: 'ledgerRightStrings' },
+      { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    ],
+    totals: [
+      { text: "Inv. Amt. : 3,07,51,251.00", style: 'ledgerTotals', alignment: 'left' },
+      { text: "Out. Amt. : 1,89,93,158.06", style: 'ledgerTotals', alignment: 'left' },
+      { text: "GR : -15,300.00", style: 'ledgerTotals', alignment: 'left' },
+    ],
+    headers: [
+      { text: "Date", style: 'ledgerHeader' },
+      { text: "Particulars", style: 'ledgerHeader' },
+      { text: "Debit", style: 'ledgerHeader' },
+      { text: "Credit", style: 'ledgerHeader' },
+      { text: "GR", style: 'ledgerHeader' },
+      { text: "Cheque", style: 'ledgerHeader' },
+      { text: "Received", style: 'ledgerHeader' },
+      { text: "Balance", style: 'ledgerHeader' },
+      { text: "Days", style: 'ledgerHeader' }
+    ],
+    rows: [
+      [
+        { text: "22-02-25", style: 'ledgerCell' },
+        { text: "ON ACCOUNT", style: 'ledgerCell' },
+        { text: "0.00", style: 'ledgerCell' },
+        { text: "-1,05,000.00", style: 'ledgerCell' },
+        { text: "-5,000.00", style: 'ledgerCell' },
+        { text: "0.00", style: 'ledgerCell' },
+        { text: "1,00,000.00", style: 'ledgerCell' },
+        { text: "-1,05,000.00", style: 'ledgerCell' },
+        { text: "54", style: 'ledgerCell' }
+      ],
+      [
+        { text: "", style: 'ledgerCell' },
+        { text: "Total", style: 'ledgerCell', bold: true },
+        { text: "0.00", style: 'ledgerCell', bold: true },
+        { text: "-1,05,000.00", style: 'ledgerCell', bold: true },
+        { text: "-5,000.00", style: 'ledgerCell', bold: true },
+        { text: "0.00", style: 'ledgerCell', bold: true },
+        { text: "1,00,000.00", style: 'ledgerCell', bold: true },
+        { text: "-1,05,000.00", style: 'ledgerCell', bold: true },
+        { text: "", style: 'ledgerCell' }
+      ]
+    ],
+    
   },
-  subtitle: {
-    text: "AALFA TEXTILE", 
-    style: 'ledgerSubtitle',
-    border: [true, true, true, false],
-    alignment: 'center'
-  },
-  rightStrings: [
-    { text: "> 60 days    : -24,801.00", style: 'ledgerRightStrings' },
-    { text: "> 230 days   : 1,62,84,284.06", style: 'ledgerRightStrings' },
-    { text: "> 200 days   : 7,27,125.00", style: 'ledgerRightStrings' },
-    { text: "> 130 days   : 21,11,500.00", style: 'ledgerRightStrings' }
-  ],
-  totals: [
-    { text: "Inv. Amt. : 3,07,51,251.00", style: 'ledgerCell' },
-    { text: "Out. Amt. : 1,89,93,158.06", style: 'ledgerCell' },
-    { text: "GR : -15,300.00", style: 'ledgerCell' }
-  ],
-  headers: [
-    { text: "Inv. Dt.", style: 'ledgerHeader' },
-    { text: "Inv. No.", style: 'ledgerHeader' },
-    { text: "Inv. Amt.", style: 'ledgerHeader' },
-    { text: "Out. Amt.", style: 'ledgerHeader' },
-    { text: "GR", style: 'ledgerHeader' },
-    { text: "Cheque. Amt.", style: 'ledgerHeader' },
-    { text: "Recived. Amt.", style: 'ledgerHeader' },
-    { text: "Dr/Cr", style: 'ledgerHeader' },
-    { text: "Days", style: 'ledgerHeader' }
-  ],
-  rows: [
-    [
-      { text: "22-02-25", style: 'ledgerCell' },
-      { text: "ON ACCOUNT", style: 'ledgerCell' },
-      { text: "0.00", style: 'ledgerCell' },
-      { text: "-1,05,000.00", style: 'ledgerCell' },
-      { text: "-5,000.00", style: 'ledgerCell' },
-      { text: "0.00", style: 'ledgerCell' },
-      { text: "1,00,000.00", style: 'ledgerCell' },
-      { text: "-1,05,000.00", style: 'ledgerCell' },
-      { text: "54", style: 'ledgerCell' }
+  {
+    title: {
+      text: "",
+      style: 'ledgerTitle',
+      border: [true, true, true, true],
+      alignment: 'center'
+    },
+    subtitle: {
+      text: "",
+      style: 'ledgerSubtitle',
+      border: [true, true, true, false],
+      alignment: 'center'
+    },
+    rightStrings: [
+      { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
     ],
-    [
-      { text: "22-02-25", style: 'ledgerCell' },
-      { text: "ON ACCOUNT", style: 'ledgerCell' },
-      { text: "0.00", style: 'ledgerCell' },
-      { text: "-1,05,000.00", style: 'ledgerCell' },
-      { text: "-5,000.00", style: 'ledgerCell' },
-      { text: "0.00", style: 'ledgerCell' },
-      { text: "1,00,000.00", style: 'ledgerCell' },
-      { text: "-1,05,000.00", style: 'ledgerCell' },
-      { text: "54", style: 'ledgerCell' }
+    totals: [],
+    headers: [
+      { text: "Date", style: 'ledgerHeader' },
+      { text: "Particulars", style: 'ledgerHeader' },
+      { text: "Debit", style: 'ledgerHeader' },
+      { text: "Credit", style: 'ledgerHeader' },
+      { text: "GR", style: 'ledgerHeader' },
+      { text: "Cheque", style: 'ledgerHeader' },
+      { text: "Received", style: 'ledgerHeader' },
+      { text: "Balance", style: 'ledgerHeader' },
+      { text: "Days", style: 'ledgerHeader' }
     ],
-    [
-      { text: "22-02-25", style: 'ledgerCell' },
-      { text: "ON ACCOUNT", style: 'ledgerCell' },
-      { text: "0.00", style: 'ledgerCell' },
-      { text: "-1,05,000.00", style: 'ledgerCell' },
-      { text: "-5,000.00", style: 'ledgerCell' },
-      { text: "0.00", style: 'ledgerCell' },
-      { text: "1,00,000.00", style: 'ledgerCell' },
-      { text: "-1,05,000.00", style: 'ledgerCell' },
-      { text: "54", style: 'ledgerCell' }
+    rows: [
+      [
+        { text: "11-12-24", style: 'ledgerCell' },
+        { text: "ON ACCOUNT", style: 'ledgerCell' },
+        { text: "0.00", style: 'ledgerCell' },
+        { text: "-12,456.00", style: 'ledgerCell' },
+        { text: "0.00", style: 'ledgerCell' },
+        { text: "12,456.00", style: 'ledgerCell' },
+        { text: "12,456.00", style: 'ledgerCell' },
+        { text: "0.00", style: 'ledgerCell' },
+        { text: "127", style: 'ledgerCell' }
+      ],
+      [
+        { text: "", style: 'ledgerCell' },
+        { text: "Total", style: 'ledgerCell', bold: true },
+        { text: "0.00", style: 'ledgerCell', bold: true },
+        { text: "-12,456.00", style: 'ledgerCell', bold: true },
+        { text: "0.00", style: 'ledgerCell', bold: true },
+        { text: "12,456.00", style: 'ledgerCell', bold: true },
+        { text: "12,456.00", style: 'ledgerCell', bold: true },
+        { text: "0.00", style: 'ledgerCell', bold: true },
+        { text: "", style: 'ledgerCell' }
+      ]
     ],
-    [
-      { text: "22-02-25", style: 'ledgerCell' },
-      { text: "ON ACCOUNT", style: 'ledgerCell' },
-      { text: "0.00", style: 'ledgerCell' },
-      { text: "-1,05,000.00", style: 'ledgerCell' },
-      { text: "-5,000.00", style: 'ledgerCell' },
-      { text: "0.00", style: 'ledgerCell' },
-      { text: "1,00,000.00", style: 'ledgerCell' },
-      { text: "-1,05,000.00", style: 'ledgerCell' },
-      { text: "54", style: 'ledgerCell' }
-    ],
-    [
-      { text: "22-02-25", style: 'ledgerCell' },
-      { text: "ON ACCOUNT", style: 'ledgerCell' },
-      { text: "0.00", style: 'ledgerCell' },
-      { text: "-1,05,000.00", style: 'ledgerCell' },
-      { text: "-5,000.00", style: 'ledgerCell' },
-      { text: "0.00", style: 'ledgerCell' },
-      { text: "1,00,000.00", style: 'ledgerCell' },
-      { text: "-1,05,000.00", style: 'ledgerCell' },
-      { text: "54", style: 'ledgerCell' }
-    ],
-    [
-      { text: "22-02-25", style: 'ledgerCell' },
-      { text: "ON ACCOUNT", style: 'ledgerCell' },
-      { text: "0.00", style: 'ledgerCell' },
-      { text: "-1,05,000.00", style: 'ledgerCell' },
-      { text: "-5,000.00", style: 'ledgerCell' },
-      { text: "0.00", style: 'ledgerCell' },
-      { text: "1,00,000.00", style: 'ledgerCell' },
-      { text: "-1,05,000.00", style: 'ledgerCell' },
-      { text: "54", style: 'ledgerCell' }
-    ],
-    [
-      { text: "22-02-25", style: 'ledgerCell' },
-      { text: "ON ACCOUNT", style: 'ledgerCell' },
-      { text: "0.00", style: 'ledgerCell' },
-      { text: "-1,05,000.00", style: 'ledgerCell' },
-      { text: "-5,000.00", style: 'ledgerCell' },
-      { text: "0.00", style: 'ledgerCell' },
-      { text: "1,00,000.00", style: 'ledgerCell' },
-      { text: "-1,05,000.00", style: 'ledgerCell' },
-      { text: "54", style: 'ledgerCell' }
-    ]
-  ],
-  supplierInfo: {
-    text: "Supplier: AARADHANA TRADING CO",
-    style: 'ledgerHeader',
-    border: [true, true, true, true]
+    supplierInfo: {
+      text: "Supplier: ARROW FASHION",
+      style: 'ledgerHeader',
+      border: [true, true, true, true]
+    }
   }
-};
+];
 
 export const headerSettings: HeaderSettings = {
   template: 'regular',
   headerContent,
-  headerOnEveryPage: true,
+  headerOnEveryPage: false,
   headerRightStrings: headerRightStrings
 };
 

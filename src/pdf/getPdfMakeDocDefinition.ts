@@ -6,7 +6,7 @@ import { generatePrimaryTable, TableData } from './outstanding/primaryTable.ts';
 export const getPdfMakeDocDefinition = async (
   inputDocDefinition: Omit<TDocumentDefinitions, 'header'>,
   headerSettings?: HeaderSettings,
-  tableData?: TableData
+  tableData?: TableData[]
 ) => {
   let docDefinition: TDocumentDefinitions = {
     pageMargins: [40, 20, 40, 40],
@@ -66,14 +66,19 @@ export const getPdfMakeDocDefinition = async (
       { text: '', margin: [0, 10, 0, 0] } as Content,
     ];
     
-    // Add primary table if data is provided
-    if (tableData) {
-      const table = generatePrimaryTable({ 
-        data: tableData,
+    // Add primary tables if data is provided
+    if (tableData && tableData.length > 0) {
+      tableData.forEach((currentItem, index, array) => {
+        const table = generatePrimaryTable({ 
+          data: currentItem,
+        });
+        
+        contentArray.push(table);
+        // Add a margin after each table except the last one
+        if (index < array.length - 1) {
+          contentArray.push({ text: '', margin: [0, 10, 0, 0] } as Content);
+        }
       });
-      
-      contentArray.push(table);
-      contentArray.push({ text: '', margin: [0, 10, 0, 0] } as Content);
     }
     
     // Add the existing content

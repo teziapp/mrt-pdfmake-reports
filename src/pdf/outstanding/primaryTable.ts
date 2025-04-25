@@ -27,24 +27,19 @@ export const generatePrimaryTable = ({ data }: TableConfig): ContentTable => {
     {}, {}, {}, {}, {}, {}, {}, {}
   ]];
 
+  // Create right strings rows - each string gets its own row aligned to the right
+  const rightStringsRows = data.rightStrings.map(item => [[
+    { text: '', colSpan: 5, border: [true, false, false, false] },
+    {}, {}, {}, {},
+    { ...item, colSpan: 4, alignment: 'right', border: [false, false, true, false] },
+    {}, {}, {}
+  ]]).flat();
+
   // Create supplier info row with colspan
   const supplierRow = [[
     { ...data.supplierInfo, colSpan: 9 },
     {}, {}, {}, {}, {}, {}, {}, {}
   ]];
-
-  // Convert right strings to rows with proper colspan
-  const rightStringsRows = data.rightStrings.map(item => [
-    { text: '', border: [true, false, false, false] },
-    { ...item, border: [false, false, true, false], colSpan: 8 },
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-  ]);
 
   // Convert totals to rows with proper colspan
   const totalsRows = data.totals.map(item => [
@@ -59,14 +54,14 @@ export const generatePrimaryTable = ({ data }: TableConfig): ContentTable => {
   if (data.rows.length > 0) {
     data.rows[data.rows.length - 1] = data.rows[data.rows.length - 1].map((cell) => ({
       ...cell,
-      border: [true, true, true,true]
+      border: [true, true, true, true]
     }));
   }
 
   return {
     table: {
-      headerRows: 4, // Title, subtitle, supplier info, and actual headers
-      widths: [50, 50, 50, 50, 50, 50, 50, 50, 50], // Fixed width of 50 for each column
+      headerRows: 4,
+      widths: [50, 50, 50, 50, 50, 50, 50, 50, 50],
       body: [
         ...titleRow,
         ...subtitleRow,
