@@ -1,6 +1,6 @@
 import type { Content, ImageDefinition } from 'pdfmake/interfaces';
 import { HeaderSettings } from './types/PdfMake';
-import { TableData } from './outstanding/ledgerName';
+import { TableData } from './outstanding/primaryTable';
 
 // Custom type for rightStrings and totals items
 export interface LedgerItem {
@@ -27,6 +27,7 @@ const defaultHeaderImage: ImageDefinition = {
 const defaultHeaderTopSection: Content[] = [
   { text: '** !! Shree Ganeshay Namah !! **', style: 'headerTopSection'},
 ];
+
 // Default header right strings
 export const headerRightStrings: Content[] = [
   { text: `Date: ${new Date().toLocaleDateString('en-IN')}`, style: 'headerRightStrings' },
@@ -41,10 +42,10 @@ const headerContent = {
   content: companyDetailsContent
 };
 
-// Sample ledger data
-export const ledgerData: TableData = {
+// Sample table data
+export const tableData: TableData = {
   title: {text: "OUTSTANDING", style: 'ledgerTitle', border: [true, true, true, true]},
-  subtitle: {text: "AALFA TEXTILE", style: 'ledgerSubtitle', border: [true, true, true, false],},
+  subtitle: {text: "AALFA TEXTILE", style: 'ledgerSubtitle', border: [true, true, true, false]},
   rightStrings: [
     { text: "> 60 days : -24,801.00", style: 'ledgerRightStrings' },
     { text: "> 230 days : 1,62,84,284.06", style: 'ledgerRightStrings' },

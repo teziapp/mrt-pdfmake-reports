@@ -1,12 +1,12 @@
 import { Content, TDocumentDefinitions, ImageDefinition } from 'pdfmake/interfaces';
 import { getHeaderDefinition } from './headers/getHeaderDefinition.ts';
 import { HeaderSettings } from './types/PdfMake.ts';
-import { TableData, createLedgerTableContent } from './outstanding/ledgerName.ts';
+import { generatePrimaryTable, TableData } from './outstanding/primaryTable.ts';
 
 export const getPdfMakeDocDefinition = async (
   inputDocDefinition: Omit<TDocumentDefinitions, 'header'>,
   headerSettings?: HeaderSettings,
-  ledgerTableData?: TableData
+  tableData?: TableData
 ) => {
   let docDefinition: TDocumentDefinitions = {
     pageMargins: [40, 20, 40, 40],
@@ -49,17 +49,20 @@ export const getPdfMakeDocDefinition = async (
       ? [docDefinition.content]
       : [];
     
-    // Create an array of content with header, ledger table (if provided), and existing content
+    // Create an array of content with header, table (if provided), and existing content
     const contentArray: Content[] = [
       content as Content,
       { text: '', margin: [0, 10, 0, 0] } as Content,
     ];
     
-    // Add ledger table if provided
-    if (ledgerTableData) {
-      const ledgerTable = createLedgerTableContent(ledgerTableData) as any;
+    // Add primary table if data is provided
+    if (tableData) {
+      const table = generatePrimaryTable({ 
+        data: tableData,
+        styles: docDefinition.styles 
+      });
       
-      contentArray.push(ledgerTable);
+      contentArray.push(table);
       contentArray.push({ text: '', margin: [0, 10, 0, 0] } as Content);
     }
     
