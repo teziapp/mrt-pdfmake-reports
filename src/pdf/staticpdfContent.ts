@@ -2,14 +2,6 @@ import type { Content, ImageDefinition } from 'pdfmake/interfaces';
 import { HeaderSettings } from './types/PdfMake';
 import { TableData } from './outstanding/primaryTable';
 
-// Custom type for rightStrings and totals items
-export interface LedgerItem {
-  label: string;
-  value: string;
-  color?: string;
-  style?: string;
-}
-
 // Company details content array
 const companyDetailsContent: Content[] = [
   { text: 'Sample Company Name', style: 'headerContent'},
