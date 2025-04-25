@@ -118,7 +118,6 @@ export const generatePrimaryTable = ({ data }: TableConfig): ContentTable => {
 
   return {
     table: {
-      headerRows: 4 + ((data[0].subtitleTotals?.length || data[0].subtitleRightStrings?.length || 0)),
       widths,
       body: tableBody
     },
