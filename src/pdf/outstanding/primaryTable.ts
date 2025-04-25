@@ -24,12 +24,6 @@ export const generatePrimaryTable = ({ data }: TableConfig): ContentTable => {
   const totalColumns = data.columnCount || data.headers.length;
   const emptyColumns = Array(totalColumns - 1).fill({});
   
-  // Right strings layout configuration
-  const rightLayout = {
-    leftColSpan: data.rightStringsLayout?.leftColSpan || Math.ceil(totalColumns * 0.6),
-    rightColSpan: data.rightStringsLayout?.rightColSpan || Math.floor(totalColumns * 0.4)
-  };
-
   // Create the title row with colspan
   const titleRow = [[
     { ...data.title, colSpan: totalColumns },
@@ -42,25 +36,36 @@ export const generatePrimaryTable = ({ data }: TableConfig): ContentTable => {
     ...emptyColumns
   ]];
 
-  // Create right strings rows - each string gets its own row aligned to the right
-  const rightStringsRows = data.rightStrings.map(item => [[
-    { text: '', colSpan: rightLayout.leftColSpan, border: [true, false, false, false] },
-    ...Array(rightLayout.leftColSpan - 1).fill({}),
-    { ...item, colSpan: rightLayout.rightColSpan, alignment: 'right', border: [false, false, true, false] },
-    ...Array(rightLayout.rightColSpan - 1).fill({})
-  ]]).flat();
-
   // Create supplier info row with colspan
   const supplierRow = [[
     { ...data.supplierInfo, colSpan: totalColumns },
     ...emptyColumns
   ]];
 
-  // Convert totals to rows with proper colspan
-  const totalsRows = data.totals.map(item => [
-    { ...item, border: [true, false, true, false], alignment: 'left', colSpan: totalColumns },
-    ...emptyColumns
-  ]);
+  // Combine totals and right strings in a two-column layout
+  const totalsAndRightStrings = [];
+  const maxRows = Math.max(data.totals.length, data.rightStrings.length);
+  
+  for (let i = 0; i < maxRows; i++) {
+    const totalItem = i < data.totals.length ? data.totals[i] : { text: '', border: [true, false, true, false] };
+    const rightString = i < data.rightStrings.length ? data.rightStrings[i] : { text: '', border: [true, false, true, false] };
+    
+    totalsAndRightStrings.push([
+      { 
+        ...totalItem, 
+        colSpan: Math.ceil(totalColumns / 2),
+        border: [true, false, false, false]
+      },
+      ...Array(Math.ceil(totalColumns / 2) - 1).fill({}),
+      { 
+        ...rightString, 
+        colSpan: Math.floor(totalColumns / 2),
+        alignment: 'right',
+        border: [false, false, true, false]
+      },
+      ...Array(Math.floor(totalColumns / 2) - 1).fill({})
+    ]);
+  }
 
   // Create header row
   const headerRow = [data.headers];
@@ -84,8 +89,7 @@ export const generatePrimaryTable = ({ data }: TableConfig): ContentTable => {
       body: [
         ...titleRow,
         ...subtitleRow,
-        ...rightStringsRows,
-        ...totalsRows,
+        ...totalsAndRightStrings,
         ...supplierRow,
         ...headerRow,
         ...data.rows,
