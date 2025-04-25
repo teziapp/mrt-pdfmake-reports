@@ -36,36 +36,26 @@ export const generatePrimaryTable = ({ data }: TableConfig): ContentTable => {
     ...emptyColumns
   ]];
 
-  // Create supplier info row with colspan
-  const supplierRow = [[
-    { ...data.supplierInfo, colSpan: totalColumns },
-    ...emptyColumns
+  // Create supplier info and right strings row with two columns
+  const supplierAndRightStrings = [[
+    { 
+      text: data.supplierInfo.text,
+      style: data.supplierInfo.style,
+      border: [true, true, false, true],
+      alignment: 'left',
+      colSpan: Math.ceil(totalColumns / 2)
+    },
+    ...Array(Math.ceil(totalColumns / 2) - 1).fill({}),
+    {
+      stack: data.rightStrings,
+      style: 'ledgerRightStrings',
+      border: [false, true, true, true],
+      width: '*',
+      alignment: 'right',
+      colSpan: Math.floor(totalColumns / 2)
+    },
+    ...Array(Math.floor(totalColumns / 2) - 1).fill({})
   ]];
-
-  // Combine totals and right strings in a two-column layout
-  const totalsAndRightStrings = [];
-  const maxRows = Math.max(data.totals.length, data.rightStrings.length);
-  
-  for (let i = 0; i < maxRows; i++) {
-    const totalItem = i < data.totals.length ? data.totals[i] : { text: '', border: [true, false, true, false] };
-    const rightString = i < data.rightStrings.length ? data.rightStrings[i] : { text: '', border: [true, false, true, false] };
-    
-    totalsAndRightStrings.push([
-      { 
-        ...totalItem, 
-        colSpan: Math.ceil(totalColumns / 2),
-        border: [true, false, false, false]
-      },
-      ...Array(Math.ceil(totalColumns / 2) - 1).fill({}),
-      { 
-        ...rightString, 
-        colSpan: Math.floor(totalColumns / 2),
-        alignment: 'right',
-        border: [false, false, true, false]
-      },
-      ...Array(Math.floor(totalColumns / 2) - 1).fill({})
-    ]);
-  }
 
   // Create header row
   const headerRow = [data.headers];
@@ -79,7 +69,7 @@ export const generatePrimaryTable = ({ data }: TableConfig): ContentTable => {
   }
 
   // Generate equal widths for all columns
-  const columnWidth = 50;
+  const columnWidth = '*';
   const widths = Array(totalColumns).fill(columnWidth);
 
   return {
@@ -89,8 +79,7 @@ export const generatePrimaryTable = ({ data }: TableConfig): ContentTable => {
       body: [
         ...titleRow,
         ...subtitleRow,
-        ...totalsAndRightStrings,
-        ...supplierRow,
+        ...supplierAndRightStrings,
         ...headerRow,
         ...data.rows,
       ]
