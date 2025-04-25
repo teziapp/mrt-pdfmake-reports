@@ -57,7 +57,7 @@ export const tableData: TableData[] = [
       border: [true, true, true, true]
     },
     rightStrings: [
-      { text: "> 60 days : -12,456.00", style: 'ledgerRightStrings' },
+      { text: "> 60 days : -12,456.00", style: 'ledgerRightStrings', color: 'red' },
       { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
     ],
     totals: [
@@ -914,6 +914,7 @@ export const tableData: TableData[] = [
       ]
     ]
   },
+  
 ];
 
 export const headerSettings: HeaderSettings = {

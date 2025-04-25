@@ -52,6 +52,11 @@ export const getPdfMakeDocDefinition = async (
         bold: true,
         alignment: 'center',
         margin: [0, 2, 0, 2]
+      },
+      tableCellSummable:{
+        alignment: 'right',
+        fontSize: 8,
+        margin: [0, 2, 0, 2]
       }
     };
     const existingContent = Array.isArray(docDefinition.content)
