@@ -1,4 +1,4 @@
-import type { Content, ImageDefinition, StyleDictionary } from 'pdfmake/interfaces';
+import type { Content, ImageDefinition } from 'pdfmake/interfaces';
 import { HeaderSettings } from './types/PdfMake';
 import { TableData } from './outstanding/primaryTable';
 
@@ -32,39 +32,6 @@ const headerContent = {
   image: defaultHeaderImage,
   topSection: defaultHeaderTopSection,
   content: companyDetailsContent
-};
-
-// Define styles for the table
-export const tableStyles: StyleDictionary = {
-  ledgerTitle: {
-    fontSize: 14,
-    bold: true,
-    alignment: 'center',
-    margin: [0, 5, 0, 5]
-  },
-  ledgerSubtitle: {
-    fontSize: 12,
-    bold: true,
-    alignment: 'center',
-    margin: [0, 5, 0, 5]
-  },
-  ledgerRightStrings: {
-    fontSize: 10,
-    alignment: 'right',
-    margin: [0, 2, 0, 2],
-    color: 'red'
-  },
-  ledgerHeader: {
-    fontSize: 10,
-    bold: true,
-    alignment: 'left',
-    margin: [0, 2, 0, 2]
-  },
-  ledgerCell: {
-    fontSize: 8,
-    alignment: 'left',
-    margin: [0, 2, 0, 2]
-  }
 };
 
 // Sample table data with styling
@@ -104,6 +71,72 @@ export const tableData: TableData = {
     { text: "Days", style: 'ledgerHeader' }
   ],
   rows: [
+    [
+      { text: "22-02-25", style: 'ledgerCell' },
+      { text: "ON ACCOUNT", style: 'ledgerCell' },
+      { text: "0.00", style: 'ledgerCell' },
+      { text: "-1,05,000.00", style: 'ledgerCell' },
+      { text: "-5,000.00", style: 'ledgerCell' },
+      { text: "0.00", style: 'ledgerCell' },
+      { text: "1,00,000.00", style: 'ledgerCell' },
+      { text: "-1,05,000.00", style: 'ledgerCell' },
+      { text: "54", style: 'ledgerCell' }
+    ],
+    [
+      { text: "22-02-25", style: 'ledgerCell' },
+      { text: "ON ACCOUNT", style: 'ledgerCell' },
+      { text: "0.00", style: 'ledgerCell' },
+      { text: "-1,05,000.00", style: 'ledgerCell' },
+      { text: "-5,000.00", style: 'ledgerCell' },
+      { text: "0.00", style: 'ledgerCell' },
+      { text: "1,00,000.00", style: 'ledgerCell' },
+      { text: "-1,05,000.00", style: 'ledgerCell' },
+      { text: "54", style: 'ledgerCell' }
+    ],
+    [
+      { text: "22-02-25", style: 'ledgerCell' },
+      { text: "ON ACCOUNT", style: 'ledgerCell' },
+      { text: "0.00", style: 'ledgerCell' },
+      { text: "-1,05,000.00", style: 'ledgerCell' },
+      { text: "-5,000.00", style: 'ledgerCell' },
+      { text: "0.00", style: 'ledgerCell' },
+      { text: "1,00,000.00", style: 'ledgerCell' },
+      { text: "-1,05,000.00", style: 'ledgerCell' },
+      { text: "54", style: 'ledgerCell' }
+    ],
+    [
+      { text: "22-02-25", style: 'ledgerCell' },
+      { text: "ON ACCOUNT", style: 'ledgerCell' },
+      { text: "0.00", style: 'ledgerCell' },
+      { text: "-1,05,000.00", style: 'ledgerCell' },
+      { text: "-5,000.00", style: 'ledgerCell' },
+      { text: "0.00", style: 'ledgerCell' },
+      { text: "1,00,000.00", style: 'ledgerCell' },
+      { text: "-1,05,000.00", style: 'ledgerCell' },
+      { text: "54", style: 'ledgerCell' }
+    ],
+    [
+      { text: "22-02-25", style: 'ledgerCell' },
+      { text: "ON ACCOUNT", style: 'ledgerCell' },
+      { text: "0.00", style: 'ledgerCell' },
+      { text: "-1,05,000.00", style: 'ledgerCell' },
+      { text: "-5,000.00", style: 'ledgerCell' },
+      { text: "0.00", style: 'ledgerCell' },
+      { text: "1,00,000.00", style: 'ledgerCell' },
+      { text: "-1,05,000.00", style: 'ledgerCell' },
+      { text: "54", style: 'ledgerCell' }
+    ],
+    [
+      { text: "22-02-25", style: 'ledgerCell' },
+      { text: "ON ACCOUNT", style: 'ledgerCell' },
+      { text: "0.00", style: 'ledgerCell' },
+      { text: "-1,05,000.00", style: 'ledgerCell' },
+      { text: "-5,000.00", style: 'ledgerCell' },
+      { text: "0.00", style: 'ledgerCell' },
+      { text: "1,00,000.00", style: 'ledgerCell' },
+      { text: "-1,05,000.00", style: 'ledgerCell' },
+      { text: "54", style: 'ledgerCell' }
+    ],
     [
       { text: "22-02-25", style: 'ledgerCell' },
       { text: "ON ACCOUNT", style: 'ledgerCell' },

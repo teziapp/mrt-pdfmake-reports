@@ -41,6 +41,17 @@ export const getPdfMakeDocDefinition = async (
       ledgerTotals: {
         alignment: 'left',
         fontSize: 8
+      },
+      ledgerCell: {
+        fontSize: 8,
+        alignment: 'left',
+        margin: [0, 2, 0, 2]
+      },
+      ledgerHeader: {
+        fontSize: 10,
+        bold: true,
+        alignment: 'left',
+        margin: [0, 2, 0, 2]
       }
     };
     const existingContent = Array.isArray(docDefinition.content)

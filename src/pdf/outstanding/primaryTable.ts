@@ -36,14 +36,14 @@ export const generatePrimaryTable = ({ data }: TableConfig): ContentTable => {
   // Convert right strings to rows with proper colspan
   const rightStringsRows = data.rightStrings.map(item => [
     { text: '', border: [true, false, false, false] },
-    { text: '', border: [false, false, false, false] },
-    { text: '', border: [false, false, false, false] },
-    { text: '', border: [false, false, false, false] },
-    { text: '', border: [false, false, false, false] },
-    { text: '', border: [false, false, false, false] },
-    { text: '', border: [false, false, false, false] },
-    { text: '', border: [false, false, false, false] },
-    { ...item, border: [false, false, true, false] }
+    { ...item, border: [false, false, true, false], colSpan: 8 },
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
   ]);
 
   // Convert totals to rows with proper colspan
@@ -66,7 +66,7 @@ export const generatePrimaryTable = ({ data }: TableConfig): ContentTable => {
   return {
     table: {
       headerRows: 4, // Title, subtitle, supplier info, and actual headers
-      widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
+      widths: [50, 50, 50, 50, 50, 50, 50, 50, 50], // Fixed width of 50 for each column
       body: [
         ...titleRow,
         ...subtitleRow,
