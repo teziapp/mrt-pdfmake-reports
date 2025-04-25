@@ -5,11 +5,13 @@ export interface TableData {
   subtitle: ContentText & TableCellProperties;
   rightStrings: ContentText[];
   totals: ContentText[];
+  subtitleRightStrings?: ContentText[];
+  subtitleTotals?: ContentText[];
   headers: ContentText[];
   rows: ContentText[][];
   supplierInfo: ContentText & TableCellProperties;
-  columnCount?: number; // Optional column count, defaults to headers length
-  rightStringsLayout?: { // Optional layout configuration for right strings
+  columnCount?: number; 
+  rightStringsLayout?: { 
     leftColSpan?: number;
     rightColSpan?: number;
   };
@@ -30,42 +32,69 @@ export const generatePrimaryTable = ({ data }: TableConfig): ContentTable => {
     ...emptyColumns
   ]];
 
-  // Create the subtitle row with colspan
-  const subtitleRow = [[
+  // Create subtitle section with right strings and totals if available
+  const subtitleSection = [];
+  
+  // Add subtitle row
+  subtitleSection.push([
     { ...data.subtitle, colSpan: totalColumns },
     ...emptyColumns
-  ]];
+  ]);
 
-  // Create supplier info row with colspan
-  const supplierRow = [[
-    { ...data.supplierInfo, colSpan: totalColumns },
-    ...emptyColumns
-  ]];
+  // Add subtitle level totals and right strings if available
+  if (data.subtitleTotals?.length || data.subtitleRightStrings?.length) {
+    const maxSubtitleRows = Math.max(
+      data.subtitleTotals?.length || 0,
+      data.subtitleRightStrings?.length || 0
+    );
 
-  // Combine totals and right strings in a two-column layout
-  const totalsAndRightStrings = [];
-  const maxRows = Math.max(data.totals.length, data.rightStrings.length);
-  
-  for (let i = 0; i < maxRows; i++) {
-    const totalItem = i < data.totals.length ? data.totals[i] : { text: '', border: [true, false, true, false] };
-    const rightString = i < data.rightStrings.length ? data.rightStrings[i] : { text: '', border: [true, false, true, false] };
-    
-    totalsAndRightStrings.push([
-      { 
-        ...totalItem, 
-        colSpan: Math.ceil(totalColumns / 2),
-        border: [true, false, false, false]
-      },
-      ...Array(Math.ceil(totalColumns / 2) - 1).fill({}),
-      { 
-        ...rightString, 
-        colSpan: Math.floor(totalColumns / 2),
-        alignment: 'right',
-        border: [false, false, true, false]
-      },
-      ...Array(Math.floor(totalColumns / 2) - 1).fill({})
-    ]);
+    for (let i = 0; i < maxSubtitleRows; i++) {
+      const totalItem = data.subtitleTotals && i < data.subtitleTotals.length 
+        ? data.subtitleTotals[i] 
+        : { text: '', border: [true, false, true, false] };
+        
+      const rightString = data.subtitleRightStrings && i < data.subtitleRightStrings.length 
+        ? data.subtitleRightStrings[i] 
+        : { text: '', border: [true, false, true, false] };
+
+      subtitleSection.push([
+        { 
+          ...totalItem, 
+          colSpan: Math.ceil(totalColumns / 2),
+          border: [true, false, false, false]
+        },
+        ...Array(Math.ceil(totalColumns / 2) - 1).fill({}),
+        { 
+          ...rightString, 
+          colSpan: Math.floor(totalColumns / 2),
+          alignment: 'right',
+          border: [false, false, true, false]
+        },
+        ...Array(Math.floor(totalColumns / 2) - 1).fill({})
+      ]);
+    }
   }
+
+  // Create supplier and right strings section
+  const supplierAndRightStrings = [[
+    { 
+      text: data.supplierInfo.text,
+      style: data.supplierInfo.style,
+      border: [true, true, false, true],
+      alignment: 'left',
+      colSpan: Math.ceil(totalColumns / 2)
+    },
+    ...Array(Math.ceil(totalColumns / 2) - 1).fill({}),
+    {
+      stack: data.rightStrings,
+      style: 'ledgerRightStrings',
+      border: [false, true, true, true],
+      width: '*',
+      alignment: 'right',
+      colSpan: Math.floor(totalColumns / 2)
+    },
+    ...Array(Math.floor(totalColumns / 2) - 1).fill({})
+  ]];
 
   // Create header row
   const headerRow = [data.headers];
@@ -79,18 +108,17 @@ export const generatePrimaryTable = ({ data }: TableConfig): ContentTable => {
   }
 
   // Generate equal widths for all columns
-  const columnWidth = 50;
+  const columnWidth = '*';
   const widths = Array(totalColumns).fill(columnWidth);
 
   return {
     table: {
-      headerRows: 4,
+      headerRows: 4 + (data.subtitleTotals?.length || data.subtitleRightStrings?.length || 0),
       widths,
       body: [
         ...titleRow,
-        ...subtitleRow,
-        ...totalsAndRightStrings,
-        ...supplierRow,
+        ...subtitleSection,
+        ...supplierAndRightStrings,
         ...headerRow,
         ...data.rows,
       ]

@@ -51,6 +51,14 @@ export const tableData: TableData[] = [
       alignment: 'center',
       bold: true
     },
+    subtitleTotals: [
+      { text: "Total Inv. : 5,07,51,251.00", style: 'ledgerTotals', alignment: 'left' },
+      { text: "Total Out. : 2,89,93,158.06", style: 'ledgerTotals', alignment: 'left' },
+    ],
+    subtitleRightStrings: [
+      { text: "> 90 days : 25,456.00", style: 'ledgerRightStrings' },
+      { text: "> 60 days : 15,456.00", style: 'ledgerRightStrings' }
+    ],
     supplierInfo: {
       text: "Supplier: AARADHANA TRADING CO",
       style: 'ledgerHeader',
@@ -99,65 +107,6 @@ export const tableData: TableData[] = [
         { text: "-1,05,000.00", style: 'ledgerCell', bold: true },
         { text: "", style: 'ledgerCell' }
       ]
-    ],
-    
-  },
-  {
-    title: {
-      text: "",
-      style: 'ledgerTitle',
-      border: [true, true, true, false],
-      alignment: 'center',
-    },
-    subtitle: {
-      text: "",
-      style: 'ledgerSubtitle',
-      border: [true, false, true, false],
-      alignment: 'center',
-    },
-    supplierInfo: {
-      text: "Supplier: ARROW FASHION",
-      style: 'ledgerHeader',
-      border: [true, true, true, true]
-    },
-    rightStrings: [
-      { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
-    ],
-    totals: [],
-    headers: [
-      { text: "Date", style: 'ledgerHeader' },
-      { text: "Particulars", style: 'ledgerHeader' },
-      { text: "Debit", style: 'ledgerHeader' },
-      { text: "Credit", style: 'ledgerHeader' },
-      { text: "GR", style: 'ledgerHeader' },
-      { text: "Cheque", style: 'ledgerHeader' },
-      { text: "Received", style: 'ledgerHeader' },
-      { text: "Balance", style: 'ledgerHeader' },
-      { text: "Days", style: 'ledgerHeader' }
-    ],
-    rows: [
-      [
-        { text: "11-12-24", style: 'ledgerCell' },
-        { text: "ON ACCOUNT", style: 'ledgerCell' },
-        { text: "0.00", style: 'ledgerCell' },
-        { text: "-12,456.00", style: 'ledgerCell' },
-        { text: "0.00", style: 'ledgerCell' },
-        { text: "12,456.00", style: 'ledgerCell' },
-        { text: "12,456.00", style: 'ledgerCell' },
-        { text: "0.00", style: 'ledgerCell' },
-        { text: "127", style: 'ledgerCell' }
-      ],
-      [
-        { text: "", style: 'ledgerCell' },
-        { text: "Total", style: 'ledgerCell', bold: true },
-        { text: "0.00", style: 'ledgerCell', bold: true },
-        { text: "-12,456.00", style: 'ledgerCell', bold: true },
-        { text: "0.00", style: 'ledgerCell', bold: true },
-        { text: "12,456.00", style: 'ledgerCell', bold: true },
-        { text: "12,456.00", style: 'ledgerCell', bold: true },
-        { text: "0.00", style: 'ledgerCell', bold: true },
-        { text: "", style: 'ledgerCell' }
-      ]
     ]
   },
   {
@@ -736,180 +685,6 @@ export const tableData: TableData[] = [
         { text: "12,456.00", style: 'ledgerCell', bold: true },
         { text: "12,456.00", style: 'ledgerCell', bold: true },
         { text: "0.00", style: 'ledgerCell', bold: true },
-        { text: "", style: 'ledgerCell' }
-      ]
-    ]
-  },
-  {
-    title: {
-      text: "",
-      style: 'ledgerTitle',
-      border: [true, true, true, false],
-      alignment: 'center',
-    },
-    subtitle: {
-      text: "",
-      style: 'ledgerSubtitle',
-      border: [true, false, true, false],
-      alignment: 'center',
-    },
-    supplierInfo: {
-      text: "Supplier: ARROW FASHION",
-      style: 'ledgerHeader',
-      border: [true, true, true, true]
-    },
-    rightStrings: [
-      { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
-    ],
-    totals: [],
-    headers: [
-      { text: "Date", style: 'ledgerHeader' },
-      { text: "Particulars", style: 'ledgerHeader' },
-      { text: "Debit", style: 'ledgerHeader' },
-      { text: "Credit", style: 'ledgerHeader' },
-      { text: "GR", style: 'ledgerHeader' },
-      { text: "Cheque", style: 'ledgerHeader' },
-      { text: "Received", style: 'ledgerHeader' },
-      { text: "Balance", style: 'ledgerHeader' },
-      { text: "Days", style: 'ledgerHeader' }
-    ],
-    rows: [
-      [
-        { text: "11-12-24", style: 'ledgerCell' },
-        { text: "ON ACCOUNT", style: 'ledgerCell' },
-        { text: "0.00", style: 'ledgerCell' },
-        { text: "-12,456.00", style: 'ledgerCell' },
-        { text: "0.00", style: 'ledgerCell' },
-        { text: "12,456.00", style: 'ledgerCell' },
-        { text: "12,456.00", style: 'ledgerCell' },
-        { text: "0.00", style: 'ledgerCell' },
-        { text: "127", style: 'ledgerCell' }
-      ],
-      [
-        { text: "", style: 'ledgerCell' },
-        { text: "Total", style: 'ledgerCell', bold: true },
-        { text: "0.00", style: 'ledgerCell', bold: true },
-        { text: "-12,456.00", style: 'ledgerCell', bold: true },
-        { text: "0.00", style: 'ledgerCell', bold: true },
-        { text: "12,456.00", style: 'ledgerCell', bold: true },
-        { text: "12,456.00", style: 'ledgerCell', bold: true },
-        { text: "0.00", style: 'ledgerCell', bold: true },
-        { text: "", style: 'ledgerCell' }
-      ]
-    ]
-  },
-  {
-    title: {
-      text: "",
-      style: 'ledgerTitle',
-      border: [true, true, true, false],
-      alignment: 'center',
-    },
-    subtitle: {
-      text: "",
-      style: 'ledgerSubtitle',
-      border: [true, false, true, false],
-      alignment: 'center',
-    },
-    supplierInfo: {
-      text: "Supplier: ARROW FASHION",
-      style: 'ledgerHeader',
-      border: [true, true, true, true]
-    },
-    rightStrings: [
-      { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
-    ],
-    totals: [],
-    headers: [
-      { text: "Date", style: 'ledgerHeader' },
-      { text: "Particulars", style: 'ledgerHeader' },
-      { text: "Debit", style: 'ledgerHeader' },
-      { text: "Credit", style: 'ledgerHeader' },
-      { text: "GR", style: 'ledgerHeader' },
-      { text: "Cheque", style: 'ledgerHeader' },
-      { text: "Received", style: 'ledgerHeader' },
-      { text: "Balance", style: 'ledgerHeader' },
-      { text: "Days", style: 'ledgerHeader' }
-    ],
-    rows: [
-      [
-        { text: "11-12-24", style: 'ledgerCell' },
-        { text: "ON ACCOUNT", style: 'ledgerCell' },
-        { text: "0.00", style: 'ledgerCell' },
-        { text: "-12,456.00", style: 'ledgerCell' },
-        { text: "0.00", style: 'ledgerCell' },
-        { text: "12,456.00", style: 'ledgerCell' },
-        { text: "12,456.00", style: 'ledgerCell' },
-        { text: "0.00", style: 'ledgerCell' },
-        { text: "127", style: 'ledgerCell' }
-      ],
-      [
-        { text: "", style: 'ledgerCell' },
-        { text: "Total", style: 'ledgerCell', bold: true },
-        { text: "0.00", style: 'ledgerCell', bold: true },
-        { text: "-12,456.00", style: 'ledgerCell', bold: true },
-        { text: "0.00", style: 'ledgerCell', bold: true },
-        { text: "12,456.00", style: 'ledgerCell', bold: true },
-        { text: "12,456.00", style: 'ledgerCell', bold: true },
-        { text: "0.00", style: 'ledgerCell', bold: true },
-        { text: "", style: 'ledgerCell' }
-      ]
-    ]
-  },
-  {
-    title: {
-      text: "",
-      style: 'ledgerTitle',
-      border: [true, true, true, false],
-      alignment: 'center',
-    },
-    subtitle: {
-      text: "",
-      style: 'ledgerSubtitle',
-      border: [true, false, true, false],
-      alignment: 'center',
-    },
-    supplierInfo: {
-      text: "Supplier: ARROW FASHION",
-      style: 'ledgerHeader',
-      border: [true, true, true, true]
-    },
-    rightStrings: [
-      { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
-    ],
-    totals: [],
-    headers: [
-      { text: "Date", style: 'ledgerHeader' },
-      { text: "Particulars", style: 'ledgerHeader' },
-      { text: "Debit", style: 'ledgerHeader' },
-      { text: "Credit", style: 'ledgerHeader' },
-      { text: "GR", style: 'ledgerHeader' },
-      { text: "Cheque", style: 'ledgerHeader' },
-      { text: "Received", style: 'ledgerHeader' },
-      { text: "Balance", style: 'ledgerHeader' },
-      { text: "Days", style: 'ledgerHeader' }
-    ],
-    rows: [
-      [
-        { text: "11-12-24", style: 'ledgerCell' },
-        { text: "ON ACCOUNT", style: 'ledgerCell' },
-        { text: "0.00", style: 'tableCellSummable' },
-        { text: "-12,456.00", style: 'tableCellSummable' },
-        { text: "0.00", style: 'tableCellSummable' },
-        { text: "12,456.00", style: 'tableCellSummable' },
-        { text: "12,456.00", style: 'tableCellSummable' },
-        { text: "0.00", style: 'tableCellSummable' },
-        { text: "127", style: 'tableCellSummable' }
-      ],
-      [
-        { text: "", style: 'ledgerCell' },
-        { text: "Total", style: 'ledgerCell', bold: true },
-        { text: "0.00", style: 'tableCellSummable', bold: true },
-        { text: "-12,456.00", style: 'tableCellSummable', bold: true },
-        { text: "0.00", style: 'tableCellSummable', bold: true },
-        { text: "12,456.00", style: 'tableCellSummable', bold: true },
-        { text: "12,456.00", style: 'tableCellSummable', bold: true },
-        { text: "0.00", style: 'tableCellSummable', bold: true },
         { text: "", style: 'ledgerCell' }
       ]
     ]
