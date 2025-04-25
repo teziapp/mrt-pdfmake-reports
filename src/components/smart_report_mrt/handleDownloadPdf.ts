@@ -3,7 +3,7 @@ import { downloadPdf } from "../../pdf/generatePdf";
 import { 
   headerSettings, 
   sampleContent, 
-  ledgerData, 
+  tableData, 
   headerRightStrings
 } from "../../pdf/staticpdfContent";
 
@@ -20,7 +20,7 @@ export const handleDownloadPdf = async () => {
         content: sampleContent,
       },
       customHeaderSettings,
-      ledgerData // Include the ledger data from staticpdfContent
+      tableData // Include the ledger data from staticpdfContent
     );
 
     // Download the PDF

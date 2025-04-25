@@ -36,8 +36,18 @@ const headerContent = {
 
 // Sample table data
 export const tableData: TableData = {
-  title: {text: "OUTSTANDING", style: 'ledgerTitle', border: [true, true, true, true]},
-  subtitle: {text: "AALFA TEXTILE", style: 'ledgerSubtitle', border: [true, true, true, false]},
+  title: {
+    text: "OUTSTANDING", 
+    style: 'ledgerTitle', 
+    border: [true, true, true, true],
+    alignment: 'center'
+  },
+  subtitle: {
+    text: "AALFA TEXTILE", 
+    style: 'ledgerSubtitle', 
+    border: [true, true, true, false],
+    alignment: 'center'
+  },
   rightStrings: [
     { text: "> 60 days : -24,801.00", style: 'ledgerRightStrings' },
     { text: "> 230 days : 1,62,84,284.06", style: 'ledgerRightStrings' },
@@ -58,75 +68,8 @@ export const headerSettings: HeaderSettings = {
   headerRightStrings: headerRightStrings
 };
 
-// Sample PDF content sections
-export const sampleContent: Content = [
-  { text: 'Sample Report Content', style: 'header' },
-  {
-    text: 'This is a dynamically generated PDF with custom header settings.',
-    margin: [0, 20, 0, 20],
-    color: 'red'
-  },
-  {
-    text: 'This is a dynamically generated PDF with custom header settings.',
-    margin: [0, 20, 0, 20],
-  },
-  {
-    text: 'This is a dynamically generated PDF with custom header settings.',
-    margin: [0, 20, 0, 20],
-  },
-  {
-    text: 'This is a dynamically generated PDF with custom header settings.',
-    margin: [0, 20, 0, 20],
-  },
-  {
-    text: 'This is a dynamically generated PDF with custom header settings.',
-    margin: [0, 20, 0, 20],
-  },
-  {
-    text: 'This is a dynamically generated PDF with custom header settings.',
-    margin: [0, 20, 0, 20],
-  },
-  {
-    text: 'This is a dynamically generated PDF with custom header settings.',
-    margin: [0, 20, 0, 20],
-  },
-  {
-    text: 'This is a dynamically generated PDF with custom header settings.',
-    margin: [0, 20, 0, 20],
-  },
-  {
-    text: 'This is a dynamically generated PDF with custom header settings.',
-    margin: [0, 20, 0, 20],
-  },
-  {
-    text: 'This is a dynamically generated PDF with custom header settings.',
-    margin: [0, 20, 0, 20],
-  },
-  {
-    text: 'This is a dynamically generated PDF with custom header settings.',
-    margin: [0, 20, 0, 20],
-  },
-  {
-    text: 'This is a dynamically generated PDF with custom header settings.',
-    margin: [0, 20, 0, 20],
-  },
-  {
-    text: 'This is a dynamically generated PDF with custom header settings.',
-    margin: [0, 20, 0, 20],
-  },
-  {
-    text: 'This is a dynamically generated PDF with custom header settings.',
-    margin: [0, 20, 0, 20],
-  },
-  {
-    text: 'This is a dynamically generated PDF with custom header settings.',
-    margin: [0, 20, 0, 20],
-  },
-  {
-    text: 'This is a dynamically generated PDF with custom header settings.',
-    margin: [0, 20, 0, 20],
-  },
-];
+// Sample PDF content sections - keeping it empty since table is added in getPdfMakeDocDefinition
+export const sampleContent: Content = [];
 
 // export const sampleContent: Content = [
 //     {
