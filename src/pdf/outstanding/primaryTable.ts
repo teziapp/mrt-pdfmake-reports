@@ -1,4 +1,4 @@
-import { ContentTable, ContentText, Style, TableCellProperties } from 'pdfmake/interfaces';
+import { ContentTable, ContentText, TableCellProperties } from 'pdfmake/interfaces';
 
 export interface TableItem extends ContentText {
   color?: string;
