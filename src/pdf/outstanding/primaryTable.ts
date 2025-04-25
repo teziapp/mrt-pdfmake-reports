@@ -16,7 +16,7 @@ interface TableConfig {
   styles?: Record<string, Style>;
 }
 
-export const generatePrimaryTable = ({ data, styles = {} }: TableConfig): ContentTable => {
+export const generatePrimaryTable = ({ data }: TableConfig): ContentTable => {
   const headerRow: Array<ContentText & TableCellProperties> = [
     data.title,
     data.subtitle
