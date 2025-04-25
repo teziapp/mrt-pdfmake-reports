@@ -8,6 +8,11 @@ export interface TableData {
   headers: ContentText[];
   rows: ContentText[][];
   supplierInfo: ContentText & TableCellProperties;
+  columnCount?: number; // Optional column count, defaults to headers length
+  rightStringsLayout?: { // Optional layout configuration for right strings
+    leftColSpan?: number;
+    rightColSpan?: number;
+  };
 }
 
 interface TableConfig {
@@ -15,36 +20,46 @@ interface TableConfig {
 }
 
 export const generatePrimaryTable = ({ data }: TableConfig): ContentTable => {
+  // Determine total columns from headers or provided columnCount
+  const totalColumns = data.columnCount || data.headers.length;
+  const emptyColumns = Array(totalColumns - 1).fill({});
+  
+  // Right strings layout configuration
+  const rightLayout = {
+    leftColSpan: data.rightStringsLayout?.leftColSpan || Math.ceil(totalColumns * 0.6),
+    rightColSpan: data.rightStringsLayout?.rightColSpan || Math.floor(totalColumns * 0.4)
+  };
+
   // Create the title row with colspan
   const titleRow = [[
-    { ...data.title, colSpan: 9 },
-    {}, {}, {}, {}, {}, {}, {}, {}
+    { ...data.title, colSpan: totalColumns },
+    ...emptyColumns
   ]];
 
   // Create the subtitle row with colspan
   const subtitleRow = [[
-    { ...data.subtitle, colSpan: 9 },
-    {}, {}, {}, {}, {}, {}, {}, {}
+    { ...data.subtitle, colSpan: totalColumns },
+    ...emptyColumns
   ]];
 
   // Create right strings rows - each string gets its own row aligned to the right
   const rightStringsRows = data.rightStrings.map(item => [[
-    { text: '', colSpan: 5, border: [true, false, false, false] },
-    {}, {}, {}, {},
-    { ...item, colSpan: 4, alignment: 'right', border: [false, false, true, false] },
-    {}, {}, {}
+    { text: '', colSpan: rightLayout.leftColSpan, border: [true, false, false, false] },
+    ...Array(rightLayout.leftColSpan - 1).fill({}),
+    { ...item, colSpan: rightLayout.rightColSpan, alignment: 'right', border: [false, false, true, false] },
+    ...Array(rightLayout.rightColSpan - 1).fill({})
   ]]).flat();
 
   // Create supplier info row with colspan
   const supplierRow = [[
-    { ...data.supplierInfo, colSpan: 9 },
-    {}, {}, {}, {}, {}, {}, {}, {}
+    { ...data.supplierInfo, colSpan: totalColumns },
+    ...emptyColumns
   ]];
 
   // Convert totals to rows with proper colspan
   const totalsRows = data.totals.map(item => [
-    { ...item, border: [true, false, true, false], alignment: 'left', colSpan: 9 },
-    {}, {}, {}, {}, {}, {}, {}, {}
+    { ...item, border: [true, false, true, false], alignment: 'left', colSpan: totalColumns },
+    ...emptyColumns
   ]);
 
   // Create header row
@@ -58,10 +73,14 @@ export const generatePrimaryTable = ({ data }: TableConfig): ContentTable => {
     }));
   }
 
+  // Generate equal widths for all columns
+  const columnWidth = 50;
+  const widths = Array(totalColumns).fill(columnWidth);
+
   return {
     table: {
       headerRows: 4,
-      widths: [50, 50, 50, 50, 50, 50, 50, 50, 50],
+      widths,
       body: [
         ...titleRow,
         ...subtitleRow,
