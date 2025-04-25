@@ -1,4 +1,4 @@
-import type { Content, ImageDefinition } from 'pdfmake/interfaces';
+import type { Content, ImageDefinition, StyleDictionary } from 'pdfmake/interfaces';
 import { HeaderSettings } from './types/PdfMake';
 import { TableData } from './outstanding/primaryTable';
 
@@ -34,31 +34,93 @@ const headerContent = {
   content: companyDetailsContent
 };
 
-// Sample table data
+// Define styles for the table
+export const tableStyles: StyleDictionary = {
+  ledgerTitle: {
+    fontSize: 14,
+    bold: true,
+    alignment: 'center',
+    margin: [0, 5, 0, 5]
+  },
+  ledgerSubtitle: {
+    fontSize: 12,
+    bold: true,
+    alignment: 'center',
+    margin: [0, 5, 0, 5]
+  },
+  ledgerRightStrings: {
+    fontSize: 10,
+    alignment: 'right',
+    margin: [0, 2, 0, 2],
+    color: 'red'
+  },
+  ledgerHeader: {
+    fontSize: 10,
+    bold: true,
+    alignment: 'left',
+    margin: [0, 2, 0, 2]
+  },
+  ledgerCell: {
+    fontSize: 8,
+    alignment: 'left',
+    margin: [0, 2, 0, 2]
+  }
+};
+
+// Sample table data with styling
 export const tableData: TableData = {
   title: {
     text: "OUTSTANDING", 
-    style: 'ledgerTitle', 
+    style: 'ledgerTitle',
     border: [true, true, true, true],
     alignment: 'center'
   },
   subtitle: {
     text: "AALFA TEXTILE", 
-    style: 'ledgerSubtitle', 
+    style: 'ledgerSubtitle',
     border: [true, true, true, false],
     alignment: 'center'
   },
   rightStrings: [
-    { text: "> 60 days : -24,801.00", style: 'ledgerRightStrings' },
-    { text: "> 230 days : 1,62,84,284.06", style: 'ledgerRightStrings' },
-    { text: "> 200 days : 7,27,125.00", style: 'ledgerRightStrings' },
-    { text: "> 130 days : 21,11,500.00", style: 'ledgerRightStrings' }
+    { text: "> 60 days    : -24,801.00", style: 'ledgerRightStrings' },
+    { text: "> 230 days   : 1,62,84,284.06", style: 'ledgerRightStrings' },
+    { text: "> 200 days   : 7,27,125.00", style: 'ledgerRightStrings' },
+    { text: "> 130 days   : 21,11,500.00", style: 'ledgerRightStrings' }
   ],
   totals: [
-    { text: "Inv. Amt. : 3,07,51,251.00", style: 'ledgerRightStrings' },
-    { text: "Out. Amt. : 1,89,93,158.06", style: 'ledgerRightStrings' },
-    { text: "GR : -15,300.00", style: 'ledgerRightStrings' }
-  ]
+    { text: "Inv. Amt. : 3,07,51,251.00", style: 'ledgerCell' },
+    { text: "Out. Amt. : 1,89,93,158.06", style: 'ledgerCell' },
+    { text: "GR : -15,300.00", style: 'ledgerCell' }
+  ],
+  headers: [
+    { text: "Inv. Dt.", style: 'ledgerHeader' },
+    { text: "Inv. No.", style: 'ledgerHeader' },
+    { text: "Inv. Amt.", style: 'ledgerHeader' },
+    { text: "Out. Amt.", style: 'ledgerHeader' },
+    { text: "GR", style: 'ledgerHeader' },
+    { text: "Cheque. Amt.", style: 'ledgerHeader' },
+    { text: "Recived. Amt.", style: 'ledgerHeader' },
+    { text: "Dr/Cr", style: 'ledgerHeader' },
+    { text: "Days", style: 'ledgerHeader' }
+  ],
+  rows: [
+    [
+      { text: "22-02-25", style: 'ledgerCell' },
+      { text: "ON ACCOUNT", style: 'ledgerCell' },
+      { text: "0.00", style: 'ledgerCell' },
+      { text: "-1,05,000.00", style: 'ledgerCell' },
+      { text: "-5,000.00", style: 'ledgerCell' },
+      { text: "0.00", style: 'ledgerCell' },
+      { text: "1,00,000.00", style: 'ledgerCell' },
+      { text: "-1,05,000.00", style: 'ledgerCell' },
+      { text: "54", style: 'ledgerCell' }
+    ]
+  ],
+  supplierInfo: {
+    text: "Supplier: AARADHANA TRADING CO",
+    style: 'ledgerHeader',
+    border: [true, true, true, true]
+  }
 };
 
 export const headerSettings: HeaderSettings = {
