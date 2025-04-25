@@ -71,19 +71,10 @@ export const getPdfMakeDocDefinition = async (
       { text: '', margin: [0, 10, 0, 0] } as Content,
     ];
     
-    // Add primary tables if data is provided
+    // Add primary table if data is provided
     if (tableData && tableData.length > 0) {
-      tableData.forEach((currentItem, index, array) => {
-        const table = generatePrimaryTable({ 
-          data: currentItem,
-        });
-        
-        contentArray.push(table);
-        // Add a margin after each table except the last one
-        if (index < array.length - 1) {
-          contentArray.push({ text: '', margin: [0, 10, 0, 0] } as Content);
-        }
-      });
+      const table = generatePrimaryTable({ data: tableData });
+      contentArray.push(table);
     }
     
     // Add the existing content
