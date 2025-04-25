@@ -70,25 +70,3 @@ export const headerSettings: HeaderSettings = {
 
 // Sample PDF content sections - keeping it empty since table is added in getPdfMakeDocDefinition
 export const sampleContent: Content = [];
-
-// export const sampleContent: Content = [
-//     {
-//     //   layout: '', // optional
-//       table: {
-//         // headerRows: 1,
-//         widths: [ '*', '*', '*'],
-
-//         body: [
-//             // Pdf Table Type Header
-//             [
-//                 {text: 'Outstanding', colSpan: 3, bold: true, style: 'tableHeader', alignment: 'center', fontSize: 14, border: [true, true, true, true]}
-//             ],
-
-//             // Ledger Name
-//             [
-//                 {text: 'Ledger Name', colSpan: 3, bold: true, alignment: 'center', fontSize: 14, border: [true, true, true, true]},
-//             ],
-//             ]
-//       }
-//     }
-//   ];

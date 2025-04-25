@@ -19,25 +19,25 @@ export const generatePrimaryTable = ({ data }: TableConfig): ContentTable => {
   // Create the title row with colspan
   const titleRow = [[
     { ...data.title, colSpan: 2 },
-    {}  // Empty cell for colSpan
+    {}
   ]];
 
   // Create the subtitle row with colspan
   const subtitleRow = [[
     { ...data.subtitle, colSpan: 2 },
-    {}  // Empty cell for colSpan
+    {}
   ]];
 
   // Convert right strings to rows
   const rightStringsRows = data.rightStrings.map(item => [
-    { text: '', border: [true, false, false, false] },  // Empty cell on the left
-    { ...item, border: [false, false, true, false] }    // Right string on the right
+    { text: '', border: [true, false, false, false] },
+    { ...item, border: [false, false, true, false] }
   ]);
 
   // Convert totals to rows
   const totalsRows = data.totals.map(item => [
-      { ...item, border: [true, false, false, false], alignment: 'left' },    // Total on the right
-      { text: '', border: [false, false, true, false] },  // Empty cell on the left
+    { ...item, border: [true, false, false, false], alignment: 'left' },
+    { text: '', border: [false, false, true, false] }
   ]);
 
   // Last row should have bottom border
