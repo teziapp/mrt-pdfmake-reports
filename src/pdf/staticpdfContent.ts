@@ -106,14 +106,19 @@ export const tableData: TableData[] = [
     title: {
       text: "",
       style: 'ledgerTitle',
-      border: [true, true, true, true],
-      alignment: 'center'
+      border: [true, true, true, false],
+      alignment: 'center',
     },
     subtitle: {
       text: "",
       style: 'ledgerSubtitle',
-      border: [true, true, true, false],
-      alignment: 'center'
+      border: [true, false, true, false],
+      alignment: 'center',
+    },
+    supplierInfo: {
+      text: "Supplier: ARROW FASHION",
+      style: 'ledgerHeader',
+      border: [true, true, true, true]
     },
     rightStrings: [
       { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
@@ -153,12 +158,7 @@ export const tableData: TableData[] = [
         { text: "0.00", style: 'ledgerCell', bold: true },
         { text: "", style: 'ledgerCell' }
       ]
-    ],
-    supplierInfo: {
-      text: "Supplier: ARROW FASHION",
-      style: 'ledgerHeader',
-      border: [true, true, true, true]
-    }
+    ]
   }
 ];
 
