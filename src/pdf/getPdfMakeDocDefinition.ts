@@ -59,7 +59,6 @@ export const getPdfMakeDocDefinition = async (
     if (tableData) {
       const table = generatePrimaryTable({ 
         data: tableData,
-        styles: docDefinition.styles 
       });
       
       contentArray.push(table);

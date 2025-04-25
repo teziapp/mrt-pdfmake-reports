@@ -13,7 +13,6 @@ export interface TableData {
 
 interface TableConfig {
   data: TableData;
-  styles?: Record<string, Style>;
 }
 
 export const generatePrimaryTable = ({ data }: TableConfig): ContentTable => {
