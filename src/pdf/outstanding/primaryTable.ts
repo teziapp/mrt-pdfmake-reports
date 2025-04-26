@@ -205,6 +205,7 @@ export const generatePrimaryTable = async ({ data, headerSettings, includePageHe
     },
     layout: {
       defaultBorder: true,
+      hLineWidth: (i) => (i === 0) && headerSettings?.headerOnEveryPage == true ? 0 : 1,
       paddingLeft: () => 4,
       paddingRight: () => 4,
       paddingTop: () => 2,

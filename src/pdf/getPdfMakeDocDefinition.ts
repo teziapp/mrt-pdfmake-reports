@@ -9,7 +9,7 @@ export const getPdfMakeDocDefinition = async (
   tableData?: TableData[]
 ) => {
   let docDefinition: TDocumentDefinitions = {
-    pageMargins: [40, 20, 40, 40],
+    pageMargins: [40, 10, 40, 40],
     ...inputDocDefinition,
   };
 
