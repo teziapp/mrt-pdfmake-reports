@@ -1,7 +1,7 @@
 import { Content, TDocumentDefinitions, ImageDefinition } from 'pdfmake/interfaces';
-import { getHeaderDefinition } from './headers/getHeaderDefinition.ts';
-import { HeaderSettings } from './types/PdfMake.ts';
-import { generatePrimaryTable, TableData } from './outstanding/primaryTable.ts';
+import { getHeaderDefinition } from './headers/getHeaderDefinition';
+import { HeaderSettings } from './types/PdfMake';
+import { generatePrimaryTable, TableData } from './outstanding/primaryTable';
 
 export const getPdfMakeDocDefinition = async (
   inputDocDefinition: Omit<TDocumentDefinitions, 'header'>,
@@ -14,13 +14,16 @@ export const getPdfMakeDocDefinition = async (
   };
 
   if (headerSettings) {
-    const { content, images, styles } = await getHeaderDefinition(headerSettings);
+    // Get header images and styles
+    const { images, styles } = await getHeaderDefinition(headerSettings);
     
+    // Add images to document definition
     docDefinition.images = {
       ...(docDefinition.images || {}),
       ...(images as Record<string, string | ImageDefinition>),
     };
     
+    // Add styles to document definition
     docDefinition.styles = {
       ...(docDefinition.styles || {}),
       ...styles,
@@ -59,22 +62,32 @@ export const getPdfMakeDocDefinition = async (
         margin: [0, 2, 0, 2]
       }
     };
+    
+    // Get existing content as array
     const existingContent = Array.isArray(docDefinition.content)
       ? docDefinition.content
       : docDefinition.content
       ? [docDefinition.content]
       : [];
     
-    // Create an array of content with header, table (if provided), and existing content
-    const contentArray: Content[] = [
-      content as Content,
-      { text: '', margin: [0, 10, 0, 0] } as Content,
-    ];
+    // Create an array for content
+    const contentArray: Content[] = [];
     
-    // Add primary table if data is provided
+    // Add primary table with repeating header if data is provided
     if (tableData && tableData.length > 0) {
-      const table = generatePrimaryTable({ data: tableData });
+      const table = await generatePrimaryTable({ 
+        data: tableData,
+        headerSettings,
+        includePageHeader: true
+      });
       contentArray.push(table);
+    } else {
+      // If no table data, add the header content separately
+      const { content } = await getHeaderDefinition(headerSettings);
+      contentArray.push(
+        content as Content,
+        { text: '', margin: [0, 10, 0, 0] } as Content
+      );
     }
     
     // Add the existing content

@@ -86,24 +86,24 @@ export const tableData: TableData[] = [{
       [
         { text: "22-02-25", style: 'ledgerCell' },
         { text: "ON ACCOUNT", style: 'ledgerCell' },
-        { text: "0.00", style: 'ledgerCell' },
-        { text: "-1,05,000.00", style: 'ledgerCell' },
-        { text: "-5,000.00", style: 'ledgerCell' },
-        { text: "0.00", style: 'ledgerCell' },
-        { text: "1,00,000.00", style: 'ledgerCell' },
-        { text: "-1,05,000.00", style: 'ledgerCell' },
-        { text: "54", style: 'ledgerCell' }
+        { text: "0.00", style: 'tableCellSummable' },
+        { text: "-1,05,000.00", style: 'tableCellSummable' },
+        { text: "-5,000.00", style: 'tableCellSummable' },
+        { text: "0.00", style: 'tableCellSummable' },
+        { text: "1,00,000.00", style: 'tableCellSummable' },
+        { text: "-1,05,000.00", style: 'tableCellSummable' },
+        { text: "54", style: 'tableCellSummable' }
       ],
       [
-        { text: "", style: 'ledgerCell' },
-        { text: "Total", style: 'ledgerCell', bold: true },
-        { text: "0.00", style: 'ledgerCell', bold: true },
-        { text: "-1,05,000.00", style: 'ledgerCell', bold: true },
-        { text: "-5,000.00", style: 'ledgerCell', bold: true },
-        { text: "0.00", style: 'ledgerCell', bold: true },
-        { text: "1,00,000.00", style: 'ledgerCell', bold: true },
-        { text: "-1,05,000.00", style: 'ledgerCell', bold: true },
-        { text: "", style: 'ledgerCell' }
+        { text: "", style: 'tableCellSummable' },
+        { text: "Total", style: 'tableCellSummable', bold: true },
+        { text: "0.00", style: 'tableCellSummable', bold: true },
+        { text: "-1,05,000.00", style: 'tableCellSummable', bold: true },
+        { text: "-5,000.00", style: 'tableCellSummable', bold: true },
+        { text: "0.00", style: 'tableCellSummable', bold: true },
+        { text: "1,00,000.00", style: 'tableCellSummable', bold: true },
+        { text: "-1,05,000.00", style: 'tableCellSummable', bold: true },
+        { text: "", style: 'tableCellSummable' }
       ]
     ]
   },
@@ -131,24 +131,24 @@ export const tableData: TableData[] = [{
       [
         { text: "11-12-24", style: 'ledgerCell' },
         { text: "ON ACCOUNT", style: 'ledgerCell' },
-        { text: "0.00", style: 'ledgerCell' },
-        { text: "-12,456.00", style: 'ledgerCell' },
-        { text: "0.00", style: 'ledgerCell' },
-        { text: "12,456.00", style: 'ledgerCell' },
-        { text: "12,456.00", style: 'ledgerCell' },
-        { text: "0.00", style: 'ledgerCell' },
-        { text: "127", style: 'ledgerCell' }
+        { text: "0.00", style: 'tableCellSummable' },
+        { text: "-12,456.00", style: 'tableCellSummable' },
+        { text: "0.00", style: 'tableCellSummable' },
+        { text: "12,456.00", style: 'tableCellSummable' },
+        { text: "12,456.00", style: 'tableCellSummable' },
+        { text: "0.00", style: 'tableCellSummable' },
+        { text: "127", style: 'tableCellSummable' }
       ],
       [
         { text: "", style: 'ledgerCell' },
         { text: "Total", style: 'ledgerCell', bold: true },
-        { text: "0.00", style: 'ledgerCell', bold: true },
-        { text: "-12,456.00", style: 'ledgerCell', bold: true },
-        { text: "0.00", style: 'ledgerCell', bold: true },
-        { text: "12,456.00", style: 'ledgerCell', bold: true },
-        { text: "12,456.00", style: 'ledgerCell', bold: true },
-        { text: "0.00", style: 'ledgerCell', bold: true },
-        { text: "", style: 'ledgerCell' }
+        { text: "0.00", style: 'tableCellSummable', bold: true },
+        { text: "-12,456.00", style: 'tableCellSummable', bold: true },
+        { text: "0.00", style: 'tableCellSummable', bold: true },
+        { text: "12,456.00", style: 'tableCellSummable', bold: true },
+        { text: "12,456.00", style: 'tableCellSummable', bold: true },
+        { text: "0.00", style: 'tableCellSummable', bold: true },
+        { text: "", style: 'tableCellSummable' }
       ]
     ]
 },
@@ -176,24 +176,24 @@ export const tableData: TableData[] = [{
     [
       { text: "11-12-24", style: 'ledgerCell' },
       { text: "ON ACCOUNT", style: 'ledgerCell' },
-      { text: "0.00", style: 'ledgerCell' },
-      { text: "-12,456.00", style: 'ledgerCell' },
-      { text: "0.00", style: 'ledgerCell' },
-      { text: "12,456.00", style: 'ledgerCell' },
-      { text: "12,456.00", style: 'ledgerCell' },
-      { text: "0.00", style: 'ledgerCell' },
-      { text: "127", style: 'ledgerCell' }
+      { text: "0.00", style: 'tableCellSummable' },
+      { text: "-12,456.00", style: 'tableCellSummable' },
+      { text: "0.00", style: 'tableCellSummable' },
+      { text: "12,456.00", style: 'tableCellSummable' },
+      { text: "12,456.00", style: 'tableCellSummable' },
+      { text: "0.00", style: 'tableCellSummable' },
+      { text: "127", style: 'tableCellSummable' }
     ],
     [
       { text: "", style: 'ledgerCell' },
       { text: "Total", style: 'ledgerCell', bold: true },
-      { text: "0.00", style: 'ledgerCell', bold: true },
-      { text: "-12,456.00", style: 'ledgerCell', bold: true },
-      { text: "0.00", style: 'ledgerCell', bold: true },
-      { text: "12,456.00", style: 'ledgerCell', bold: true },
-      { text: "12,456.00", style: 'ledgerCell', bold: true },
-      { text: "0.00", style: 'ledgerCell', bold: true },
-      { text: "", style: 'ledgerCell' }
+      { text: "0.00", style: 'tableCellSummable', bold: true },
+      { text: "-12,456.00", style: 'tableCellSummable', bold: true },
+      { text: "0.00", style: 'tableCellSummable', bold: true },
+      { text: "12,456.00", style: 'tableCellSummable', bold: true },
+      { text: "12,456.00", style: 'tableCellSummable', bold: true },
+      { text: "0.00", style: 'tableCellSummable', bold: true },
+      { text: "", style: 'tableCellSummable' }
     ]
   ]
 },
