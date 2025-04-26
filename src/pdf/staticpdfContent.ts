@@ -63,8 +63,8 @@ export const tableData: TableData[] = [{
       border: [true, true, true, true]
     },
     rightStrings: [
-      { text: "> 60 days : -12,456.00", style: 'ledgerRightStrings', color: 'red' },
-      { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings', color: 'green' }
+      { text: "> 60 days : -12,456.00", style: 'supplierRightStrings', color: 'red' },
+      { text: "> 30 days : -12,456.00", style: 'supplierRightStrings', color: 'green' }
     ],
     totals: [
       { text: "Inv. Amt. : 3,07,51,251.00", style: 'ledgerTotals', alignment: 'left' },
@@ -114,7 +114,7 @@ export const tableData: TableData[] = [{
       border: [true, true, true, true]
     },
     rightStrings: [
-      { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+      { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
     ],
     headers: [
       { text: "Date", style: 'ledgerHeader' },
@@ -159,7 +159,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -204,7 +204,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -249,7 +249,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -294,7 +294,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -339,7 +339,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -384,7 +384,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -429,7 +429,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -474,7 +474,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -519,7 +519,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -564,7 +564,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -609,7 +609,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -654,7 +654,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -699,7 +699,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -744,7 +744,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -789,7 +789,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -834,7 +834,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -879,7 +879,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -924,7 +924,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -969,7 +969,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -1014,7 +1014,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -1059,7 +1059,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -1104,7 +1104,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },
@@ -1149,7 +1149,7 @@ export const tableData: TableData[] = [{
     border: [true, true, true, true]
   },
   rightStrings: [
-    { text: "> 30 days : -12,456.00", style: 'ledgerRightStrings' }
+    { text: "> 30 days : -12,456.00", style: 'supplierRightStrings' }
   ],
   headers: [
     { text: "Date", style: 'ledgerHeader' },

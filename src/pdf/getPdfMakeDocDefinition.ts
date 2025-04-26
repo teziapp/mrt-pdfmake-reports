@@ -41,6 +41,11 @@ export const getPdfMakeDocDefinition = async (
         alignment: 'right',
         fontSize: 8,
       },
+      supplierRightStrings: {
+        alignment: 'right',
+        fontSize: 8,
+        fillColor: '#eeeeee'
+      },
       ledgerTotals: {
         alignment: 'left',
         fontSize: 8
@@ -54,6 +59,7 @@ export const getPdfMakeDocDefinition = async (
         fontSize: 10,
         bold: true,
         alignment: 'center',
+        fillColor: '#eeeeee',
         margin: [0, 2, 0, 2],
       },
       tableCellSummable:{

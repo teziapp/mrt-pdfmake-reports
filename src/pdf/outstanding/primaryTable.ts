@@ -190,7 +190,7 @@ export const generatePrimaryTable = async ({ data, headerSettings, includePageHe
       ...Array(Math.ceil(totalColumns / 2) - 1).fill({}),
       {
         stack: supplierData.rightStrings,
-        style: 'ledgerRightStrings',
+        style: 'supplierRightStrings',
         border: [false, true, true, true],
         borderColor: ['#000000', '#000000', '#000000', '#000000'],
         width: '*',
