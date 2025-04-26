@@ -87,8 +87,14 @@ export const generatePrimaryTable = async ({ data, headerSettings, includePageHe
           widths: ['*'],
           body: [['']],
         },
-        layout: 'headerLineOnly',
+        layout: {
+          hLineWidth: function(i) {
+            return (i === 1) ? 2 : 0;
+          },
+          vLineWidth: function() { return 0; },
+        },
         border: [false, false, false, false],
+        margin: [0, 0, 0, 10]
       },
       ...emptyColumns
     ]);
