@@ -75,11 +75,24 @@ export const getPdfMakeDocDefinition = async (
     
     // Add primary table with repeating header if data is provided
     if (tableData && tableData.length > 0) {
+      // Always include the header content on at least the first page
+      const { content: headerContent } = await getHeaderDefinition(headerSettings);
+      
+      // Generate the table with repeating headers only if headerOnEveryPage is true
       const table = await generatePrimaryTable({ 
         data: tableData,
         headerSettings,
-        includePageHeader: true
+        includePageHeader: headerSettings.headerOnEveryPage ?? false
       });
+      
+      // If header should not repeat on every page, add it separately before the table
+      if (!headerSettings.headerOnEveryPage) {
+        contentArray.push(
+          headerContent as Content,
+          { text: '', margin: [0, 10, 0, 0] } as Content
+        );
+      }
+      
       contentArray.push(table);
     } else {
       // If no table data, add the header content separately

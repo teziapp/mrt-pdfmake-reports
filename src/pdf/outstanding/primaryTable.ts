@@ -205,11 +205,6 @@ export const generatePrimaryTable = async ({ data, headerSettings, includePageHe
     },
     layout: {
       defaultBorder: true,
-      hLineWidth: function(i) {
-        // Remove top border of the table (i=0)
-        if (i === 0) return 0;
-        return 1;
-      },
       paddingLeft: () => 4,
       paddingRight: () => 4,
       paddingTop: () => 2,
