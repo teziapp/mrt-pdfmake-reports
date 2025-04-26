@@ -51,7 +51,8 @@ export const generatePrimaryTable = async ({ data, headerSettings, includePageHe
           stack: headerSettings.headerContent.topSection,
           colSpan: totalColumns,
           style: 'headerTopSection',
-          border: [false, false, false, false]
+          border: [false, false, false, false],
+          margin: [0, 0, 0, 0]
         },
         ...emptyColumns
       ]);
@@ -94,7 +95,7 @@ export const generatePrimaryTable = async ({ data, headerSettings, includePageHe
           vLineWidth: function() { return 0; },
         },
         border: [false, false, false, false],
-        margin: [0, 0, 0, 10]
+        margin: [0, 0, 0, 5]
       },
       ...emptyColumns
     ]);
