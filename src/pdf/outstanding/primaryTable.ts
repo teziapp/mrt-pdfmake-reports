@@ -276,21 +276,21 @@ export const generatePrimaryTable = async ({ data, headerSettings, includePageHe
       defaultBorder: false,
       hLineWidth: function(i, node) {
         // Top and bottom of table
-        if (i === 0 || i === node.table.body.length) return 1;
+        if (i === 0 || i === node.table.body.length) return 1.3;
         
         // Headers section
-        if (i <= nonRepeatingRows + headerRowsCount) return 1;
+        if (i <= nonRepeatingRows + headerRowsCount) return 1.3;
         
         // Special rows
         if (specialRowIndices.includes(i) || specialRowIndices.includes(i-1)) {
-          return 1;
+          return 1.3;
         }
 
         // Force border between title/subtitle section and supplier section
         if (i === nonRepeatingRows + (data[0].title ? 1 : 0) + 
                  (data[0].subtitle ? 1 : 0) + 
                  (data[0].subtitleTotals?.length || data[0].subtitleRightStrings?.length || 0)) {
-          return 1;
+          return 1.3;
         }
         
         return 0; // No horizontal lines between regular rows
@@ -298,7 +298,7 @@ export const generatePrimaryTable = async ({ data, headerSettings, includePageHe
       vLineWidth: function(i, node) {
         // Outer borders are full width
         if (i === 0 || (node.table.widths && i === node.table.widths.length)) {
-          return 1;
+          return 1.3;
         }
         
         // For internal lines, use thinner lines to create visual distinction
