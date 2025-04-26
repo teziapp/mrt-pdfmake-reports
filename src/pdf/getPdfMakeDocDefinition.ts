@@ -9,7 +9,7 @@ export const getPdfMakeDocDefinition = async (
   tableData?: TableData[]
 ) => {
   let docDefinition: TDocumentDefinitions = {
-    pageMargins: [40, 10, 40, 40],
+    pageMargins: [20, 10, 20, 20],
     ...inputDocDefinition,
   };
 
@@ -54,7 +54,7 @@ export const getPdfMakeDocDefinition = async (
         fontSize: 10,
         bold: true,
         alignment: 'center',
-        margin: [0, 2, 0, 2]
+        margin: [0, 2, 0, 2],
       },
       tableCellSummable:{
         alignment: 'right',
