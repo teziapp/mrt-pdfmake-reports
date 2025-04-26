@@ -4,7 +4,7 @@ import { TableData } from './outstanding/primaryTable';
 
 // Company details content array
 const companyDetailsContent: Content[] = [
-  { text: 'Sample Company Name', style: 'headerContent'},
+  { text: 'Sample Company Name', style: 'headerContent', bold: true},
   { text: '123 Business Street, City, State, ZIP', style: 'headerContent' },
   { text: 'ph:+1 234-567-8900', style: 'headerContent' },
   { text: 'www.samplecompany.com', style: 'headerContent' },
