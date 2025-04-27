@@ -1,22 +1,22 @@
-import { MaterialReactTableProps, MRT_RowData } from "material-react-table";
-import { SmartReportMRT } from "../smart_report_mrt";
-
+import { MaterialReactTableProps, MRT_RowData, MRT_ColumnDef, MRT_TableInstance } from "material-react-table";
+import { TableContextProvider } from "../../TableContextProvider";
+import { SmartReportMRT } from "../smart_report_mrt/smart_report_mrt";
 type SmartReportProps<T extends MRT_RowData> = {
-  children: React.ReactNode;
-  tableProps?: never;
-} | {
-  children?: never;
-  tableProps: MaterialReactTableProps<T>;
+  tableProps: Omit<MaterialReactTableProps<T>, 'columns' | 'data'> & {
+    columns: MRT_ColumnDef<T>[];
+    data: T[];
+  };
+  table?: MRT_TableInstance<T>;
 }
 
-export const SmartReport = <T extends MRT_RowData>({children, tableProps}:SmartReportProps<T>) => {
-  if (children) {
-    return <>{children}</>;
-  }
+export const SmartReport = <T extends MRT_RowData>({
+  tableProps, 
+  table
+}: SmartReportProps<T>) => {
   
-  if (!tableProps) {
-    return null;
-  }
-  
-  return <SmartReportMRT {...tableProps} />;
-}
+  return (
+    <TableContextProvider tableProps={tableProps} table={table}>
+        <SmartReportMRT />
+    </TableContextProvider>
+  );
+}; 

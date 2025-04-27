@@ -1,0 +1,136 @@
+/* --- Responsive Table CSS --- */
+
+.responsive-card-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  /* Default Table Cell Padding (Example) */
+  .responsive-card-table th,
+  .responsive-card-table td {
+      padding: 8px 12px; /* Adjust to match default MRT/MUI padding */
+      text-align: left;
+      border-bottom: 1px solid #ddd; /* Default row separator */
+  }
+   .responsive-card-table th {
+       font-weight: bold;
+   }
+   /* Remove bottom border from last row */
+    .responsive-card-table tr:last-child td {
+        border-bottom: none;
+    }
+  
+  
+  /* --- Mobile Card View (Default Responsive) --- */
+  /* @media screen and (max-width: 767px) { */
+  
+    /* Hide header by default in mobile */
+    .responsive-card-table:not(.force-table-view) thead {
+      display: none;
+    }
+  
+    /* Apply card styles only when NOT forced into table view */
+    .responsive-card-table:not(.force-table-view) {
+      border: none;
+      box-shadow: none;
+    }
+  
+    .responsive-card-table:not(.force-table-view) tbody,
+    .responsive-card-table:not(.force-table-view) tr,
+    .responsive-card-table:not(.force-table-view) td {
+      display: block;
+      width: 100% !important;
+      box-sizing: border-box;
+    }
+  
+    .responsive-card-table:not(.force-table-view) tr {
+      margin-bottom: 1.5rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      background-color: #fff;
+    }
+  
+     .responsive-card-table:not(.force-table-view) tr.MuiTableRow-root {
+       background-color: transparent;
+    }
+  
+  
+    .responsive-card-table:not(.force-table-view) td {
+      text-align: right;
+      padding-left: 50%;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      position: relative;
+      border: none;
+      border-bottom: 1px solid #eee;
+      min-height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+  
+    .responsive-card-table:not(.force-table-view) tr td:last-child {
+      border-bottom: none;
+    }
+  
+    .responsive-card-table:not(.force-table-view) td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: calc(50% - 20px);
+      padding-right: 10px;
+      font-weight: bold;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #555;
+    }
+  
+     /* --- Overrides when .force-table-view is active on mobile --- */
+  
+    /* IMPORTANT: Show header when table view is forced */
+    .responsive-card-table.force-table-view thead {
+        display: table-header-group !important; /* Or initial */
+    }
+  
+    /* Reset row display */
+    .responsive-card-table.force-table-view tr {
+        display: table-row !important;
+        /* Reset card styles */
+        margin-bottom: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background-color: transparent !important;
+        overflow: visible !important;
+    }
+  
+    /* Reset cell display and styles */
+    .responsive-card-table.force-table-view td {
+        display: table-cell !important;
+        width: auto !important; /* Allow table layout */
+        /* Reset card cell styles */
+        text-align: left !important; /* Default alignment */
+        padding: 8px 12px !important; /* Restore original padding */
+        position: static !important;
+        border: none !important; /* Remove card border */
+        border-bottom: 1px solid #ddd !important; /* Restore row border */
+        min-height: auto !important;
+    }
+  
+    /* Hide the generated labels when table view is forced */
+    .responsive-card-table.force-table-view td::before {
+        display: none !important;
+    }
+  
+    /* Ensure last row border is correctly removed in forced table view */
+     .responsive-card-table.force-table-view tr:last-child td {
+         border-bottom: none !important;
+     }
+  
+  /* } */
