@@ -99,7 +99,7 @@ export const generatePrimaryTable = async ({ data, headerSettings, includePageHe
       },
       ...emptyColumns
     ]);
-    headerRowsCount++;
+    // headerRowsCount++;
   }
   
   // Non-repeating title/subtitle section (outside of headerRows)
