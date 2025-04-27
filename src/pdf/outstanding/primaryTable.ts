@@ -267,7 +267,7 @@ export const generatePrimaryTable = async ({ data, headerSettings, includePageHe
   // Create a single unified table with all content
   return {
     table: {
-      headerRows: headerRowsCount, 
+      headerRows: includePageHeader ? headerRowsCount : 0, 
       widths,
       body: tableBody,
       dontBreakRows: true,
