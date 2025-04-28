@@ -1,14 +1,14 @@
-import { ContentText, TableCellProperties, TableCell, Content } from 'pdfmake/interfaces';
+import { ContentText, TableCellProperties, Content } from 'pdfmake/interfaces';
 import { HeaderSettings } from '../types/PdfMake';
 import { checkImageValidGetDef } from '../utils/fetchValidImageURL';
 
 export interface TableData {
-  title?: TableCell[];
-  subtitle?: TableCell[];
-  rightStrings: TableCell[];
-  totals?: TableCell[];
-  subtitleRightStrings?: TableCell[];
-  subtitleTotals?: TableCell[];
+  title?: ContentText & TableCellProperties;
+  subtitle?: ContentText & TableCellProperties;
+  rightStrings: ContentText[];
+  totals?: ContentText[];
+  subtitleRightStrings?: ContentText[];
+  subtitleTotals?: ContentText[];
   headers: ContentText[];
   rows: ContentText[][];
   supplierInfo: ContentText & TableCellProperties;
@@ -106,7 +106,7 @@ export const generatePrimaryTable = async ({ data, headerSettings, includePageHe
   const nonRepeatingRows = headerRowsCount;
   
   // Add title and subtitle section
-  if (data[0].title) {
+  if (data[0].title?.text) {
     tableBody.push([
       { 
         ...data[0].title, 
@@ -117,7 +117,7 @@ export const generatePrimaryTable = async ({ data, headerSettings, includePageHe
     ]);
   }
 
-  if (data[0].subtitle) {
+  if (data[0].subtitle?.text) {
     tableBody.push([
       { 
         ...data[0].subtitle, 
