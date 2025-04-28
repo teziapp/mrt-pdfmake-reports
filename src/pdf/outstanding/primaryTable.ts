@@ -23,15 +23,6 @@ export interface TableConfig {
   data: TableData[];
   headerSettings?: HeaderSettings;
   tableLayout?: TableLayout | CustomTableLayout;
-  styles?: {
-    title?: Style;
-    subtitle?: Style;
-    supplierInfo?: Style;
-    headers?: Style;
-    cells?: Style;
-    totals?: Style;
-    rightStrings?: Style;
-  };
   borders?: {
     useBorderColor?: boolean;
     outerBorderWidth?: number;
@@ -45,7 +36,6 @@ export const generatePrimaryTable = async ({
   data, 
   headerSettings, 
   tableLayout,
-  styles = {},
   borders = {
     useBorderColor: true,
     outerBorderWidth: 1.3,
