@@ -105,8 +105,6 @@ async function addHeaderRows(
         stack: headerSettings.headerContent.topSection,
         colSpan: totalColumns,
         style: 'headerTopSection',
-        border: [false, false, false, false],
-        margin: [0, 0, 0, 0]
       },
       ...emptyColumns
     ]);
@@ -116,7 +114,7 @@ async function addHeaderRows(
   // Extract the main header content from headerDef
   const headerTable = headerDef.content.find(item => 
     (item).table?.widths?.length
-  ) as { table: { body: any[][] } };
+  ) as { table: { body: TableCell[][] } };
 
   if (headerTable) {
     // Add header content row with logo, content and right strings
@@ -127,8 +125,7 @@ async function addHeaderRows(
           widths: ['20%', '40%', '40%'],
           body: headerTable.table.body
         },
-        layout: 'noBorders',
-        border: [false, false, false, false],
+        layout: 'noBorders'
       },
       ...emptyColumns
     ]);
@@ -149,7 +146,6 @@ async function addHeaderRows(
         },
         vLineWidth: function() { return 0; },
       },
-      border: [false, false, false, false],
       margin: [0, 0, 0, 5]
     },
     ...emptyColumns
@@ -171,8 +167,7 @@ function addTitleSubtitleRows(
     tableBody.push([
       { 
         ...data.title, 
-        colSpan: totalColumns,
-        borderColor: ['#000000', '#000000', '#000000', '#000000'] 
+        colSpan: totalColumns
       },
       ...emptyColumns
     ]);
@@ -184,10 +179,6 @@ function addTitleSubtitleRows(
       { 
         ...data.subtitle, 
         colSpan: totalColumns,
-        borderColor: ['#000000', '#000000', '#000000', '#000000'],
-        border: data.subtitleTotals?.length || data.subtitleRightStrings?.length 
-          ? [true, true, true, false] // No bottom border if there are totals/rightStrings
-          : [true, true, true, true]
       },
       ...emptyColumns
     ]);
@@ -232,7 +223,6 @@ function addSubtitleDetailsRows(
         ...totalItem, 
         colSpan: leftColSpan,
         border: [true, false, false, isLastRow ? true : false],
-        borderColor: ['#000000', '#000000', '#000000', '#000000'],
         style: 'ledgerTotals'
       },
       ...leftCells,
@@ -241,7 +231,6 @@ function addSubtitleDetailsRows(
         colSpan: rightColSpan,
         alignment: 'right',
         border: [false, false, true, isLastRow ? true : false],
-        borderColor: ['#000000', '#000000', '#000000', '#000000'],
         style: 'ledgerRightStrings'
       },
       ...rightCells
@@ -272,7 +261,6 @@ function processSupplierData(
         text: supplierData.supplierInfo.text,
         style: supplierData.supplierInfo.style || 'ledgerHeader',
         border: [true, true, false, true],
-        borderColor: ['#000000', '#000000', '#000000', '#000000'],
         alignment: 'left',
         colSpan: leftColSpan
       },
@@ -281,7 +269,6 @@ function processSupplierData(
         stack: supplierData.rightStrings,
         style: 'supplierRightStrings',
         border: [false, true, true, true],
-        borderColor: ['#000000', '#000000', '#000000', '#000000'],
         width: '*',
         alignment: 'right',
         colSpan: rightColSpan
@@ -296,7 +283,6 @@ function processSupplierData(
         ...header,
         style: header.style,
         border: [true, true, true, true],
-        borderColor: ['#000000', '#000000', '#000000', '#000000']
       })));
     }
 
@@ -304,7 +290,7 @@ function processSupplierData(
     const rowStartIndex = tableBody.length;
     tableBody.push(...supplierData.rows.map((row, rowIndex) => {
       // Check if this is a total row
-      const isTotal = row.some(c => (c as any).text === "Total" && (c as any).bold === true);
+      const isTotal = row.some(c => (c).text === "Total" && (c).bold === true);
       
       if (isTotal) {
         // Mark total rows as special
