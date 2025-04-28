@@ -1,4 +1,4 @@
-import { ContentText, TableCellProperties, Content, TableLayout, Style, CustomTableLayout, TableCell } from 'pdfmake/interfaces';
+import { ContentText, TableCellProperties, Content, TableLayout, CustomTableLayout, TableCell } from 'pdfmake/interfaces';
 import { HeaderSettings } from '../types/PdfMake';
 import { getHeaderDefinition } from '../headers/getHeaderDefinition';
 
@@ -104,7 +104,6 @@ async function addHeaderRows(
       { 
         stack: headerSettings.headerContent.topSection,
         colSpan: totalColumns,
-        style: 'headerTopSection',
       },
       ...emptyColumns
     ]);
@@ -223,15 +222,12 @@ function addSubtitleDetailsRows(
         ...totalItem, 
         colSpan: leftColSpan,
         border: [true, false, false, isLastRow ? true : false],
-        style: 'ledgerTotals'
       },
       ...leftCells,
       { 
         ...rightString, 
         colSpan: rightColSpan,
-        alignment: 'right',
         border: [false, false, true, isLastRow ? true : false],
-        style: 'ledgerRightStrings'
       },
       ...rightCells
     ]);
@@ -259,9 +255,8 @@ function processSupplierData(
     tableBody.push([
       { 
         text: supplierData.supplierInfo.text,
-        style: supplierData.supplierInfo.style || 'ledgerHeader',
+        style: supplierData.supplierInfo.style,
         border: [true, true, false, true],
-        alignment: 'left',
         colSpan: leftColSpan
       },
       ...leftCells,
@@ -269,8 +264,6 @@ function processSupplierData(
         stack: supplierData.rightStrings,
         style: 'supplierRightStrings',
         border: [false, true, true, true],
-        width: '*',
-        alignment: 'right',
         colSpan: rightColSpan
       },
       ...rightCells

@@ -58,7 +58,7 @@ export const getPdfMakeDocDefinition = async (
       ledgerHeader: {
         fontSize: 10,
         bold: true,
-        alignment: 'center',
+        alignment: 'left',
         fillColor: '#eeeeee',
         margin: [0, 2, 0, 2],
       },
