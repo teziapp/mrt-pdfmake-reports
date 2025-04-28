@@ -1,36 +1,6 @@
-import { ContentText, TableCellProperties, Content, TableLayout, CustomTableLayout, TableCell } from 'pdfmake/interfaces';
-import { HeaderSettings } from '../types/PdfMake';
+import { Content, CustomTableLayout, TableCell } from 'pdfmake/interfaces';
+import { HeaderSettings, TableData, TableConfig } from '../types/PdfMake';
 import { getHeaderDefinition } from '../headers/getHeaderDefinition';
-
-export interface TableData {
-  title?: ContentText & TableCellProperties;
-  subtitle?: ContentText & TableCellProperties;
-  rightStrings: ContentText[];
-  totals?: ContentText[];
-  subtitleRightStrings?: ContentText[];
-  subtitleTotals?: ContentText[];
-  headers: ContentText[];
-  rows: ContentText[][];
-  supplierInfo: ContentText & TableCellProperties;
-  columnCount?: number; 
-  rightStringsLayout?: { 
-    leftColSpan?: number;
-    rightColSpan?: number;
-  };
-}
-
-export interface TableConfig {
-  data: TableData[];
-  headerSettings?: HeaderSettings;
-  tableLayout?: TableLayout | CustomTableLayout;
-  borders?: {
-    useBorderColor?: boolean;
-    outerBorderWidth?: number;
-    innerBorderWidth?: number;
-    outerBorderColor?: string;
-    innerBorderColor?: string;
-  };
-}
 
 export const generatePrimaryTable = async ({ 
   data, 

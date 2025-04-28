@@ -1,6 +1,6 @@
 import type { Content, ImageDefinition } from 'pdfmake/interfaces';
 import { HeaderSettings } from './types/PdfMake';
-import { TableData } from './outstanding/primaryTable';
+import { TableData } from './types/PdfMake';
 
 // Company details content array
 const companyDetailsContent: Content[] = [
