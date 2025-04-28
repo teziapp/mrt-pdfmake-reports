@@ -167,7 +167,9 @@ async function addHeaderRows(
       margin: [0, 0, 0, 5]
     } as TableCell,
     ...emptyColumns
+    
   ]);
+  headerRowsCount++;
   
   return headerRowsCount;
 }

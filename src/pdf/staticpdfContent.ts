@@ -1194,7 +1194,7 @@ export const tableData: TableData[] = [{
 export const headerSettings: HeaderSettings = {
   template: 'regular',
   headerContent,
-  headerOnEveryPage: false,
+  headerOnEveryPage: true,
   headerRightStrings: headerRightStrings
 };
 
