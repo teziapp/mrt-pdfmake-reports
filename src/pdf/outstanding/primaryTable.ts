@@ -22,10 +22,9 @@ export interface TableData {
 interface TableConfig {
   data: TableData[];
   headerSettings?: HeaderSettings;
-  includePageHeader?: boolean;
 }
 
-export const generatePrimaryTable = async ({ data, headerSettings, includePageHeader = false }: TableConfig): Promise<Content> => {
+export const generatePrimaryTable = async ({ data, headerSettings }: TableConfig): Promise<Content> => {
   // Determine total columns from headers or provided columnCount
   const totalColumns = data[0].columnCount || data[0].headers.length;
   const emptyColumns = Array(totalColumns - 1).fill({});
@@ -34,8 +33,8 @@ export const generatePrimaryTable = async ({ data, headerSettings, includePageHe
   const tableBody: Content[][] = [];
   let headerRowsCount = 0;
   
-  // Add page header rows if requested
-  if (includePageHeader && headerSettings) {
+  // Add page header rows if requested and should be on every page
+  if (headerSettings && headerSettings.headerOnEveryPage) {
     // Get validated logo image if available
     const logoSection = headerSettings.headerContent.image
       ? await checkImageValidGetDef({
@@ -205,7 +204,7 @@ export const generatePrimaryTable = async ({ data, headerSettings, includePageHe
       specialRowIndices.push(tableBody.length); // Headers row
       tableBody.push(supplierData.headers.map(header => ({
         ...header,
-        style: header.style || 'ledgerHeader',
+        style: header.style,
         border: [true, true, true, true],
         borderColor: ['#000000', '#000000', '#000000', '#000000']
       })));
@@ -267,7 +266,7 @@ export const generatePrimaryTable = async ({ data, headerSettings, includePageHe
   // Create a single unified table with all content
   return {
     table: {
-      headerRows: includePageHeader ? headerRowsCount : 0, 
+      headerRows: headerSettings?.headerOnEveryPage ? headerRowsCount : 0,
       widths,
       body: tableBody,
       dontBreakRows: true,
