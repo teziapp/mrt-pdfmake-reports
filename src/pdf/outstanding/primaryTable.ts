@@ -56,7 +56,7 @@ export const generatePrimaryTable = async ({
 }: TableConfig): Promise<Content> => {
   // Determine total columns from headers or provided columnCount
   const totalColumns = data[0].columnCount || data[0].headers.length;
-  const emptyColumns = Array(totalColumns - 1).fill({} as TableCell);
+  const emptyColumns = Array(totalColumns - 1).fill({});
   
   // Create one unified table with all content
   const tableBody: TableCell[][] = [];
@@ -122,7 +122,7 @@ async function addHeaderRows(
         style: 'headerTopSection',
         border: [false, false, false, false],
         margin: [0, 0, 0, 0]
-      } as TableCell,
+      },
       ...emptyColumns
     ]);
     headerRowsCount++;
@@ -136,15 +136,15 @@ async function addHeaderRows(
         widths: ['20%', '40%', '40%'],
         body: [[
           logoSection?.imageDef && logoSection.image 
-            ? { image: 'headerLogo', fit: [100, 100], style: 'headerImage' } as TableCell
-            : { text: '' } as TableCell,
-          headerSettings.headerContent.content ? { stack: headerSettings.headerContent.content, style: 'headerContent' } as TableCell : { text: '' } as TableCell,
-          headerSettings.headerRightStrings ? { stack: headerSettings.headerRightStrings, style: 'headerRightStrings' } as TableCell : { text: '' } as TableCell,
+            ? { image: 'headerLogo', fit: [100, 100], style: 'headerImage' }
+            : { text: '' },
+          headerSettings.headerContent.content ? { stack: headerSettings.headerContent.content, style: 'headerContent' } : { text: '' },
+          headerSettings.headerRightStrings ? { stack: headerSettings.headerRightStrings, style: 'headerRightStrings' } : { text: '' },
         ]],
       },
       layout: 'noBorders',
       border: [false, false, false, false],
-    } as TableCell,
+    },
     ...emptyColumns
   ]);
   headerRowsCount++;
@@ -165,12 +165,12 @@ async function addHeaderRows(
       },
       border: [false, false, false, false],
       margin: [0, 0, 0, 5]
-    } as TableCell,
+    },
     ...emptyColumns
     
   ]);
   headerRowsCount++;
-  
+
   return headerRowsCount;
 }
 
@@ -188,7 +188,7 @@ function addTitleSubtitleRows(
         ...data.title, 
         colSpan: totalColumns,
         borderColor: ['#000000', '#000000', '#000000', '#000000'] 
-      } as TableCell,
+      },
       ...emptyColumns
     ]);
   }
@@ -203,7 +203,7 @@ function addTitleSubtitleRows(
         border: data.subtitleTotals?.length || data.subtitleRightStrings?.length 
           ? [true, true, true, false] // No bottom border if there are totals/rightStrings
           : [true, true, true, true]
-      } as TableCell,
+      },
       ...emptyColumns
     ]);
     
@@ -239,8 +239,8 @@ function addSubtitleDetailsRows(
       ? data.subtitleRightStrings[i] 
       : { text: '', border: [true, false, true, false] };
 
-    const leftCells = Array(leftColSpan - 1).fill({} as TableCell);
-    const rightCells = Array(rightColSpan - 1).fill({} as TableCell);
+    const leftCells = Array(leftColSpan - 1).fill({});
+    const rightCells = Array(rightColSpan - 1).fill({});
 
     tableBody.push([
       { 
@@ -249,7 +249,7 @@ function addSubtitleDetailsRows(
         border: [true, false, false, isLastRow ? true : false],
         borderColor: ['#000000', '#000000', '#000000', '#000000'],
         style: 'ledgerTotals'
-      } as TableCell,
+      },
       ...leftCells,
       { 
         ...rightString, 
@@ -258,7 +258,7 @@ function addSubtitleDetailsRows(
         border: [false, false, true, isLastRow ? true : false],
         borderColor: ['#000000', '#000000', '#000000', '#000000'],
         style: 'ledgerRightStrings'
-      } as TableCell,
+      },
       ...rightCells
     ]);
   }
@@ -278,8 +278,8 @@ function processSupplierData(
     // Mark supplier info row as special
     specialRowIndices.push(tableBody.length); // Supplier row
     
-    const leftCells = Array(leftColSpan - 1).fill({} as TableCell);
-    const rightCells = Array(rightColSpan - 1).fill({} as TableCell);
+    const leftCells = Array(leftColSpan - 1).fill({});
+    const rightCells = Array(rightColSpan - 1).fill({});
     
     // Add supplier info and right strings
     tableBody.push([
@@ -290,7 +290,7 @@ function processSupplierData(
         borderColor: ['#000000', '#000000', '#000000', '#000000'],
         alignment: 'left',
         colSpan: leftColSpan
-      } as TableCell,
+      },
       ...leftCells,
       {
         stack: supplierData.rightStrings,
@@ -300,7 +300,7 @@ function processSupplierData(
         width: '*',
         alignment: 'right',
         colSpan: rightColSpan
-      } as TableCell,
+      },
       ...rightCells
     ]);
 
@@ -312,7 +312,7 @@ function processSupplierData(
         style: header.style,
         border: [true, true, true, true],
         borderColor: ['#000000', '#000000', '#000000', '#000000']
-      } as TableCell)));
+      })));
     }
 
     // Add rows
@@ -343,7 +343,7 @@ function processSupplierData(
               isRightmost ? '#000000' : '#aaaaaa', // Right border
               '#000000'                           // Bottom border (keep black)
             ]
-          } as TableCell;
+          };
         }
         
         // For regular rows, show only vertical borders with grey color
@@ -358,7 +358,7 @@ function processSupplierData(
             isRightmost ? '#000000' : '#aaaaaa', // Right border
             '#aaaaaa'                           // Bottom border
           ]
-        } as TableCell;
+        };
       });
     }));
   });

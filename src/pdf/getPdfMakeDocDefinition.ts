@@ -88,7 +88,6 @@ export const getPdfMakeDocDefinition = async (
       const table = await generatePrimaryTable({ 
         data: tableData,
         headerSettings,
-        // includePageHeader: headerSettings.headerOnEveryPage ?? false
       });
       
       // If header should not repeat on every page, add it separately before the table
