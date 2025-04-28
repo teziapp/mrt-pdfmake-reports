@@ -1,4 +1,4 @@
-import { ContentText, TableCellProperties, Content } from 'pdfmake/interfaces';
+import { ContentText, TableCellProperties, Content, TableLayout, Style, CustomTableLayout, TableCell } from 'pdfmake/interfaces';
 import { HeaderSettings } from '../types/PdfMake';
 import { checkImageValidGetDef } from '../utils/fetchValidImageURL';
 
@@ -19,164 +19,267 @@ export interface TableData {
   };
 }
 
-interface TableConfig {
+export interface TableConfig {
   data: TableData[];
   headerSettings?: HeaderSettings;
+  tableLayout?: TableLayout | CustomTableLayout;
+  styles?: {
+    title?: Style;
+    subtitle?: Style;
+    supplierInfo?: Style;
+    headers?: Style;
+    cells?: Style;
+    totals?: Style;
+    rightStrings?: Style;
+  };
+  borders?: {
+    useBorderColor?: boolean;
+    outerBorderWidth?: number;
+    innerBorderWidth?: number;
+    outerBorderColor?: string;
+    innerBorderColor?: string;
+  };
 }
 
-export const generatePrimaryTable = async ({ data, headerSettings }: TableConfig): Promise<Content> => {
+export const generatePrimaryTable = async ({ 
+  data, 
+  headerSettings, 
+  tableLayout,
+  styles = {},
+  borders = {
+    useBorderColor: true,
+    outerBorderWidth: 1.3,
+    innerBorderWidth: 0.5,
+    outerBorderColor: '#000000',
+    innerBorderColor: '#aaaaaa'
+  }
+}: TableConfig): Promise<Content> => {
   // Determine total columns from headers or provided columnCount
   const totalColumns = data[0].columnCount || data[0].headers.length;
-  const emptyColumns = Array(totalColumns - 1).fill({});
+  const emptyColumns = Array(totalColumns - 1).fill({} as TableCell);
   
-  // Instead of separate tables, create one unified table with all content
-  const tableBody: Content[][] = [];
+  // Create one unified table with all content
+  const tableBody: TableCell[][] = [];
   let headerRowsCount = 0;
   
-  // Add page header rows if requested and should be on every page
+  // Add page header rows if requested
   if (headerSettings && headerSettings.headerOnEveryPage) {
-    // Get validated logo image if available
-    const logoSection = headerSettings.headerContent.image
-      ? await checkImageValidGetDef({
-          url: headerSettings.headerContent.image.url,
-          ...(headerSettings.headerContent.image.headers && { headers: headerSettings.headerContent.image.headers }),
-        })
-      : undefined;
-    
-    // Add top section if it exists
-    if (headerSettings.headerContent.topSection) {
-      tableBody.push([
-        { 
-          stack: headerSettings.headerContent.topSection,
-          colSpan: totalColumns,
-          style: 'headerTopSection',
-          border: [false, false, false, false],
-          margin: [0, 0, 0, 0]
-        },
-        ...emptyColumns
-      ]);
-      headerRowsCount++;
-    }
-    
-    // Add header content row with logo, content and right strings
-    tableBody.push([
-      {
-        colSpan: totalColumns,
-        table: {
-          widths: ['20%', '40%', '40%'],
-          body: [[
-            logoSection?.imageDef && logoSection.image 
-              ? { image: 'headerLogo', fit: [100, 100], style: 'headerImage' }
-              : { text: '' },
-            headerSettings.headerContent.content ? { stack: headerSettings.headerContent.content, style: 'headerContent' } : { text: '' },
-            headerSettings.headerRightStrings ? { stack: headerSettings.headerRightStrings, style: 'headerRightStrings' } : { text: '' },
-          ]],
-        },
-        layout: 'noBorders',
-        border: [false, false, false, false],
-      },
-      ...emptyColumns
-    ]);
-    headerRowsCount++;
-    
-    // Add header separator line
-    tableBody.push([
-      {
-        colSpan: totalColumns,
-        table: {
-          widths: ['*'],
-          body: [['']],
-        },
-        layout: {
-          hLineWidth: function(i) {
-            return (i === 1) ? 2 : 0;
-          },
-          vLineWidth: function() { return 0; },
-        },
-        border: [false, false, false, false],
-        margin: [0, 0, 0, 5]
-      },
-      ...emptyColumns
-    ]);
-    // headerRowsCount++;
+    headerRowsCount = await addHeaderRows(tableBody, headerSettings, totalColumns, emptyColumns);
   }
   
   // Non-repeating title/subtitle section (outside of headerRows)
   const nonRepeatingRows = headerRowsCount;
   
-  // Add title and subtitle section
-  if (data[0].title?.text) {
-    tableBody.push([
-      { 
-        ...data[0].title, 
-        colSpan: totalColumns,
-        borderColor: ['#000000', '#000000', '#000000', '#000000'] 
-      },
-      ...emptyColumns
-    ]);
-  }
-
-  if (data[0].subtitle?.text) {
-    tableBody.push([
-      { 
-        ...data[0].subtitle, 
-        colSpan: totalColumns,
-        borderColor: ['#000000', '#000000', '#000000', '#000000'],
-        border: data[0].subtitleTotals?.length || data[0].subtitleRightStrings?.length 
-          ? [true, true, true, false] // No bottom border if there are totals/rightStrings
-          : [true, true, true, true]
-      },
-      ...emptyColumns
-    ]);
-    
-    // Handle subtitle level totals and right strings
-    if (data[0].subtitleTotals?.length || data[0].subtitleRightStrings?.length) {
-      const maxSubtitleRows = Math.max(
-        data[0].subtitleTotals?.length || 0,
-        data[0].subtitleRightStrings?.length || 0
-      );
-
-      for (let i = 0; i < maxSubtitleRows; i++) {
-        const isLastRow = i === maxSubtitleRows - 1;
-        
-        const totalItem = data[0].subtitleTotals && i < data[0].subtitleTotals.length 
-          ? data[0].subtitleTotals[i] 
-          : { text: '', border: [true, false, true, false] };
-          
-        const rightString = data[0].subtitleRightStrings && i < data[0].subtitleRightStrings.length 
-          ? data[0].subtitleRightStrings[i] 
-          : { text: '', border: [true, false, true, false] };
-
-        tableBody.push([
-          { 
-            ...totalItem, 
-            colSpan: Math.ceil(totalColumns / 2),
-            border: [true, false, false, isLastRow ? true : false],
-            borderColor: ['#000000', '#000000', '#000000', '#000000'],
-            style: 'ledgerTotals'
-          },
-          ...Array(Math.ceil(totalColumns / 2) - 1).fill({}),
-          { 
-            ...rightString, 
-            colSpan: Math.floor(totalColumns / 2),
-            alignment: 'right',
-            border: [false, false, true, isLastRow ? true : false],
-            borderColor: ['#000000', '#000000', '#000000', '#000000'],
-            style: 'ledgerRightStrings'
-          },
-          ...Array(Math.floor(totalColumns / 2) - 1).fill({})
-        ]);
-      }
-    }
+  // Add title and subtitle section for the first supplier
+  if (data[0].title?.text || data[0].subtitle?.text) {
+    addTitleSubtitleRows(tableBody, data[0], totalColumns, emptyColumns);
   }
   
   // Track indices of special rows for border styling
   const specialRowIndices: number[] = []; 
   
-  // Process data starting from the first entry
+  // Process all suppliers data
+  processSupplierData(tableBody, data, totalColumns, specialRowIndices);
+  
+  // Generate equal widths for all columns
+  const widths = Array(totalColumns).fill('*');
+
+  // Create a single unified table with all content
+  return {
+    table: {
+      headerRows: headerSettings?.headerOnEveryPage ? headerRowsCount : 0,
+      widths,
+      body: tableBody,
+      dontBreakRows: true,
+    },
+    layout: tableLayout || createTableLayout(nonRepeatingRows, headerRowsCount, specialRowIndices, data, borders)
+  };
+};
+
+// Helper function to add header rows
+async function addHeaderRows(
+  tableBody: TableCell[][],
+  headerSettings: HeaderSettings,
+  totalColumns: number,
+  emptyColumns: TableCell[]
+): Promise<number> {
+  let headerRowsCount = 0;
+  
+  // Get validated logo image if available
+  const logoSection = headerSettings.headerContent.image
+    ? await checkImageValidGetDef({
+        url: headerSettings.headerContent.image.url,
+        ...(headerSettings.headerContent.image.headers && { headers: headerSettings.headerContent.image.headers }),
+      })
+    : undefined;
+  
+  // Add top section if it exists
+  if (headerSettings.headerContent.topSection) {
+    tableBody.push([
+      { 
+        stack: headerSettings.headerContent.topSection,
+        colSpan: totalColumns,
+        style: 'headerTopSection',
+        border: [false, false, false, false],
+        margin: [0, 0, 0, 0]
+      } as TableCell,
+      ...emptyColumns
+    ]);
+    headerRowsCount++;
+  }
+  
+  // Add header content row with logo, content and right strings
+  tableBody.push([
+    {
+      colSpan: totalColumns,
+      table: {
+        widths: ['20%', '40%', '40%'],
+        body: [[
+          logoSection?.imageDef && logoSection.image 
+            ? { image: 'headerLogo', fit: [100, 100], style: 'headerImage' } as TableCell
+            : { text: '' } as TableCell,
+          headerSettings.headerContent.content ? { stack: headerSettings.headerContent.content, style: 'headerContent' } as TableCell : { text: '' } as TableCell,
+          headerSettings.headerRightStrings ? { stack: headerSettings.headerRightStrings, style: 'headerRightStrings' } as TableCell : { text: '' } as TableCell,
+        ]],
+      },
+      layout: 'noBorders',
+      border: [false, false, false, false],
+    } as TableCell,
+    ...emptyColumns
+  ]);
+  headerRowsCount++;
+  
+  // Add header separator line
+  tableBody.push([
+    {
+      colSpan: totalColumns,
+      table: {
+        widths: ['*'],
+        body: [['']],
+      },
+      layout: {
+        hLineWidth: function(i) {
+          return (i === 1) ? 2 : 0;
+        },
+        vLineWidth: function() { return 0; },
+      },
+      border: [false, false, false, false],
+      margin: [0, 0, 0, 5]
+    } as TableCell,
+    ...emptyColumns
+  ]);
+  
+  return headerRowsCount;
+}
+
+// Helper function to add title and subtitle section
+function addTitleSubtitleRows(
+  tableBody: TableCell[][],
+  data: TableData,
+  totalColumns: number,
+  emptyColumns: TableCell[]
+): void {
+  // Add title if exists
+  if (data.title?.text) {
+    tableBody.push([
+      { 
+        ...data.title, 
+        colSpan: totalColumns,
+        borderColor: ['#000000', '#000000', '#000000', '#000000'] 
+      } as TableCell,
+      ...emptyColumns
+    ]);
+  }
+
+  // Add subtitle if exists
+  if (data.subtitle?.text) {
+    tableBody.push([
+      { 
+        ...data.subtitle, 
+        colSpan: totalColumns,
+        borderColor: ['#000000', '#000000', '#000000', '#000000'],
+        border: data.subtitleTotals?.length || data.subtitleRightStrings?.length 
+          ? [true, true, true, false] // No bottom border if there are totals/rightStrings
+          : [true, true, true, true]
+      } as TableCell,
+      ...emptyColumns
+    ]);
+    
+    // Handle subtitle level totals and right strings
+    addSubtitleDetailsRows(tableBody, data, totalColumns);
+  }
+}
+
+// Helper function to add subtitle details (totals and right strings)
+function addSubtitleDetailsRows(
+  tableBody: TableCell[][],
+  data: TableData,
+  totalColumns: number
+): void {
+  if (!data.subtitleTotals?.length && !data.subtitleRightStrings?.length) return;
+  
+  const maxSubtitleRows = Math.max(
+    data.subtitleTotals?.length || 0,
+    data.subtitleRightStrings?.length || 0
+  );
+
+  const leftColSpan = data.rightStringsLayout?.leftColSpan || Math.ceil(totalColumns / 2);
+  const rightColSpan = data.rightStringsLayout?.rightColSpan || Math.floor(totalColumns / 2);
+  
+  for (let i = 0; i < maxSubtitleRows; i++) {
+    const isLastRow = i === maxSubtitleRows - 1;
+    
+    const totalItem = data.subtitleTotals && i < data.subtitleTotals.length 
+      ? data.subtitleTotals[i] 
+      : { text: '', border: [true, false, true, false] };
+      
+    const rightString = data.subtitleRightStrings && i < data.subtitleRightStrings.length 
+      ? data.subtitleRightStrings[i] 
+      : { text: '', border: [true, false, true, false] };
+
+    const leftCells = Array(leftColSpan - 1).fill({} as TableCell);
+    const rightCells = Array(rightColSpan - 1).fill({} as TableCell);
+
+    tableBody.push([
+      { 
+        ...totalItem, 
+        colSpan: leftColSpan,
+        border: [true, false, false, isLastRow ? true : false],
+        borderColor: ['#000000', '#000000', '#000000', '#000000'],
+        style: 'ledgerTotals'
+      } as TableCell,
+      ...leftCells,
+      { 
+        ...rightString, 
+        colSpan: rightColSpan,
+        alignment: 'right',
+        border: [false, false, true, isLastRow ? true : false],
+        borderColor: ['#000000', '#000000', '#000000', '#000000'],
+        style: 'ledgerRightStrings'
+      } as TableCell,
+      ...rightCells
+    ]);
+  }
+}
+
+// Helper function to process supplier data
+function processSupplierData(
+  tableBody: TableCell[][],
+  data: TableData[],
+  totalColumns: number,
+  specialRowIndices: number[]
+): void {
   data.forEach((supplierData, dataIndex) => {
+    const leftColSpan = supplierData.rightStringsLayout?.leftColSpan || Math.ceil(totalColumns / 2);
+    const rightColSpan = supplierData.rightStringsLayout?.rightColSpan || Math.floor(totalColumns / 2);
+    
     // Mark supplier info row as special
     specialRowIndices.push(tableBody.length); // Supplier row
+    
+    const leftCells = Array(leftColSpan - 1).fill({} as TableCell);
+    const rightCells = Array(rightColSpan - 1).fill({} as TableCell);
+    
+    // Add supplier info and right strings
     tableBody.push([
       { 
         text: supplierData.supplierInfo.text,
@@ -184,9 +287,9 @@ export const generatePrimaryTable = async ({ data, headerSettings }: TableConfig
         border: [true, true, false, true],
         borderColor: ['#000000', '#000000', '#000000', '#000000'],
         alignment: 'left',
-        colSpan: Math.ceil(totalColumns / 2)
-      },
-      ...Array(Math.ceil(totalColumns / 2) - 1).fill({}),
+        colSpan: leftColSpan
+      } as TableCell,
+      ...leftCells,
       {
         stack: supplierData.rightStrings,
         style: 'supplierRightStrings',
@@ -194,9 +297,9 @@ export const generatePrimaryTable = async ({ data, headerSettings }: TableConfig
         borderColor: ['#000000', '#000000', '#000000', '#000000'],
         width: '*',
         alignment: 'right',
-        colSpan: Math.floor(totalColumns / 2)
-      },
-      ...Array(Math.floor(totalColumns / 2) - 1).fill({})
+        colSpan: rightColSpan
+      } as TableCell,
+      ...rightCells
     ]);
 
     // Add headers only for first supplier - with black borders
@@ -207,8 +310,7 @@ export const generatePrimaryTable = async ({ data, headerSettings }: TableConfig
         style: header.style,
         border: [true, true, true, true],
         borderColor: ['#000000', '#000000', '#000000', '#000000']
-      })));
-      headerRowsCount++;
+      } as TableCell)));
     }
 
     // Add rows
@@ -239,7 +341,7 @@ export const generatePrimaryTable = async ({ data, headerSettings }: TableConfig
               isRightmost ? '#000000' : '#aaaaaa', // Right border
               '#000000'                           // Bottom border (keep black)
             ]
-          };
+          } as TableCell;
         }
         
         // For regular rows, show only vertical borders with grey color
@@ -254,85 +356,81 @@ export const generatePrimaryTable = async ({ data, headerSettings }: TableConfig
             isRightmost ? '#000000' : '#aaaaaa', // Right border
             '#aaaaaa'                           // Bottom border
           ]
-        };
+        } as TableCell;
       });
     }));
   });
+}
 
-  // Generate equal widths for all columns
-  const columnWidth = '*';
-  const widths = Array(totalColumns).fill(columnWidth);
-
-  // Create a single unified table with all content
+// Create dynamic table layout
+function createTableLayout(
+  nonRepeatingRows: number,
+  headerRowsCount: number,
+  specialRowIndices: number[],
+  data: TableData[],
+  borders: TableConfig['borders']
+): CustomTableLayout {
   return {
-    table: {
-      headerRows: headerSettings?.headerOnEveryPage ? headerRowsCount : 0,
-      widths,
-      body: tableBody,
-      dontBreakRows: true,
+    defaultBorder: false,
+    hLineWidth: function(i, node) {
+      // Top and bottom of table
+      if (i === 0 || i === node.table.body.length) return borders?.outerBorderWidth || 1.3;
+      
+      // Headers section
+      if (i <= nonRepeatingRows + headerRowsCount) return borders?.outerBorderWidth || 1.3;
+      
+      // Special rows
+      if (specialRowIndices.includes(i) || specialRowIndices.includes(i-1)) {
+        return borders?.outerBorderWidth || 1.3;
+      }
+
+      // Force border between title/subtitle section and supplier section
+      if (i === nonRepeatingRows + (data[0].title ? 1 : 0) + 
+              (data[0].subtitle ? 1 : 0) + 
+              (data[0].subtitleTotals?.length || data[0].subtitleRightStrings?.length || 0)) {
+        return borders?.outerBorderWidth || 1.3;
+      }
+      
+      return 0; // No horizontal lines between regular rows
     },
-    layout: {
-      defaultBorder: false,
-      hLineWidth: function(i, node) {
-        // Top and bottom of table
-        if (i === 0 || i === node.table.body.length) return 1.3;
-        
-        // Headers section
-        if (i <= nonRepeatingRows + headerRowsCount) return 1.3;
-        
-        // Special rows
-        if (specialRowIndices.includes(i) || specialRowIndices.includes(i-1)) {
-          return 1.3;
-        }
+    vLineWidth: function(i, node) {
+      // Outer borders are full width
+      if (i === 0 || (node.table.widths && i === node.table.widths.length)) {
+        return borders?.outerBorderWidth || 1.3;
+      }
+      
+      // For internal lines, use thinner lines
+      return borders?.innerBorderWidth || 0.5;
+    },
+    hLineColor: function(i, node) {
+      // Top and bottom borders of the entire table
+      if (i === 0 || i === node.table.body.length) {
+        return borders?.outerBorderColor || '#000000';
+      }
+      
+      // Special rows get black horizontal borders
+      if (specialRowIndices.includes(i) || specialRowIndices.includes(i-1)) {
+        return borders?.outerBorderColor || '#000000';
+      }
 
-        // Force border between title/subtitle section and supplier section
-        if (i === nonRepeatingRows + (data[0].title ? 1 : 0) + 
-                 (data[0].subtitle ? 1 : 0) + 
-                 (data[0].subtitleTotals?.length || data[0].subtitleRightStrings?.length || 0)) {
-          return 1.3;
-        }
-        
-        return 0; // No horizontal lines between regular rows
-      },
-      vLineWidth: function(i, node) {
-        // Outer borders are full width
-        if (i === 0 || (node.table.widths && i === node.table.widths.length)) {
-          return 1.3;
-        }
-        
-        // For internal lines, use thinner lines to create visual distinction
-        return 0.5;
-      },
-      hLineColor: function(i, node) {
-        // Top and bottom borders of the entire table
-        if (i === 0 || i === node.table.body.length) {
-          return '#000000';
-        }
-        
-        // Special rows get black horizontal borders
-        if (specialRowIndices.includes(i) || specialRowIndices.includes(i-1)) {
-          return '#000000';
-        }
-
-        // Force black border between title/subtitle section and supplier section
-        if (i === nonRepeatingRows + (data[0].title ? 1 : 0) + 
-                 (data[0].subtitle ? 1 : 0) + 
-                 (data[0].subtitleTotals?.length || data[0].subtitleRightStrings?.length || 0)) {
-          return '#000000';
-        }
-        
-        return null;
-      },
-      vLineColor: function(i, node) {
-        // Outer borders are black
-        if (i === 0 || (node.table.widths && i === node.table.widths.length)) {
-          return '#000000';
-        }
-        
-        return '#aaaaaa'; // Grey for all internal vertical lines
-      },
-      paddingLeft: () => 4,
-      paddingRight: () => 4
-    }
+      // Force black border between title/subtitle section and supplier section
+      if (i === nonRepeatingRows + (data[0].title ? 1 : 0) + 
+              (data[0].subtitle ? 1 : 0) + 
+              (data[0].subtitleTotals?.length || data[0].subtitleRightStrings?.length || 0)) {
+        return borders?.outerBorderColor || '#000000';
+      }
+      
+      return null;
+    },
+    vLineColor: function(i, node) {
+      // Outer borders are black
+      if (i === 0 || (node.table.widths && i === node.table.widths.length)) {
+        return borders?.outerBorderColor || '#000000';
+      }
+      
+      return borders?.innerBorderColor || '#aaaaaa'; // Grey for all internal vertical lines
+    },
+    paddingLeft: () => 4,
+    paddingRight: () => 4
   };
-};
+}
