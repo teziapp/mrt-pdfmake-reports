@@ -1,6 +1,6 @@
 import { ContentText, TableCellProperties, Content, TableLayout, Style, CustomTableLayout, TableCell } from 'pdfmake/interfaces';
 import { HeaderSettings } from '../types/PdfMake';
-import { checkImageValidGetDef } from '../utils/fetchValidImageURL';
+import { getHeaderDefinition } from '../headers/getHeaderDefinition';
 
 export interface TableData {
   title?: ContentText & TableCellProperties;
@@ -105,13 +105,8 @@ async function addHeaderRows(
 ): Promise<number> {
   let headerRowsCount = 0;
   
-  // Get validated logo image if available
-  const logoSection = headerSettings.headerContent.image
-    ? await checkImageValidGetDef({
-        url: headerSettings.headerContent.image.url,
-        ...(headerSettings.headerContent.image.headers && { headers: headerSettings.headerContent.image.headers }),
-      })
-    : undefined;
+  // Get header definition from the template
+  const headerDef = await getHeaderDefinition(headerSettings);
   
   // Add top section if it exists
   if (headerSettings.headerContent.topSection) {
@@ -127,27 +122,28 @@ async function addHeaderRows(
     ]);
     headerRowsCount++;
   }
-  
-  // Add header content row with logo, content and right strings
-  tableBody.push([
-    {
-      colSpan: totalColumns,
-      table: {
-        widths: ['20%', '40%', '40%'],
-        body: [[
-          logoSection?.imageDef && logoSection.image 
-            ? { image: 'headerLogo', fit: [100, 100], style: 'headerImage' }
-            : { text: '' },
-          headerSettings.headerContent.content ? { stack: headerSettings.headerContent.content, style: 'headerContent' } : { text: '' },
-          headerSettings.headerRightStrings ? { stack: headerSettings.headerRightStrings, style: 'headerRightStrings' } : { text: '' },
-        ]],
+
+  // Extract the main header content from headerDef
+  const headerTable = headerDef.content.find(item => 
+    (item).table?.widths?.length
+  ) as { table: { body: any[][] } };
+
+  if (headerTable) {
+    // Add header content row with logo, content and right strings
+    tableBody.push([
+      {
+        colSpan: totalColumns,
+        table: {
+          widths: ['20%', '40%', '40%'],
+          body: headerTable.table.body
+        },
+        layout: 'noBorders',
+        border: [false, false, false, false],
       },
-      layout: 'noBorders',
-      border: [false, false, false, false],
-    },
-    ...emptyColumns
-  ]);
-  headerRowsCount++;
+      ...emptyColumns
+    ]);
+    headerRowsCount++;
+  }
   
   // Add header separator line
   tableBody.push([
@@ -167,7 +163,6 @@ async function addHeaderRows(
       margin: [0, 0, 0, 5]
     },
     ...emptyColumns
-    
   ]);
   headerRowsCount++;
 
